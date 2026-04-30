@@ -100,9 +100,19 @@ Unlike generic English-language checklists, this one explicitly covers the opera
 - **Legal references** — 152-FZ right to data deletion, Yandex removal requests
 - **Local tools** — Kaspersky, 3x-ui, and other tools common in Russian security stacks
 
+## Disclaimer
+
+This material is provided for **educational purposes only** and reflects the author's personal stance in support of every individual's right to privacy, digital security, and freedom of personal life.
+
+We believe **privacy is a fundamental right**, not a privilege. All recommendations are aimed at protecting legitimate interests: personal data, communications, financial information, and digital identity from unauthorized access, surveillance, and leaks.
+
+The author assumes **no liability** for any use of the information presented that violates the laws of the user's jurisdiction. Users are solely responsible for ensuring their actions comply with applicable laws and regulations.
+
+All tools, services, and technologies mentioned are **publicly available** and used by millions of people worldwide for lawful purposes. Their mention does not constitute encouragement of any unlawful activity.
+
 ## Not for
 
-This checklist is not a silver bullet, military-grade doctrine, or guarantee against nation-state compromise. It will not protect you if your threat model involves a dedicated state adversary with physical access, legal compulsion, or zero-day capabilities against your specific infrastructure.
+This checklist is not a silver bullet, military-grade doctrine, or guarantee against nation-state compromise. It will not protect you if a government agency is specifically targeting you, has physical access to your devices, or is willing to use legal pressure and advanced technical capabilities against you personally.
 
 It is designed as a practical framework for materially reducing your attack surface and improving operational discipline against realistic threats. OPSEC is a continuous process of reducing unnecessary exposure — not a one-time configuration.
 
