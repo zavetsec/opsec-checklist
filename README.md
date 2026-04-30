@@ -6,13 +6,13 @@
 ![Language](https://img.shields.io/badge/language-RU%20%2F%20EN-00ff88?style=flat-square&labelColor=0a0d10)
 ![License](https://img.shields.io/badge/license-MIT-00ff88?style=flat-square&labelColor=0a0d10)
 ![Categories](https://img.shields.io/badge/categories-12-00ff88?style=flat-square&labelColor=0a0d10)
-![Items](https://img.shields.io/badge/items-68%2B-00ff88?style=flat-square&labelColor=0a0d10)
+![Items](https://img.shields.io/badge/items-68-00ff88?style=flat-square&labelColor=0a0d10)
 ![Offline Ready](https://img.shields.io/badge/offline-ready-00ff88?style=flat-square&labelColor=0a0d10)
 ![No Tracking](https://img.shields.io/badge/tracking-none-00ff88?style=flat-square&labelColor=0a0d10)
 
 **A self-contained OPSEC assessment framework available in two independently adapted editions — one for Russia/CIS threat environments, one for US/EU/International environments.**
 
-[🇷🇺 Russian edition](index.html) · [🇬🇧 International edition](index.en.html) · [Live demo →](https://zavetsec.github.io/opsec-checklist)
+[🇷🇺 Russian edition](index.html) · [🇬🇧 International edition](index_en.html) · [Live demo →](https://zavetsec.github.io/opsec-checklist)
 
 </div>
 
@@ -27,7 +27,7 @@
 | Edition | File | Best for |
 |---------|------|----------|
 | 🇷🇺 **Russian / CIS** | `index.html` | Russia, Belarus, Kazakhstan — SORM, ТСПУ/DPI, regional services |
-| 🇬🇧 **US / EU / International** | `index.en.html` | USA, EU, UK, Canada, Five Eyes — GDPR, CCPA, Western platforms |
+| 🇬🇧 **US / EU / International** | `index_en.html` | USA, EU, UK, Canada, Five Eyes — GDPR, CCPA, Western platforms |
 
 ## Why this exists
 
@@ -46,12 +46,12 @@ Built around the operational realities of Russia and CIS:
 | **Censorship & DPI** | VLESS+Reality, Shadowsocks-2022, Tor bridges (Snowflake, obfs4) for ТСПУ/Roskomnadzor blocking |
 | **Wiretapping** | SORM-aware recommendations for voice calls and messengers |
 | **SIM-swap** | Carrier store social engineering — practical threat vector in Russia |
-| **Financial OPSEC** | Explicit distinction: virtual cards (Tinkoff/Alfa) = fraud protection only, NOT anonymity; real anonymity via Monero, LocalMonero cash routes |
+| **Financial OPSEC** | Explicit distinction: virtual cards (Tinkoff/Alfa) = fraud protection only, NOT anonymity; real anonymity via Monero through RetoSwap (formerly Haveno-Reto) or Bisq, since LocalMonero closed in November 2024 |
 | **Legal** | 152-FZ right to data deletion, Yandex search removal requests |
 | **Local tools** | Kaspersky, 3x-ui — common in Russian security stacks |
 | **Data brokers** | Russian aggregator removal via 152-FZ and Yandex feedback forms |
 
-### 🇬🇧 US / EU / International Edition (`index.en.html`)
+### 🇬🇧 US / EU / International Edition (`index_en.html`)
 
 Built around the operational realities of US, EU, and international environments:
 
@@ -60,14 +60,14 @@ Built around the operational realities of US, EU, and international environments
 | **Surveillance** | NSA/GCHQ mass surveillance, Five Eyes context, ISP-level tracking |
 | **SIM-swap** | Call center impersonation — dominant vector in US/UK |
 | **Financial OPSEC** | Privacy.com (US) single-use virtual cards; Revolut/Wise (EU); Monero for actual anonymity |
-| **Legal** | GDPR right to erasure (EU), CCPA data deletion (California), Fifth Amendment biometrics at US borders |
+| **Legal** | GDPR right to erasure (EU), CCPA data deletion (California), biometrics vs passcode legal nuances at US borders (CBP device searches under the border search exception) |
 | **Data brokers** | DeleteMe, Incogni — automated removal from Spokeo, Whitepages, BeenVerified, Radaris, 100+ US brokers |
 | **Tools** | Bitdefender, ESET, Malwarebytes, Little Snitch (macOS), LuLu — no Kaspersky |
 | **Platform** | Apple Privacy (Advanced Data Protection, Hide My Email), iCloud E2EE, FaceTime |
 
 ## Categories
 
-Both editions share the same 12-category structure (68+ items total):
+Both editions share the same 12-category structure (68 items total):
 
 | # | Category |
 |---|----------|
@@ -112,9 +112,9 @@ cd opsec-checklist
 # Windows: start index.html
 
 # US / EU / International edition
-# macOS:   open index.en.html
-# Linux:   xdg-open index.en.html
-# Windows: start index.en.html
+# macOS:   open index_en.html
+# Linux:   xdg-open index_en.html
+# Windows: start index_en.html
 ```
 
 Or place on any static hosting or GitHub Pages.
