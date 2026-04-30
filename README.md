@@ -6,13 +6,13 @@
 ![Language](https://img.shields.io/badge/language-RU%20%2F%20EN-00ff88?style=flat-square&labelColor=0a0d10)
 ![License](https://img.shields.io/badge/license-MIT-00ff88?style=flat-square&labelColor=0a0d10)
 ![Categories](https://img.shields.io/badge/categories-12-00ff88?style=flat-square&labelColor=0a0d10)
-![Items](https://img.shields.io/badge/items-68-00ff88?style=flat-square&labelColor=0a0d10)
+![Items](https://img.shields.io/badge/items-68%2B-00ff88?style=flat-square&labelColor=0a0d10)
 ![Offline Ready](https://img.shields.io/badge/offline-ready-00ff88?style=flat-square&labelColor=0a0d10)
 ![No Tracking](https://img.shields.io/badge/tracking-none-00ff88?style=flat-square&labelColor=0a0d10)
 
-**A self-contained OPSEC assessment framework for individuals operating under real-world surveillance, censorship, and targeted threat conditions — designed for Russian and CIS operational environments.**
+**A self-contained OPSEC assessment framework available in two independently adapted editions — one for Russia/CIS threat environments, one for US/EU/International environments.**
 
-[🇷🇺 Русская версия](index.html) · [🇬🇧 English version](index.en.html) · [Live demo →](https://zavetsec.github.io/opsec-checklist)
+[🇷🇺 Russian edition](index.html) · [🇬🇧 International edition](index.en.html) · [Live demo →](https://zavetsec.github.io/opsec-checklist)
 
 </div>
 
@@ -22,36 +22,71 @@
 
 ---
 
+## Which edition is right for you?
+
+| Edition | File | Best for |
+|---------|------|----------|
+| 🇷🇺 **Russian / CIS** | `index.html` | Russia, Belarus, Kazakhstan — SORM, ТСПУ/DPI, regional services |
+| 🇬🇧 **US / EU / International** | `index.en.html` | USA, EU, UK, Canada, Five Eyes — GDPR, CCPA, Western platforms |
+
 ## Why this exists
 
-Most security advice assumes Western infrastructure, services, and threat models. This project exists because OPSEC guidance should reflect the legal, technical, and surveillance realities users actually operate under — not a generic baseline written for a different threat landscape.
+Most security advice assumes a single threat landscape — usually Western. In practice, users in Russia and CIS operate under fundamentally different legal, technical, and surveillance conditions than users in the US or EU. This project provides two purpose-built editions: same structure, same depth, different operational context.
 
-## What is this
+## Two editions — same framework, different adversary models
 
-Most OPSEC checklists are generic. This one isn't.
+This is not a translation. Each edition is independently adapted to its target environment: tools, services, legal references, threat actors, and bypass techniques are specific to each region.
 
-68 actionable items across 12 categories, built specifically for the Russian and CIS threat environment: SORM wiretapping infrastructure, DPI-based blocking (ТСПУ), SIM-swap via carrier stores, and regional service availability. Each item includes a threat description explaining *why* it matters and a step-by-step implementation guide with specific tools and commands.
+### 🇷🇺 Russian / CIS Edition (`index.html`)
 
-Select a threat model profile to prioritize items relevant to your situation. Track progress. Export a report. Share a link to any specific item.
+Built around the operational realities of Russia and CIS:
+
+| Area | Coverage |
+|------|----------|
+| **Censorship & DPI** | VLESS+Reality, Shadowsocks-2022, Tor bridges (Snowflake, obfs4) for ТСПУ/Roskomnadzor blocking |
+| **Wiretapping** | SORM-aware recommendations for voice calls and messengers |
+| **SIM-swap** | Carrier store social engineering — practical threat vector in Russia |
+| **Financial OPSEC** | Explicit distinction: virtual cards (Tinkoff/Alfa) = fraud protection only, NOT anonymity; real anonymity via Monero, LocalMonero cash routes |
+| **Legal** | 152-FZ right to data deletion, Yandex search removal requests |
+| **Local tools** | Kaspersky, 3x-ui — common in Russian security stacks |
+| **Data brokers** | Russian aggregator removal via 152-FZ and Yandex feedback forms |
+
+### 🇬🇧 US / EU / International Edition (`index.en.html`)
+
+Built around the operational realities of US, EU, and international environments:
+
+| Area | Coverage |
+|------|----------|
+| **Surveillance** | NSA/GCHQ mass surveillance, Five Eyes context, ISP-level tracking |
+| **SIM-swap** | Call center impersonation — dominant vector in US/UK |
+| **Financial OPSEC** | Privacy.com (US) single-use virtual cards; Revolut/Wise (EU); Monero for actual anonymity |
+| **Legal** | GDPR right to erasure (EU), CCPA data deletion (California), Fifth Amendment biometrics at US borders |
+| **Data brokers** | DeleteMe, Incogni — automated removal from Spokeo, Whitepages, BeenVerified, Radaris, 100+ US brokers |
+| **Tools** | Bitdefender, ESET, Malwarebytes, Little Snitch (macOS), LuLu — no Kaspersky |
+| **Platform** | Apple Privacy (Advanced Data Protection, Hide My Email), iCloud E2EE, FaceTime |
 
 ## Categories
 
-| # | Category | Items |
-|---|----------|-------|
-| 01 | Digital Identity & Anonymity | 7 |
-| 02 | Threat Modeling | 2 |
-| 03 | Devices & Physical Security | 10 |
-| 04 | Network & Traffic | 6 |
-| 05 | Communications & Messengers | 6 |
-| 06 | Data & Storage | 6 |
-| 07 | Social Engineering & Phishing | 6 |
-| 08 | Browser & Web Privacy | 3 |
-| 09 | Digital Footprint & De-anonymization | 5 |
-| 10 | Financial OPSEC | 3 |
-| 11 | Travel Security & Border Crossing | 4 |
-| 12 | Incident Response & Canary Tokens | 4 |
+Both editions share the same 12-category structure (68+ items total):
+
+| # | Category |
+|---|----------|
+| 01 | Digital Identity & Anonymity |
+| 02 | Threat Modeling |
+| 03 | Devices & Physical Security |
+| 04 | Network & Traffic |
+| 05 | Communications & Messengers |
+| 06 | Data & Storage |
+| 07 | Social Engineering & Phishing |
+| 08 | Browser & Web Privacy |
+| 09 | Digital Footprint & De-anonymization |
+| 10 | Financial OPSEC |
+| 11 | Travel Security & Border Crossing |
+| 12 | Incident Response & Canary Tokens |
 
 ## Features
+
+Both editions share the same interactive feature set:
 
 - **Threat model profiles** — select *Privacy* or *Full Anonymity* to highlight relevant items
 - **Progress tracking** — state saved locally in browser, survives page reload
@@ -65,20 +100,21 @@ Select a threat model profile to prioritize items relevant to your situation. Tr
 
 ## Usage
 
-Download `index.html` and open in any browser. No server required.
+Download the edition relevant to your threat environment and open in any browser. No server required.
 
 ```bash
 git clone https://github.com/zavetsec/opsec-checklist
 cd opsec-checklist
 
-# macOS
-open index.html
+# Russian / CIS edition
+# macOS:   open index.html
+# Linux:   xdg-open index.html
+# Windows: start index.html
 
-# Linux
-xdg-open index.html
-
-# Windows
-start index.html
+# US / EU / International edition
+# macOS:   open index.en.html
+# Linux:   xdg-open index.en.html
+# Windows: start index.en.html
 ```
 
 Or place on any static hosting or GitHub Pages.
@@ -88,17 +124,6 @@ Or place on any static hosting or GitHub Pages.
 **◐ Privacy** — protection from tracking, data brokers, and opportunistic threats. Relevant for most users: journalists, activists, privacy-conscious individuals.
 
 **◉ Full Anonymity** — protection from targeted attacks, state-level adversaries, border searches. Relevant for security researchers and high-risk individuals.
-
-## Regional specifics (Russia / CIS)
-
-Unlike generic English-language checklists, this one explicitly covers the operational realities of Russian and CIS environments:
-
-- **DPI bypass** — VLESS+Reality, Shadowsocks-2022, Tor bridges (Snowflake, obfs4) for ТСПУ environments
-- **SORM** — voice and messaging recommendations account for Russian lawful intercept infrastructure
-- **SIM-swap** — specific guidance for Russia where carrier store social engineering is a practical threat vector
-- **Financial OPSEC** — clear distinction between fraud protection (Russian virtual cards) and actual anonymity (Monero, LocalMonero cash routes); no US-only services like Privacy.com
-- **Legal references** — 152-FZ right to data deletion, Yandex removal requests
-- **Local tools** — Kaspersky, 3x-ui, and other tools common in Russian security stacks
 
 ## Disclaimer
 
@@ -125,7 +150,7 @@ Security is not a product, it's a practice. This checklist is a starting point �
 
 ## Contributing
 
-Issues and PRs welcome. If you find outdated information (service availability changes, new tools, deprecated recommendations) — open an issue or submit a fix.
+Issues and PRs welcome. If you find outdated information (service availability changes, new tools, deprecated recommendations for either edition) — open an issue or submit a fix.
 
 ## License
 
@@ -137,4 +162,4 @@ MIT — free to use, modify, and distribute. Attribution appreciated but not req
 <sub>Built by <a href="https://github.com/zavetsec">ZavetSec</a> · Open source security toolkit</sub>
 </div>
 
-<!-- keywords: OPSEC, privacy, anonymity, Russia, CIS, threat modeling, digital security, DPI bypass, SORM, ТСПУ, operational security, infosec, surveillance, censorship, VPN, Tor, Signal, VeraCrypt, KeePass -->
+<!-- keywords: OPSEC, privacy, anonymity, Russia, CIS, USA, EU, threat modeling, digital security, DPI bypass, SORM, ТСПУ, operational security, infosec, surveillance, censorship, VPN, Tor, Signal, VeraCrypt, KeePass, GDPR, CCPA, data brokers, Privacy.com, Monero, Five Eyes -->

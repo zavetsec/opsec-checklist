@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZavetSec OPSEC Checklist v2.0 — English</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Rajdhani:wght@300;400;500;600;700&display=swap');
+:root{--bg:#0a0d10;--bg2:#0d1117;--bg3:#111820;--green:#00ff88;--green-dim:#00cc6a;--green-dark:#003322;--cyan:#00d4ff;--amber:#ffaa00;--red:#ff4455;--red-dim:rgba(255,68,85,0.15);--amber-dim:rgba(255,170,0,0.15);--green-dim2:rgba(0,255,136,0.12);--text:#c9d1d9;--text-dim:#6e7681;--text-bright:#e6edf3;--border:rgba(0,255,136,0.12);--border-dim:rgba(255,255,255,0.06);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;font-size:15px;line-height:1.6;min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.03) 2px,rgba(0,0,0,0.03) 4px);pointer-events:none;z-index:9999;}
+body::after{content:'';position:fixed;top:-20%;left:50%;transform:translateX(-50%);width:900px;height:600px;background:radial-gradient(ellipse,rgba(0,255,136,0.04) 0%,transparent 70%);pointer-events:none;z-index:0;}
+.container{max-width:980px;margin:0 auto;padding:40px 24px 80px;position:relative;z-index:1;}
+.header{border-bottom:1px solid var(--border);padding-bottom:32px;margin-bottom:40px;}
+.header-top{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:16px;}
+.brand{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--green);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px;}
+.brand::before{content:'';display:inline-block;width:8px;height:8px;background:var(--green);border-radius:50%;animation:pulse 2s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(0,255,136,0.4);}50%{opacity:0.7;box-shadow:0 0 0 6px rgba(0,255,136,0);}}
+.title{font-family:'Rajdhani',sans-serif;font-size:36px;font-weight:700;color:var(--text-bright);letter-spacing:0.05em;text-transform:uppercase;line-height:1.1;}
+.title span{color:var(--green);}
+.subtitle{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text-dim);margin-top:4px;letter-spacing:0.05em;}
+.meta-badges{display:flex;flex-wrap:wrap;gap:8px;align-items:center;}
+.badge{font-family:'JetBrains Mono',monospace;font-size:10px;padding:4px 10px;border-radius:3px;letter-spacing:0.08em;text-transform:uppercase;font-weight:500;border:1px solid;}
+.badge-green{background:var(--green-dim2);color:var(--green);border-color:rgba(0,255,136,0.25);}
+.badge-amber{background:var(--amber-dim);color:var(--amber);border-color:rgba(255,170,0,0.25);}
+.badge-red{background:var(--red-dim);color:var(--red);border-color:rgba(255,68,85,0.25);}
+.badge-cyan{background:rgba(0,212,255,0.1);color:var(--cyan);border-color:rgba(0,212,255,0.25);}
+.progress-panel{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:20px 24px;margin-bottom:36px;display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:20px;align-items:center;}
+.progress-stat{text-align:center;}
+.progress-stat .num{font-family:'JetBrains Mono',monospace;font-size:28px;font-weight:700;color:var(--green);line-height:1;display:block;transition:all 0.3s;}
+.progress-stat .lbl{font-size:11px;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.1em;font-family:'JetBrains Mono',monospace;margin-top:4px;display:block;}
+.progress-bar-wrap{grid-column:1/-1;margin-top:4px;}
+.progress-bar-track{height:4px;background:rgba(255,255,255,0.06);border-radius:2px;overflow:hidden;}
+.progress-bar-fill{height:100%;background:linear-gradient(90deg,var(--green-dim),var(--green));border-radius:2px;transition:width 0.5s cubic-bezier(0.4,0,0.2,1);width:0%;}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px;align-items:center;}
+.filter-label{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-dim);margin-right:4px;}
+.filter-btn{font-family:'JetBrains Mono',monospace;font-size:11px;padding:5px 12px;background:transparent;border:1px solid var(--border-dim);color:var(--text-dim);border-radius:3px;cursor:pointer;transition:all 0.15s;text-transform:uppercase;letter-spacing:0.08em;}
+.filter-btn:hover{border-color:var(--green);color:var(--green);}
+.filter-btn.active{background:var(--green-dim2);border-color:var(--green);color:var(--green);}
+.filter-sep{width:1px;height:20px;background:var(--border-dim);margin:0 4px;}
+.actions-right{margin-left:auto;display:flex;gap:8px;}
+.btn-action{font-family:'JetBrains Mono',monospace;font-size:11px;padding:5px 14px;background:var(--green-dim2);border:1px solid rgba(0,255,136,0.3);color:var(--green);border-radius:3px;cursor:pointer;transition:all 0.15s;text-transform:uppercase;letter-spacing:0.08em;}
+.btn-action:hover{background:rgba(0,255,136,0.2);}
+.btn-reset{background:transparent;border-color:var(--border-dim);color:var(--text-dim);}
+.btn-reset:hover{border-color:var(--red);color:var(--red);background:var(--red-dim);}
+.section{margin-bottom:36px;}
+.section-header{display:flex;align-items:center;gap:12px;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border-dim);cursor:pointer;user-select:none;}
+.section-num{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--green);background:var(--green-dim2);border:1px solid rgba(0,255,136,0.2);padding:2px 7px;border-radius:2px;min-width:36px;text-align:center;}
+.section-title{font-size:16px;font-weight:600;color:var(--text-bright);text-transform:uppercase;letter-spacing:0.12em;flex:1;}
+.section-progress{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-dim);}
+.section-toggle{font-size:11px;color:var(--text-dim);transition:transform 0.2s;}
+.section-toggle.collapsed{transform:rotate(-90deg);}
+.section-body.hidden{display:none;}
+.item{border:1px solid var(--border-dim);border-radius:5px;margin-bottom:6px;background:var(--bg2);position:relative;overflow:hidden;transition:border-color 0.15s,background 0.15s;}
+.item::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:transparent;transition:background 0.2s;}
+.item:hover{border-color:rgba(0,255,136,0.2);background:#0f1520;}
+.item:hover::before{background:rgba(0,255,136,0.3);}
+.item.checked{background:rgba(0,255,136,0.04);border-color:rgba(0,255,136,0.15);}
+.item.checked::before{background:var(--green);}
+.item.hidden-item{display:none;}
+.item-header{display:flex;align-items:flex-start;gap:14px;padding:12px 14px;cursor:pointer;}
+.checkbox{width:18px;height:18px;min-width:18px;border:1px solid rgba(255,255,255,0.15);border-radius:3px;display:flex;align-items:center;justify-content:center;margin-top:1px;transition:all 0.15s;background:transparent;flex-shrink:0;}
+.item.checked .checkbox{background:var(--green);border-color:var(--green);}
+.checkbox-mark{width:10px;height:7px;border-left:2px solid var(--bg);border-bottom:2px solid var(--bg);transform:rotate(-45deg) translateY(-1px);display:none;}
+.item.checked .checkbox-mark{display:block;}
+.item-content{flex:1;min-width:0;}
+.item-main{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.item-text{font-size:14px;font-weight:500;color:var(--text-bright);transition:color 0.15s;}
+.item.checked .item-text{color:var(--text-dim);text-decoration:line-through;text-decoration-color:rgba(0,255,136,0.3);}
+.sev{font-family:'JetBrains Mono',monospace;font-size:9px;padding:2px 7px;border-radius:2px;text-transform:uppercase;letter-spacing:0.1em;font-weight:700;white-space:nowrap;border:1px solid;}
+.sev-critical{background:var(--red-dim);color:var(--red);border-color:rgba(255,68,85,0.3);}
+.sev-high{background:var(--amber-dim);color:var(--amber);border-color:rgba(255,170,0,0.3);}
+.sev-medium{background:var(--green-dim2);color:var(--green);border-color:rgba(0,255,136,0.3);}
+.expand-hint{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-dim);margin-left:auto;opacity:0.4;transition:opacity 0.15s,color 0.15s;white-space:nowrap;user-select:none;padding-top:1px;}
+.item:hover .expand-hint{opacity:0.8;}
+.item.expanded .expand-hint{color:var(--green);opacity:0.8;}
+.item-detail{display:none;padding:0 14px 14px 46px;border-top:1px solid var(--border-dim);}
+.item.expanded .item-detail{display:block;}
+.detail-section{margin-top:12px;}
+.detail-label{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--green);text-transform:uppercase;letter-spacing:0.12em;margin-bottom:6px;display:flex;align-items:center;gap:6px;opacity:0.8;}
+.detail-label::before{content:'';display:inline-block;width:12px;height:1px;background:var(--green);opacity:0.5;}
+.detail-text{font-size:13px;color:var(--text);line-height:1.7;}
+.howto-list{list-style:none;margin:0;padding:0;}
+.howto-list li{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-dim);padding:4px 0 4px 18px;position:relative;line-height:1.6;border-bottom:1px solid var(--border-dim);}
+.howto-list li:last-child{border-bottom:none;}
+.howto-list li::before{content:'›';position:absolute;left:0;color:var(--green);font-size:15px;line-height:1.35;}
+.export-panel{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:20px 24px;margin-top:40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;}
+.export-info{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text-dim);}
+.export-info strong{color:var(--green);font-weight:500;}
+.btn-export{font-family:'JetBrains Mono',monospace;font-size:12px;padding:8px 20px;background:var(--green-dark);border:1px solid var(--green);color:var(--green);border-radius:4px;cursor:pointer;transition:all 0.15s;text-transform:uppercase;letter-spacing:0.1em;}
+.btn-export:hover{background:rgba(0,255,136,0.15);}
+.disclaimer{border:1px solid rgba(255,170,0,0.2);border-left:3px solid var(--amber);border-radius:4px;padding:20px 24px;margin-top:40px;background:rgba(255,170,0,0.03);}
+.disclaimer-label{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--amber);text-transform:uppercase;letter-spacing:0.15em;margin-bottom:12px;display:flex;align-items:center;gap:8px;opacity:0.9;}
+.disclaimer-label::before{content:'⚠';font-size:12px;}
+.disclaimer-text{font-size:13px;color:var(--text-dim);line-height:1.75;}
+.disclaimer-text p{margin-bottom:10px;}
+.disclaimer-text p:last-child{margin-bottom:0;}
+.disclaimer-text strong{color:var(--text);font-weight:500;}
+.footer{margin-top:48px;padding-top:20px;border-top:1px solid var(--border-dim);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
+.footer-brand{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-dim);}
+.footer-brand span{color:var(--green);}
+.footer-ts{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-dim);}
+.toast{position:fixed;bottom:24px;right:24px;background:var(--bg3);border:1px solid var(--green);color:var(--green);font-family:'JetBrains Mono',monospace;font-size:12px;padding:10px 18px;border-radius:4px;z-index:10000;opacity:0;transform:translateY(10px);transition:all 0.2s;pointer-events:none;}
+.toast.show{opacity:1;transform:translateY(0);}
+.search-wrap{position:relative;flex:1;min-width:180px;max-width:260px;}
+.search-input{width:100%;font-family:'JetBrains Mono',monospace;font-size:11px;padding:5px 10px 5px 26px;background:var(--bg2);border:1px solid var(--border-dim);color:var(--text);border-radius:3px;letter-spacing:0.05em;outline:none;transition:border-color 0.15s;}
+.search-input:focus{border-color:var(--green);}
+.search-input::placeholder{color:var(--text-dim);text-transform:uppercase;letter-spacing:0.08em;font-size:10px;}
+.search-icon{position:absolute;left:8px;top:50%;transform:translateY(-50%);color:var(--text-dim);font-size:11px;pointer-events:none;}
+.intro-panel{border:1px solid var(--border-dim);border-left:3px solid var(--green);border-radius:4px;padding:18px 22px;margin-bottom:28px;background:rgba(0,255,136,0.02);}
+.intro-label{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--green);text-transform:uppercase;letter-spacing:0.15em;margin-bottom:10px;display:flex;align-items:center;gap:8px;opacity:0.8;}
+.intro-label::before{content:'';display:inline-block;width:14px;height:1px;background:var(--green);}
+.intro-text{font-size:14px;color:var(--text);line-height:1.7;}
+.intro-text strong{color:var(--text-bright);font-weight:600;}
+.intro-text+.intro-text{margin-top:10px;}
+.intro-features{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;}
+.intro-feat{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-dim);padding:4px 10px;background:var(--bg2);border:1px solid var(--border-dim);border-radius:3px;}
+.intro-feat span{color:var(--green);}
+.threat-panel{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:18px 22px;margin-bottom:28px;}
+.threat-title{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--green);text-transform:uppercase;letter-spacing:0.12em;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.threat-title::before{content:'▸';color:var(--green);}
+.threat-desc{font-size:13px;color:var(--text-dim);margin-bottom:14px;line-height:1.6;}
+.threat-options{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px;}
+.threat-opt{background:var(--bg2);border:1px solid var(--border-dim);border-radius:4px;padding:10px 12px;cursor:pointer;transition:all 0.15s;text-align:left;font-family:inherit;color:var(--text);}
+.threat-opt:hover{border-color:rgba(0,255,136,0.3);background:#0f1520;}
+.threat-opt.active{border-color:var(--green);background:var(--green-dim2);}
+.threat-opt-title{font-size:13px;font-weight:600;color:var(--text-bright);margin-bottom:3px;display:flex;align-items:center;gap:6px;}
+.threat-opt.active .threat-opt-title{color:var(--green);}
+.threat-opt-desc{font-size:11px;color:var(--text-dim);font-family:'JetBrains Mono',monospace;line-height:1.5;}
+.section-sev-summary{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-dim);display:flex;gap:6px;}
+.section-sev-summary span{padding:1px 6px;border-radius:2px;}
+.sev-badge-c{background:var(--red-dim);color:var(--red);}
+.sev-badge-h{background:var(--amber-dim);color:var(--amber);}
+.sev-badge-m{background:var(--green-dim2);color:var(--green);}
+.item-anchor{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-dim);opacity:0;transition:opacity 0.15s;text-decoration:none;margin-left:6px;cursor:pointer;}
+.item:hover .item-anchor{opacity:0.5;}
+.item-anchor:hover{opacity:1!important;color:var(--green);}
+.item.highlighted{animation:hl 2s ease-out;}
+@keyframes hl{0%{box-shadow:0 0 0 2px var(--green);}100%{box-shadow:0 0 0 0 transparent;}}
+.no-results{text-align:center;padding:40px;color:var(--text-dim);font-family:'JetBrains Mono',monospace;font-size:13px;display:none;}
+.no-results.show{display:block;}
+.item.non-priority{opacity:0.45;}
+.item.non-priority:hover{opacity:1;}
+@media(max-width:600px){.progress-panel{grid-template-columns:1fr 1fr;}.title{font-size:26px;}.filters{gap:6px;}.actions-right{margin-left:0;}.search-wrap{max-width:100%;}}
+@media print{
+  body{background:#fff;color:#000;font-size:11pt;}
+  body::before,body::after{display:none;}
+  .filters,.actions-right,.btn-export,.expand-hint,.toast,.threat-panel,.intro-panel,.search-wrap,.section-toggle,.item-anchor{display:none!important;}
+  .container{max-width:100%;padding:0;}
+  .title{color:#000;font-size:22pt;}.title span{color:#000;}
+  .progress-panel,.export-panel{background:#f5f5f5;border:1px solid #ccc;color:#000;}
+  .progress-stat .num{color:#000;}
+  .section{page-break-inside:avoid;}
+  .section-title{color:#000;}
+  .item{break-inside:avoid;border:1px solid #ccc;background:#fff!important;}
+  .item-text{color:#000;}
+  .item.checked{background:#f0f9f0!important;}
+  .item.checked .item-text{color:#666;}
+  .item-detail{display:block!important;padding:8px 14px 12px 46px;}
+  .detail-text{color:#222;}
+  .howto-list li{color:#444;}
+  .checkbox{border-color:#666;}
+  .item.checked .checkbox{background:#000;border-color:#000;}
+  .checkbox-mark{border-color:#fff;}
+  .sev{border:1px solid #999;background:#fff!important;color:#000!important;}
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="header-top">
+      <div>
+        <div class="brand">ZavetSec // OPSEC</div>
+        <div class="title">OPSEC <span>Checklist</span></div>
+        <div class="subtitle">// Operational Security Assessment v2.0 // Global Edition</div>
+      </div>
+      <div class="meta-badges">
+        <span class="badge badge-green">v2.0</span>
+        <span class="badge badge-cyan">12 categories</span>
+        <span class="badge badge-amber">Interactive</span>
+        <span class="badge badge-red">Confidential</span>
+      </div>
+    </div>
+  </div>
+  <div class="intro-panel">
+    <div class="intro-label">About this checklist</div>
+    <div class="intro-text">This is an <strong>interactive operational security checklist</strong> — a practical guide to protecting your digital life from data leaks, surveillance, targeted attacks, and social engineering. <strong>68 items across 12 categories</strong>: from basic password hygiene to advanced anonymity techniques and incident response.</div>
+    <div class="intro-text">Each item includes a threat description and concrete implementation steps. Check off what you've done — progress is saved in your browser. Select a threat model profile below to prioritize items most relevant to your situation. Use the report export for printing or sharing.</div>
+    <div class="intro-features">
+      <span class="intro-feat"><span>›</span> progress saved locally</span>
+      <span class="intro-feat"><span>›</span> full-text search (Ctrl+F)</span>
+      <span class="intro-feat"><span>›</span> threat model prioritization</span>
+      <span class="intro-feat"><span>›</span> report export</span>
+      <span class="intro-feat"><span>›</span> deep links to items</span>
+    </div>
+  </div>
+  <div class="threat-panel">
+    <div class="threat-title">Threat Model — choose your profile</div>
+    <div class="threat-desc">The checklist is universal, but priorities depend on who you're protecting yourself from. Selecting a profile highlights the most important items for your context.</div>
+    <div class="threat-options">
+      <button class="threat-opt active" onclick="setThreatModel('privacy',this)">
+        <div class="threat-opt-title">◐ Privacy</div>
+        <div class="threat-opt-desc">everyday user, protection from tracking and data leaks</div>
+      </button>
+      <button class="threat-opt" onclick="setThreatModel('anonymity',this)">
+        <div class="threat-opt-title">◉ Full Anonymity</div>
+        <div class="threat-opt-desc">journalist, activist, security researcher, high-risk individual</div>
+      </button>
+    </div>
+  </div>
+  <div class="progress-panel">
+    <div class="progress-stat"><span class="num" id="stat-done">0</span><span class="lbl">Done</span></div>
+    <div class="progress-stat"><span class="num" id="stat-total">0</span><span class="lbl">Total items</span></div>
+    <div class="progress-stat"><span class="num" id="stat-critical">0</span><span class="lbl">Critical left</span></div>
+    <div class="progress-stat"><span class="num" id="stat-pct">0%</span><span class="lbl">Progress</span></div>
+    <div class="progress-bar-wrap"><div class="progress-bar-track"><div class="progress-bar-fill" id="progress-fill"></div></div></div>
+  </div>
+  <div class="filters">
+    <span class="filter-label">Filter:</span>
+    <button class="filter-btn active" onclick="setFilter('all',this)">All</button>
+    <button class="filter-btn" onclick="setFilter('todo',this)">Todo</button>
+    <button class="filter-btn" onclick="setFilter('done',this)">Done</button>
+    <div class="filter-sep"></div>
+    <button class="filter-btn" onclick="setFilter('critical',this)">🔴 Critical</button>
+    <button class="filter-btn" onclick="setFilter('high',this)">🟡 High</button>
+    <button class="filter-btn" onclick="setFilter('medium',this)">🟢 Medium</button>
+    <div class="filter-sep"></div>
+    <div class="search-wrap">
+      <span class="search-icon">⌕</span>
+      <input type="text" class="search-input" id="search-input" placeholder="Search..." oninput="applySearch(this.value)">
+    </div>
+    <div class="actions-right">
+      <button class="btn-action btn-reset" onclick="resetAll()">Reset</button>
+      <button class="btn-action" onclick="checkAll()">Check all</button>
+    </div>
+  </div>
+  <div id="checklist"></div>
+  <div class="no-results" id="no-results">// No results found</div>
+  <div class="export-panel">
+    <div class="export-info">Result: <strong id="export-summary">0 / 0 items completed</strong></div>
+    <button class="btn-export" onclick="exportReport()">↓ Export report</button>
+  </div>
+  <div class="disclaimer">
+    <div class="disclaimer-label">Disclaimer</div>
+    <div class="disclaimer-text">
+      <p><strong>This material is created for educational purposes only</strong> and reflects the author's personal stance in support of every individual's right to privacy, digital security, and freedom of personal life.</p>
+      <p>We believe <strong>privacy is a fundamental right</strong>, not a privilege. All recommendations are aimed at protecting legitimate interests: personal data, communications, financial information, and digital identity from unauthorized access, surveillance, and data leaks.</p>
+      <p><strong>The author assumes no liability</strong> for any use of the information presented that violates the laws of the user's jurisdiction. Users are solely responsible for ensuring their actions comply with applicable laws and regulations.</p>
+      <p>All tools, services, and technologies mentioned are <strong>publicly available</strong> and used by millions of people worldwide for lawful purposes. Their mention does not constitute encouragement of any unlawful activity.</p>
+    </div>
+  </div>
+  <div class="footer">
+    <div class="footer-brand"><span>ZavetSec</span> // Operational Security Toolkit</div>
+    <div class="footer-ts" id="footer-ts"></div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+const DATA=[
+{id:'identity',num:'01',title:'Digital Identity & Anonymity',items:[
+{id:'id1',sev:'critical',text:'Separate work and personal digital identities',profiles:['privacy','anonymity'],
+details:'Mixing work and personal activity in a single profile is one of the leading causes of de-anonymization and context leakage. If your work account is compromised, attackers gain access to personal data too, and vice versa. Browser profiles, email, messaging apps, and cloud storage should all be physically separated. Ideally, use separate devices for each context.',
+howto:['Create separate browser profiles (Firefox Multi-Account Containers or separate installations) for work, personal, and public use.','Use separate email addresses: corporate work email, private personal email, and a throwaway alias for registrations.','Never sign into personal services on your work device, and never use personal accounts for work tasks.']},
+{id:'id2',sev:'critical',text:'Use pseudonyms for public-facing activity',profiles:['anonymity'],
+details:'Public activity under your real name creates a permanent OSINT profile that is aggregated automatically. Search engines, data brokers, and breach databases all link together into a single dossier. A pseudonym must be fully isolated — never used in personal contexts, with no hints toward your location, employer, or hobbies. Regularly verify that your pseudonym cannot be correlated back to your real identity.',
+howto:['Generate pseudonyms with no semantic connection to your real name — random words or combinations.','Never reuse the same username across platforms; each platform should have a unique identifier.','Register the pseudonym to a separate email alias and phone number not connected to your real identity.']},
+{id:'id3',sev:'high',text:'Use email aliases for registrations — rotate regularly',profiles:['privacy','anonymity'],
+details:'Your email address is the primary identifier on most services. When a service gets breached, your address ends up in spam lists, credential stuffing databases, and OSINT aggregators. Using one address for everything creates a graph connecting all your accounts. Alias services let you have hundreds of unique addresses all forwarding to one private inbox.',
+howto:['Use SimpleLogin or AnonAddy: generate a unique alias for each service at registration time.','When a breach occurs — deactivate that specific alias without changing your main inbox.','Keep your main private address only for critical trusted services: banking, government, healthcare.']},
+{id:'id4',sev:'high',text:'Disable Google and Apple account sync',profiles:['privacy','anonymity'],
+details:'Browser cloud sync sends your history, bookmarks, passwords, extensions, and open tabs to Google or Apple servers. This creates a complete activity profile accessible via legal request or account compromise. Apple iCloud Keychain, Google Password Manager, and contact/photo sync are additional leak vectors.',
+howto:['Chrome: Settings → Sync → turn off, or use a local profile without signing in.','Safari/iOS: Settings → Apple ID → iCloud → disable Passwords, Contacts, Photos, Safari.','For passwords: use KeePassXC (offline) or Bitwarden (self-hosted) instead of browser-built-in managers.']},
+{id:'id5',sev:'critical',text:'Unique passwords for every service (password manager)',profiles:['privacy','anonymity'],
+details:'Password reuse is the cause of most account takeovers via credential stuffing. Attackers take a breach database from one service and automatically try the same pairs against thousands of others. A unique random password per service makes credential stuffing useless. 20+ characters of random data is practically unbrutable.',
+howto:['Install KeePassXC (offline) or Bitwarden (self-hosted) — keep the database local or on your own server.','Use the built-in password generator: 20+ characters, all character classes, no dictionary words.','The master password is the only one you need to memorize — make it a long passphrase of 5-6 random words.','Hard security level: store your KeePass database on a separate encrypted USB drive or SSD. The database never lives on your main disk — eliminates theft by malware or offline brute force without physical access to the drive.']},
+{id:'id6',sev:'critical',text:'Hardware 2FA (YubiKey) or TOTP instead of SMS',profiles:['privacy','anonymity'],
+details:'SMS two-factor is vulnerable to SIM-swap attacks — in the US, carriers have been socially engineered into transferring numbers with minimal verification. SS7 protocol vulnerabilities allow SMS interception at the carrier level. TOTP generates codes locally on your device with no network transmission. Passkeys (FIDO2/WebAuthn) are even stronger: domain-bound and phishing-resistant by design. Where a service supports passkeys, prefer them over TOTP; prefer TOTP over SMS; never rely on SMS alone for anything critical.',
+howto:['Passkeys: enable on Google, GitHub, Apple, Microsoft, and major banks where available — store in YubiKey 5 or a password manager with passkey support.','TOTP: use Aegis Authenticator (Android, open source) or Raivo / 2FAS (iOS) instead of Google Authenticator.','Migrate all critical services to TOTP or passkeys: email, cloud storage, GitHub, banking — in that order.','Store backup codes in KeePass, not in cloud storage or a screenshot folder.']},
+{id:'id6b',sev:'critical',text:'Backup hardware key — the two-key rule',profiles:['anonymity'],
+details:'A single hardware security key is a single point of failure. Losing, breaking, or having a YubiKey stolen without a backup means losing access to all accounts tied to it. Best practice: minimum two keys registered simultaneously on every critical service. Keep the backup in a secure offline location: home safe, bank safety deposit box, or with a trusted person.',
+howto:['Purchase at least two YubiKeys (model 5 or 5C NFC); one primary, one backup.','When setting up any service, register both keys at the same time — do not defer the backup registration.','Store the backup key off-site: bank safety deposit box, trusted contact, or a secure location separate from your primary residence.','Test the backup key every six months to confirm it still works and has not been silently deregistered.']},
+{id:'id7',sev:'medium',text:'Check your email for known breaches (haveibeenpwned.com)',profiles:['privacy','anonymity'],
+details:'Breach databases accumulate over years. An email address you created 5 years ago may appear in dozens of compromised datasets. Even if the password was changed, the address being active is enough for spam, phishing, and social engineering targeting. Regular monitoring enables timely response.',
+howto:['Go to haveibeenpwned.com and check every email address you use.','If found in a breach: change the password on that service, audit active sessions, enable 2FA.','Set up free monitoring on HIBP — you will receive alerts when your address appears in new breaches.']},
+]},
+{id:'threat',num:'02',title:'Threat Modeling',items:[
+{id:'th1',sev:'critical',text:'Define your personal threat model',profiles:['privacy','anonymity'],
+details:'Security without a threat model is just a random collection of measures. Before spending resources on protection, answer four questions: what am I protecting (assets), from whom (adversaries), what are their capabilities, and what consequences can I tolerate. Protecting against a nosy neighbor with a packet sniffer and protecting against a nation-state adversary require fundamentally different approaches.',
+howto:['Write down: 1) assets (what you protect — data, identity, communications, access); 2) adversaries (who might want to compromise you); 3) their capabilities (budget, technical sophistication); 4) consequences (what happens if each asset is compromised).','Use EFF Surveillance Self-Defense (ssd.eff.org) or Adam Shostack\'s "Threat Modeling: Designing for Security" as a starting framework.','Revisit your threat model every 6 months, or after major life changes: new job, relocation, change in public profile.']},
+{id:'th2',sev:'high',text:'Prioritize assets and define acceptable risk',profiles:['privacy','anonymity'],
+details:'Not all assets are equal. Classify by importance: Level 1 — critical and irreplaceable (master passwords, encryption keys, medical records); Level 2 — important but recoverable (work communications, banking, contacts); Level 3 — low-stakes (forum registrations, consumer accounts). Apply protection proportionate to the damage a compromise would cause.',
+howto:['Level 1 (critical): identity documents, master passwords, encryption keys, private keys, medical data — maximum protection, air-gapped backups.','Level 2 (important): work communications, financial data, contacts, business documents — strong protection, regular backups.','Level 3 (low-stakes): public profiles, forum accounts, consumer services — basic hygiene only.','For each level, document: where it is stored, how it is protected, how it is backed up, who has access.']},
+]},
+{id:'devices',num:'03',title:'Devices & Physical Security',items:[
+{id:'dev1',sev:'critical',text:'Full-disk encryption enabled (BitLocker with PIN, FileVault, or LUKS)',profiles:['privacy','anonymity'],
+details:'Without disk encryption, anyone with physical access to your device gets full access to all data — booting from a Live USB takes seconds. IMPORTANT: BitLocker in TPM-only mode (no PIN) is vulnerable to TPM sniffing attacks — an attacker with physical access can intercept the encryption key off the LPC bus during boot. This attack is publicly demonstrated and takes minutes. A pre-boot PIN or passphrase is mandatory for serious protection.',
+howto:['Windows: Control Panel → BitLocker → Turn on; CRITICALLY select "Enter a PIN at startup" mode via gpedit — TPM-only is not sufficient.','macOS: System Settings → Privacy & Security → FileVault → Turn On; use a strong account password.','Linux: enable LUKS encryption at install time with a strong passphrase; for existing systems use cryptsetup-reencrypt.','VeraCrypt for encrypted containers for specific data categories on top of full-disk encryption.']},
+{id:'dev2',sev:'critical',text:'BIOS/UEFI password set, Secure Boot enabled',profiles:['privacy','anonymity'],
+details:'Without a BIOS password, an attacker with physical access can change the boot order and load from USB, bypassing disk encryption. Secure Boot verifies the cryptographic signature of the bootloader and prevents unsigned code from running before the OS starts. This defends against bootkits and Evil Maid attacks.',
+howto:['Enter BIOS/UEFI (Del/F2/F12 at startup), set a Supervisor Password and User Password.','Enable Secure Boot in the Security or Boot section.','Set boot order so USB and external devices are below the primary disk, or disable external boot entirely.','macOS on Apple Silicon: System Settings → Privacy & Security → Startup Security Utility → Full Security.']},
+{id:'dev3',sev:'high',text:'Screen auto-lock within 3 minutes',profiles:['privacy','anonymity'],
+details:'An unlocked unattended device is an open physical access vector. Even 5 minutes is enough to copy files, plant a USB implant, or steal an authenticated session. Three minutes is a reasonable balance between convenience and security. Dynamic lock via Bluetooth automates locking when you walk away.',
+howto:['Windows: Settings → Personalization → Lock screen → Screen timeout → 3 minutes; enable Dynamic Lock via Accounts → Sign-in options.','macOS: System Settings → Lock Screen → "Require password after screen saver begins or display turns off" → immediately.','iOS/Android: Settings → Display → Screen timeout → 1-2 minutes.']},
+{id:'dev4',sev:'high',text:'Disable unused ports (USB, Bluetooth, IR)',profiles:['anonymity'],
+details:'USB ports are a vector for BadUSB attacks — malicious devices that emulate keyboards or network adapters. O.MG cables look like ordinary Lightning or USB-C cables but contain a Wi-Fi-activated implant. Bluetooth enables BlueSnarfing and BlueJacking attacks. On corporate devices, uncontrolled USB is a DLP bypass channel.',
+howto:['Windows GPO: Computer Configuration → Administrative Templates → System → Removable Storage Access → block all removable storage.','Registry: HKLM\\SYSTEM\\CurrentControlSet\\Services\\USBSTOR → Start = 4 to disable USB storage.','Bluetooth: disable in Device Manager when not in use; use a physical USB blocker for unused ports.','Never plug in cables or chargers you did not bring yourself — juice jacking attacks are real at public charging stations.']},
+{id:'dev5',sev:'medium',text:'Camera and microphone physically disabled when not in use',profiles:['privacy','anonymity'],
+details:'Software-level camera access controls can be bypassed through OS vulnerabilities or malware — this is a known APT-level attack vector. Physical camera covers cannot be bypassed in software. The camera activity LED on most laptops is controlled in software and can be disabled by a malicious driver. For maximum security: disable in BIOS, making the device completely invisible to the OS and any software.',
+howto:['Physical: attach a webcam cover slide to your laptop camera; Settings → Privacy → Camera/Microphone → deny all apps.','BIOS/UEFI: under Advanced or Onboard Devices, find Integrated Camera and Microphone → set to Disabled. The devices will disappear from the system entirely.','Re-enable in BIOS when needed and disable again after the session.']},
+{id:'dev6',sev:'critical',text:'OS and software updates installed promptly',profiles:['privacy','anonymity'],
+details:'Most successful attacks exploit known vulnerabilities where a patch already exists but was not installed. The window between CVE publication and mass exploitation has shrunk to 48-72 hours for critical vulnerabilities. Browser and OS patches are the highest priority — they are the most attacked components.',
+howto:['Windows: Settings → Windows Update → enable automatic updates; install critical patches immediately.','macOS: System Settings → General → Software Update → enable automatic updates.','Browser: update manually immediately after a new version ships; keep extensions on auto-update.','Third-party software: use Patch My PC (Windows) or Homebrew (macOS) to track and update installed apps.']},
+{id:'dev6b',sev:'high',text:'Antivirus with auto-updating signatures and local firewall active',profiles:['privacy','anonymity'],
+details:'Antivirus with current signatures is the last line of defense before malicious code executes. Auto-update is critical — new malware families emerge daily and week-old signatures miss fresh threats. A local application firewall detects unauthorized outbound connections — useful for spotting malware phoning home. Note: technically sophisticated users often prefer Windows Defender plus strong discipline over third-party AV, since AV products themselves have large attack surfaces and have historically been compromised. The firewall layer is valuable regardless of AV choice.',
+howto:['Minimum: confirm Windows Defender is active and signatures update automatically (Windows Security → Virus & threat protection → Protection updates).','macOS: built-in XProtect and Gatekeeper; for application firewall control use LuLu (free, open source) or Little Snitch (paid).','Windows application firewall: SimpleWall (github.com/henrypp/simplewall) — enable block-all mode, whitelist only trusted applications, review the blocked connection log.','Third-party AV if desired: Bitdefender, ESET, or Malwarebytes — all have strong independent audit records.']},
+{id:'dev7',sev:'high',text:'Work laptop not used for personal tasks',profiles:['privacy','anonymity'],
+details:'Corporate laptops are typically monitored by the employer: DLP agent, SSL-inspecting proxy, EDR logging all processes and network activity. Personal activity through a corporate device exposes your personal life to your employer and all connected systems. Conversely, personal content on a work device risks leaking company data through personal channels.',
+howto:['Hard rule: work laptop is for work only — no personal email, social media, or personal browsing.','Personal browsing on a separate personal device, physically separate from work hardware.','If you need personal access at work, use your personal phone on mobile data — completely separate network stack.']},
+{id:'dev8',sev:'medium',text:'Lock screen habit when stepping away (Win+L)',profiles:['privacy','anonymity'],
+details:'The habit of locking your screen on every departure is a core physical security skill. In an office environment, a few seconds is enough to copy a file, insert a USB drive, or read an open document. This reflex takes 2-3 weeks of conscious practice to become automatic.',
+howto:['Win+L (Windows) or Ctrl+Cmd+Q (macOS) — practice consciously for the first two weeks on every departure.','Enable Dynamic Lock: Settings → Accounts → Sign-in options → pair your phone via Bluetooth for automatic locking.','Place a reminder at your workstation during the habit-building period.']},
+{id:'dev9',sev:'high',text:'Smartphone security: app permissions and hardware isolation',profiles:['privacy','anonymity'],
+details:'Your smartphone is the most aggressively surveilling device you own. Every app by default reaches for camera, microphone, contacts, location, and call history. Most users have never audited these permissions. For truly sensitive conversations, a smartphone in the room is a risk even when apparently idle — exploit-level access can activate sensors without the indicator light. A Faraday cage (shielding pouch) blocks all radio signals (GSM, LTE, Wi-Fi, Bluetooth, GPS). A dumb phone with no internet is the minimum attack surface for voice calls. A fully private conversation with zero interception risk requires no smartphones at all.',
+howto:['Android: Settings → Apps → each app → Permissions — revoke camera, microphone, contacts, and location from all apps that do not need them to function.','iOS: Settings → Privacy & Security → work through Camera, Microphone, Location Services — revoke unnecessary permissions; use "While Using" instead of "Always" for location.','For high-sensitivity conversations: phones in a Faraday pouch (SLNT, Mission Darkness, or similar) or in another room. A basic dumb phone with no internet is sufficient for routine calls without exploit risk.','GrapheneOS on Pixel is the only mobile OS with meaningful security hardening: isolated Google services, hardware sensor controls, verified boot.']},
+{id:'dev10',sev:'high',text:'Biometrics (Face ID, fingerprint) disabled — PIN or passphrase only',profiles:['privacy','anonymity'],
+details:'Biometrics are a convenience feature sold as security. Faces are captured by street cameras; fingerprints are left on every surface you touch. Biometrics are not a secret in the cryptographic sense. In most jurisdictions, compelling someone to place a finger or show a face is easier than compelling them to reveal a password — passwords are protected by the Fifth Amendment (US) or similar self-incrimination protections in many countries. Biometrics may not be. This applies at border crossings, in legal situations, and in physical coercion scenarios.',
+howto:['iOS: Settings → Face ID & Passcode → disable all Face ID toggles; Change Passcode → Passcode Options → Custom Alphanumeric Code → set an 8+ character passphrase.','Android: Settings → Security → remove registered faces and fingerprints; use a long alphanumeric PIN or passphrase as the lock method.','Laptop: disable Windows Hello (Settings → Accounts → Sign-in options → remove biometric methods); macOS → Touch ID → remove all fingerprints.','Emergency lockdown: iOS — 5 rapid side button presses triggers SOS mode, requiring passcode until next unlock. Use this before any border or legal interaction.']},
+]},
+{id:'network',num:'04',title:'Network & Traffic',items:[
+{id:'net1',sev:'critical',text:'VPN with kill-switch for all untrusted networks',profiles:['privacy','anonymity'],
+details:'On public and untrusted networks, traffic can be intercepted at the Wi-Fi access point or ISP level. A VPN encrypts traffic from your device to the exit point. The kill-switch is critical: without it, if the VPN drops your device silently falls back to the open internet, exposing traffic. Important: a commercial VPN provider (Mullvad, ProtonVPN, IVPN, etc.) technically can log your traffic — you are shifting trust from your ISP to the VPN company. True privacy requires your own VPN server on a VPS you control.',
+howto:['Self-hosted WireGuard on a VPS: you are the only party who knows your traffic. Run on a VPS in a neutral jurisdiction.','Commercial VPN if self-hosting is impractical: choose providers with independently audited no-logs policies — Mullvad, IVPN, ProtonVPN are well-regarded in the West.','Kill-switch in WireGuard: add iptables rules in PostUp/PreDown blocking all traffic except the tunnel; verify by manually disconnecting the VPN.','On iOS/Android: most reputable VPN apps include a kill-switch toggle — ensure it is enabled before connecting to untrusted networks.']},
+{id:'net1b',sev:'high',text:'Understand your ISP and legal surveillance context',profiles:['anonymity'],
+details:'In the US, ISPs can sell anonymized browsing data under current FCC rules (the 2017 rules were repealed). Under FISA and NSL (National Security Letters), ISPs can be compelled to hand over data with a gag order. In the EU, data retention laws vary by country but GDPR provides some baseline protections. In the UK, the Investigatory Powers Act ("Snoopers Charter") mandates broad data retention. A VPN significantly reduces ISP-level exposure but does not protect against legal compulsion directed at the VPN provider.',
+howto:['Use a VPN based in a jurisdiction with strong privacy laws and no mandatory data retention (Iceland, Switzerland, Panama are common choices).','For maximum traffic privacy: route through Tor in addition to VPN, understanding the performance trade-offs.','Tor Browser for anonymous browsing: routes through three relays, each seeing only the adjacent hop — no single point sees both source and destination.','Mullvad VPN accepts cash and Monero, requires no account email — one of the highest-anonymity commercial options.']},
+{id:'net2',sev:'high',text:'DNS encrypted and verified for leaks (DoH/DoT)',profiles:['privacy','anonymity'],
+details:'DNS queries are sent in plaintext by default — your ISP sees every domain you visit even over HTTPS. DoH and DoT encrypt DNS traffic. But enabling DoH alone is insufficient: DNS leaks occur when queries bypass the VPN tunnel and reach your ISP\'s DNS even while VPN is active. WebRTC leaks are a separate browser vulnerability that exposes your real IP via JavaScript even through a VPN. Both must be tested together.',
+howto:['Enable DoH: Windows 11 → Network → DNS → Manual → DNS over HTTPS → use 9.9.9.9 (Quad9) or 1.1.1.1 (Cloudflare); Firefox → Settings → Privacy → DNS over HTTPS.','Test DNS leak: dnsleaktest.com Extended test — all responses should come from your VPN server, not your ISP.','Test WebRTC leak: browserleaks.com/webrtc — public IP should match your VPN IP. Fix in Firefox: about:config → media.peerconnection.enabled = false; Chrome: WebRTC Leak Prevent extension.','NextDNS is a solid DoH/DoT provider with privacy-focused defaults and detailed query logging you control.']},
+{id:'net3',sev:'critical',text:'Avoid public Wi-Fi or use only through VPN',profiles:['privacy','anonymity'],
+details:'Public Wi-Fi networks either do not encrypt traffic between device and access point, or use a shared key visible to all users on the network. Anyone on the network can intercept unencrypted traffic. Evil Twin attacks — a rogue access point with the same SSID — are trivial to execute and visually indistinguishable to users. MITM on public Wi-Fi is standard penetration testing technique.',
+howto:['Rule: any public Wi-Fi connection only after VPN tunnel is established and kill-switch is active.','Configure VPN to auto-connect on unrecognized networks — most VPN clients support this.','Prefer cellular data (4G/5G LTE) over public Wi-Fi for sensitive activity — your carrier sees your traffic but there is no local network MITM risk.']},
+{id:'net4',sev:'medium',text:'MAC address randomization on public networks',profiles:['privacy','anonymity'],
+details:'A MAC address is a unique hardware identifier transmitted in plaintext on local networks. Access points and retail analytics systems use MAC addresses to track device movement between visits. MAC randomization generates a different address for each network, breaking this correlation.',
+howto:['Windows 11: Settings → Network → Wi-Fi → click network name → Random hardware addresses → On.','Android 10+: Wi-Fi network settings → Privacy → Use randomized MAC.','macOS Ventura+: System Settings → Wi-Fi → Details → Private Wi-Fi Address → enable.','iOS 14+: Settings → Wi-Fi → tap (i) next to network → Private Wi-Fi Address → enable.']},
+{id:'net5',sev:'high',text:'Home router: default password changed, firmware updated',profiles:['privacy','anonymity'],
+details:'Default router passwords are publicly documented and included in brute-force dictionaries. Router firmware contains vulnerabilities actively exploited by botnets (Mirai and variants). A compromised router is a MITM for all home traffic and can intercept DNS queries even with DoH enabled on devices.',
+howto:['Log into your router admin panel (usually 192.168.1.1 or 192.168.0.1), change the admin password to a long random one.','Check for firmware updates in Administration/System; install the latest version.','Disable Remote Management from the internet — allow admin access only from the local network.','Consider a security-focused router firmware: pfSense/OPNsense on dedicated hardware, or OpenWRT on supported devices.']},
+{id:'net6',sev:'medium',text:'Audit connected devices on home network',profiles:['privacy','anonymity'],
+details:'Unknown devices on your home network are potential compromised nodes or unauthorized connections. IoT devices (smart bulbs, cameras, TVs) frequently have weak security and outdated firmware, making them pivot points for attacking other devices on the network.',
+howto:['nmap -sn 192.168.1.0/24 — scan all hosts on the network; compare against known devices.','Check the router admin panel DHCP client list for any unfamiliar hostnames or MACs.','Segment IoT devices onto a separate VLAN or guest network with no access to the main segment.']},
+{id:'net7',sev:'high',text:'Browser: uBlock Origin + NoScript installed',profiles:['privacy','anonymity'],
+details:'Tracking scripts, surveillance pixels, and ad networks collect behavioral data across tens of thousands of sites, building detailed profiles. Cross-site tracking works through shared resources: Google Fonts, Facebook widgets, jQuery CDNs. NoScript blocks third-party JavaScript execution, significantly reducing malvertising attack surface.',
+howto:['Install uBlock Origin; enable Medium or Hard blocking mode for maximum protection.','NoScript (Firefox) or uMatrix: allow JavaScript only for the current site\'s domain, block all third-party by default.','Privacy Badger (EFF) — additional behavioral tracker blocking, works alongside uBlock Origin.']},
+]},
+{id:'comms',num:'05',title:'Communications & Messengers',items:[
+{id:'com1',sev:'critical',text:'Sensitive conversations — Signal, SimpleX, or Session only',profiles:['privacy','anonymity'],
+details:'Signal provides end-to-end encryption (E2EE) for all messages and calls with verified open source code. Disappearing messages eliminate stored history. SimpleX goes further: requires no phone number or user ID, uses per-contact key pairs — message correlation is impossible even if the server is compromised. Session is fully decentralized: messages route through an onion network with no central server, no phone number, no email required, anonymous registration by default. Each app addresses a different threat model.',
+howto:['Signal: enable disappearing messages by default (Settings → Privacy → Default Timer → 1 week); verify Safety Numbers in person with high-value contacts.','SimpleX: download from simplex.chat; create a profile without a phone number — ideal when any persistent identifier is a risk.','Session (getsession.org): anonymous registration via Session ID, no phone number or email, decentralized network with no single point of compulsion.']},
+{id:'com2',sev:'critical',text:'iMessage and standard SMS: know the security limits',profiles:['privacy','anonymity'],
+details:'iMessage provides E2EE between Apple devices but the keys are tied to your Apple ID. iCloud backup of messages decrypts and stores them on Apple servers — accessible to Apple and via legal request. Apple has complied with US law enforcement requests for iMessage metadata. Standard SMS is plaintext and visible to your carrier and to law enforcement with minimal legal process. Both are unsuitable for sensitive communications.',
+howto:['iMessage: if you use iCloud, disable Messages backup (Settings → Apple ID → iCloud → Messages → Off) or enable Advanced Data Protection to keep keys on-device.','For sensitive communications: switch to Signal, SimpleX, or Session regardless of recipient platform — all have cross-platform clients.','Treat SMS 2FA codes as the weakest link: migrate critical accounts to TOTP or passkeys to eliminate SMS dependency entirely.']},
+{id:'com3',sev:'high',text:'Email for sensitive messages encrypted with PGP/GPG',profiles:['privacy','anonymity'],
+details:'Email is an open postcard by default. Your provider, intermediate servers, and the recipient\'s server all have access to the content. TLS only encrypts the transport between servers, not the content at rest. PGP/GPG encrypts the message body with the recipient\'s public key — only the holder of the private key can read it.',
+howto:['Thunderbird has built-in OpenPGP support since v78: generate a key pair via Account Settings → End-To-End Encryption.','Publish your public key on keys.openpgp.org; add your key fingerprint to your email signature.','ProtonMail and Tutanota encrypt email by default between their users, and support outbound PGP encryption to external addresses.']},
+{id:'com4',sev:'high',text:'Disable notification previews on the lock screen',profiles:['privacy','anonymity'],
+details:'Lock screen notification previews show message content without requiring PIN entry — readable by anyone who picks up your phone or walks past. This includes SMS 2FA codes, fragments of sensitive conversations, and banking alerts.',
+howto:['iOS: Settings → Notifications → Show Previews → Never (or When Unlocked at minimum).','Android: Settings → Notifications → On lock screen → Hide silent conversations and notifications / Don\'t show notifications.','Configure per-app: Signal, banking apps — show sender name only, no message content.']},
+{id:'com5',sev:'medium',text:'Work and personal communications strictly separated',profiles:['privacy','anonymity'],
+details:'Corporate messaging systems (Slack, Teams, Zoom) are monitored by IT and DLP systems. Personal conversations through corporate channels expose your personal life to your employer. Conversely, discussing work matters in personal channels risks leaking company information.',
+howto:['Hard rule: corporate messenger for work topics only — no personal content.','Personal communications from personal devices via personal accounts only.','For colleagues you also communicate with personally: maintain separate personal accounts in Signal/WhatsApp, not corporate accounts.']},
+{id:'com6',sev:'high',text:'Voice and video calls through encrypted channels',profiles:['privacy','anonymity'],
+details:'Standard telephone calls are visible to your carrier and accessible to law enforcement with minimal legal process. VoIP calls through unencrypted apps are similarly accessible at the carrier/app level. Signal Calls and Jitsi Meet provide E2EE for voice and video with audited open source code.',
+howto:['Signal Calls: use instead of regular phone calls for sensitive conversations.','Jitsi Meet (self-hosted): deploy on your own server for group calls with no third-party dependency.','Enable "Always Relay Calls" in Signal — hides your IP address from the other party by routing through Signal\'s servers.']},
+]},
+{id:'data',num:'06',title:'Data & Storage',items:[
+{id:'dat1',sev:'critical',text:'Backups encrypted (AES-256)',profiles:['privacy','anonymity'],
+details:'An unencrypted backup equals unencrypted data: theft or compromise of the backup media exposes everything. Many major data incidents occur specifically through backup systems — they are stored with less security attention than primary data.',
+howto:['Restic: open-source backup with built-in AES-256 encryption; backs up to local disk, NAS, or S3-compatible storage.','VeraCrypt container: create an encrypted container, place data inside, back up the container as a whole.','Store the backup password separately from the backup itself (KeePass) — losing the password means losing the data.']},
+{id:'dat2',sev:'high',text:'3-2-1 backup rule: 3 copies, 2 media types, 1 off-site',profiles:['privacy','anonymity'],
+details:'A single backup is no backup: HDDs die, drives are lost, cloud services terminate accounts. The 3-2-1 rule protects against any single failure. Off-site copy protects against physical disasters — fire, flood, theft of all equipment simultaneously.',
+howto:['3 copies: working version + local backup (external HDD) + remote backup (encrypted cloud or VPS).','2 media types: different physical devices — not two partitions on one drive.','1 off-site: encrypted backup on Backblaze B2, Hetzner Storage Box, Tarsnap, or your own VPS in another region.']},
+{id:'dat3',sev:'high',text:'Secure file deletion — not just the Recycle Bin',profiles:['privacy','anonymity'],
+details:'Deleting a file (including Shift+Delete) does not erase data from disk — it only marks the space as available. Data is recoverable with tools like Recuva or PhotoRec in minutes. Critical before selling or handing over a device. SSDs complicate guaranteed deletion due to wear leveling — ATA Secure Erase is the reliable method.',
+howto:['Windows: Eraser (open source) — right-click → Erase; configure Gutmann or DoD 7-pass algorithm.','macOS: srm -vz filename in Terminal (or use Disk Utility → Erase for full drive secure wipe).','SSD/NVMe before sale: manufacturer tool (Samsung Magician, Crucial Storage Executive) → Secure Erase; or hdparm ATA Secure Erase.']},
+{id:'dat4',sev:'critical',text:'Sensitive documents not stored in cloud without client-side encryption',profiles:['privacy','anonymity'],
+details:'Google Drive, iCloud, OneDrive, and Dropbox encrypt files at rest, but the encryption keys belong to the provider — they have full access and will provide it under legal request. Client-side encryption (encrypting before upload) is the only way to use cloud storage without trusting the provider.',
+howto:['Cryptomator (free, open source): creates an encrypted vault on top of any cloud storage — works with Google Drive, iCloud, Dropbox, OneDrive.','ProtonDrive and Tresorit: end-to-end encryption built-in, keys never leave your device.','Sensitive documents: local only, or encrypted cloud via Cryptomator. Never upload plaintext confidential documents to standard cloud.']},
+{id:'dat5',sev:'medium',text:'Work and personal data separated — use VeraCrypt hidden volumes',profiles:['privacy','anonymity'],
+details:'VeraCrypt supports Plausible Deniability. Inside a single encrypted container, two independent volumes exist: an outer volume (opened with one password, containing plausible non-sensitive data) and a hidden volume (opened with a different password, containing your actual sensitive data). Under compulsion to reveal a password, you reveal the outer password — it is cryptographically impossible to prove the hidden volume exists.',
+howto:['VeraCrypt → Create Volume → Create an encrypted file container → Hidden VeraCrypt volume: first create the outer volume, then the hidden volume inside it.','Outer volume: place plausible data (documents, photos) — this is what you show under pressure.','Hidden volume: always mount via the hidden password; monitor free space in the outer volume to avoid overwriting the hidden volume.']},
+{id:'dat6',sev:'high',text:'Strip metadata from files before publishing',profiles:['privacy','anonymity'],
+details:'EXIF data in photos contains GPS coordinates accurate to 10 meters, timestamp, device model, and serial number. Word/PDF documents store author name, organization, revision history, and sometimes deleted text in the change history. Publishing a file with metadata is an inadvertent disclosure.',
+howto:['ExifTool: exiftool -all= filename.jpg removes all EXIF tags; exiftool -r -all= ./folder/ for entire directories.','Word/PDF: File → Info → Check for Issues → Inspect Document → remove personal information.','Before publishing any document or photo, run: exiftool filename and verify what remains.']},
+]},
+{id:'social',num:'07',title:'Social Engineering & Phishing',items:[
+{id:'soc1',sev:'critical',text:'Never open attachments from unknown senders',profiles:['privacy','anonymity'],
+details:'Email attachments are the most common malware delivery vector. PDFs exploit vulnerabilities in Adobe Reader and Preview; DOCX files trigger macros or Office vulnerabilities; XLS files abuse Excel macros or formula injection. Spoofed sender addresses make malicious emails appear to come from known contacts.',
+howto:['Never open attachments without verifying the sender via a known phone number or in-person confirmation.','Suspicious files: open in an isolated environment — sandbox.any.run or a network-isolated virtual machine.','Disable macros by default in Microsoft Office: File → Options → Trust Center → Macro Settings → Disable all macros.']},
+{id:'soc2',sev:'critical',text:'Check URLs before clicking — hover, do not click',profiles:['privacy','anonymity'],
+details:'Phishing URLs exploit visual similarity to legitimate domains: character substitution (rn→m, 0→o), misleading subdomains (paypal.evil.com), and IDN homograph attacks (Cyrillic or Greek characters visually identical to Latin). Hyperlink text can contain any URL — the displayed text and actual destination are unrelated.',
+howto:['Hover over any link before clicking — the real URL appears in the browser status bar.','Check the second-level domain: in "accounts.paypal.com.phish.io" the actual domain is phish.io.','For suspicious links: use urlscan.io or virustotal.com to inspect before opening.']},
+{id:'soc3',sev:'high',text:'Verify unexpected callers through official channels',profiles:['privacy','anonymity'],
+details:'Vishing — phone calls from "IT support", "your bank", "Microsoft", or "the IRS" requesting credentials or remote access. Caller ID spoofing via VoIP makes any number trivially fakeable. Social engineering by phone creates artificial urgency, pushing victims to act without verification.',
+howto:['Rule: never provide passwords, 2FA codes, or remote access over an inbound call — ever.','If suspicious: end the call and call back on the official number from the organization\'s verified website.','Real IT support never asks for your password — this is 100% social engineering or a policy violation.']},
+{id:'soc4',sev:'high',text:'Minimize social media presence or use anonymously',profiles:['anonymity'],
+details:'Social media is the primary OSINT source for targeted attacks. Job title, employer, location, social graph, and daily schedule all form a detailed spear phishing profile. The optimal choice is to delete accounts entirely. If professional or social requirements make that impractical, use an anonymized account: separate phone number, separate email alias, separate pseudonym.',
+howto:['Audit: go through each account — is this actually necessary? Old classmate connections from a decade ago? Delete.','Never post: current location, check-ins, work schedule, photos that reveal home or office layout.','For high-risk roles: a separate anonymized profile on a separate number and email alias; real name only in explicitly professional contexts where required.','AccountKiller.com has instructions for deleting accounts on hundreds of services.']},
+{id:'soc5',sev:'critical',text:'Work credentials never entered on third-party sites',profiles:['privacy','anonymity'],
+details:'Corporate email and password are for corporate resources only. Phishing pages replicate corporate portals with pixel-perfect accuracy. OAuth ("Sign in with Google/Microsoft") can also be phishing — the authentication domain must be verified.',
+howto:['Before entering corporate credentials: confirm the URL in the address bar is the official company domain.','Do not use your work email to register on third-party services without IT approval.','Bookmark corporate portals and access only via bookmarks — never via links in emails.']},
+{id:'soc6',sev:'medium',text:'Educate family and close contacts on basic digital hygiene',profiles:['privacy','anonymity'],
+details:'Attackers targeting a specific individual often use family members as the attack vector: a call to a spouse from "a colleague", an email to parents from "their child\'s bank", phishing through children. Family members unfamiliar with basic digital hygiene become unintentional attack facilitators. A regular, non-technical conversation about a few simple rules substantially reduces this risk.',
+howto:['Explain the basics: do not click links in unexpected SMS or email; never give codes from SMS to anyone by phone.','Set up basic protection on family devices: updates, antivirus, unique passwords for email and banking, 2FA on email.','Run a "fire drill": forward a sample phishing email and walk through which signals should have flagged it.']},
+]},
+{id:'data2',num:'08',title:'Browser & Web Privacy',items:[
+{id:'br1',sev:'high',text:'Privacy-hardened browser: Brave, Mullvad Browser, LibreWolf, or Firefox',profiles:['privacy','anonymity'],
+details:'Standard Chrome sends visited page data, DNS queries, and behavioral analytics to Google. Modern privacy browser options: Brave — strong privacy defaults out of the box, built-in tracker and fingerprint protection, Tor window support. Mullvad Browser — Tor Browser fork without Tor, designed for use with a VPN, maximally fingerprint-resistant. LibreWolf — pre-hardened Firefox with arkenfox applied by default. Firefox + arkenfox user.js — flexible and highly configurable. Using different browsers for different contexts adds an isolation layer.',
+howto:['Brave (brave.com): strong privacy defaults out of the box, no configuration needed for everyday use.','Mullvad Browser (mullvad.net/browser): fingerprint-resistant, designed for VPN users; use for sensitive tasks.','LibreWolf (librewolf.net): hardened Firefox with applied arkenfox.','Isolation scheme: different browsers for different contexts — general browsing, sensitive tasks, anonymous sessions via Tor Browser.']},
+{id:'br2',sev:'medium',text:'Browser fingerprint tested and minimized',profiles:['privacy','anonymity'],
+details:'Browser fingerprint is a unique combination of characteristics: User-Agent, installed fonts, screen resolution, Canvas/WebGL rendering, timezone. This combination identifies your device without cookies and survives cookie clearing. Fingerprinting is more persistent than cookies for long-term tracking.',
+howto:['Go to coveryourtracks.eff.org → Test Your Browser — assess how unique your fingerprint is.','Brave and Mullvad Browser randomize fingerprint by default.','arkenfox user.js for Firefox automatically closes most fingerprinting vectors.']},
+{id:'br3',sev:'medium',text:'Cookies and history cleared on browser close',profiles:['privacy','anonymity'],
+details:'Browser history and cookies accumulate a complete graph of your online activity. Upon device compromise, this provides a full picture of visited resources. Authentication cookies allow session hijacking without knowing the password.',
+howto:['Firefox: Settings → Privacy → "Delete cookies and site data when Firefox is closed" → enable.','Add exceptions for sites where you need to stay logged in (banking, work portal) — via Manage Exceptions.','Firefox Multi-Account Containers: different containers are fully isolated — cookies in one are invisible to another.']},
+]},
+{id:'traces',num:'09',title:'Digital Footprint & De-anonymization',items:[
+{id:'tr1',sev:'high',text:'Regular OSINT audit of your name and pseudonym',profiles:['anonymity'],
+details:'What an attacker can find about you is your real attack surface. Regular self-audits through OSINT tools show what data has entered public reach in the past period. For security professionals: linking your real name to professional activities makes you a higher-value target.',
+howto:['Google and Bing: search your real name, usernames, and email in quotes; check Google Images for photos.','Sherlock (GitHub): python sherlock username — checks username presence on 300+ platforms automatically.','WhatsMyName (whatsmyname.app) — web-based alternative to Sherlock requiring no installation.','Data broker search: search your name on Spokeo, BeenVerified, Whitepages — these aggregate personal information publicly.']},
+{id:'tr4',sev:'high',text:'Work and personal phones separated',profiles:['privacy','anonymity'],
+details:'A smartphone is the most information-rich surveillance device you own: GPS tracks, call history, contacts, behavioral patterns. A single phone for work and personal use means that any compromise exposes both contexts. Work phones may be monitored by employer MDM systems.',
+howto:['Two physical devices: work (with corporate MDM if required) and personal (solely under your control).','Never install personal messaging apps on the work phone; never sign into personal accounts on it.','If two phones are impractical: Android Work Profile isolates work apps from personal apps at the OS level.']},
+{id:'tr5',sev:'critical',text:'No shared username or password across platforms',profiles:['anonymity'],
+details:'A single username across platforms allows trivial correlation of all accounts via search. Classic OSINT technique: find username on GitHub → check same username on Reddit, Twitter, LinkedIn → build a complete profile. Even if each account is individually anonymous, correlation through accumulated context reveals identity.',
+howto:['Every platform gets a unique username with no connection to other accounts.','Sherlock or WhatsMyName: verify a username is not already present elsewhere before adopting it.','KeePass: maintain a table of account ↔ username ↔ email ↔ password for managing multiple identities.']},
+{id:'tr7',sev:'high',text:'Geotagging disabled on all device cameras',profiles:['privacy','anonymity'],
+details:'GPS coordinates in photo EXIF data are accurate to within 10 meters, revealing exact location at the time of capture. A photo of your home workspace published on social media reveals your home address. An office photo reveals floor plan.',
+howto:['Android: Camera → Settings → Location → Off; or Settings → Apps → Camera → Permissions → Location → Deny.','iOS: Settings → Privacy → Location Services → Camera → Never.','For existing photos before publishing: ExifTool -gps:all= filename.jpg removes all GPS tags.']},
+{id:'tr8',sev:'medium',text:'Erasing your personal history: removing traces from the internet',profiles:['anonymity'],
+details:'Carlos Castaneda describes the practice of erasing personal history as a path to freedom: when no one knows your history, no one can predict you, manipulate you, or use your past against you. In the digital world this principle applies directly: minimizing historical traces reduces the social engineering and OSINT attack surface. Complete erasure is impossible, but substantially reducing your footprint is achievable.',
+howto:['Google: myaccount.google.com/delete-services — delete Search history, YouTube, Maps; "Results about you" tool — request removal of personal information from Search results.','Data broker removal (US): DeleteMe (paid, automated removal from 750+ brokers), Incogni (paid, covers US and EU brokers), or manual removal via OptOutPrescreen, Spokeo, BeenVerified opt-out pages.','Data broker removal (EU): GDPR right to erasure — send formal deletion requests directly to each data controller; national DPA websites have templates.','Dead accounts: check HaveIBeenPwned for which services have your email; delete unused accounts via JustDeleteMe.xyz.']},
+]},
+{id:'finance',num:'10',title:'Financial OPSEC',items:[
+{id:'fin1',sev:'high',text:'Virtual cards and payment aliases for online purchases',profiles:['privacy','anonymity'],
+details:'A real bank card used for a VPN subscription, domain registration, or forum creates a direct link between your financial identity and your online activity. Payment processors store your real name and billing address. It is important to distinguish two levels of protection. Level 1 — fraud protection: a virtual card from your bank hides the primary card number from merchants, but your bank still knows everything and will disclose it under legal request. This is NOT OPSEC. Level 2 — real payment anonymity: the merchant and any observer cannot link the transaction to your identity. This requires a payment layer with genuine identity separation.',
+howto:['Fraud protection (NOT OPSEC): Privacy.com (US only) — generates single-use virtual cards with merchant and amount limits, genuinely separating your identity from the transaction; Revolut and many neobanks generate virtual cards for non-US users.','Real financial OPSEC: Monero (XMR) — the only major cryptocurrency with privacy by default (stealth addresses, RingCT). Accepted by Mullvad VPN, IVPN, Njalla domains, ProtonMail.','Cash → XMR route: buy Monero with cash via Bisq (P2P, no KYC) or a Bitcoin ATM → Feather Wallet (desktop) or Cake Wallet (mobile) → pay directly. Chain is fully broken.','Bitcoin via CoinJoin (Wasabi Wallet) substantially complicates tracing but does not achieve Monero-level privacy.']},
+{id:'fin2',sev:'medium',text:'Separate bank accounts for different purposes',profiles:['privacy','anonymity'],
+details:'A single bank account for salary, fixed expenses, personal spending, and online subscriptions is a complete financial profile in a single point of failure. Separation by purpose limits blast radius on compromise and improves privacy.',
+howto:['Minimum 3 accounts: primary (salary, fixed bills), everyday spending (limited balance for daily use), savings (isolated from daily use).','For freelance or business income: a separate account, never mixed with personal.','Online subscriptions: a separate virtual card with minimal balance — if it is compromised, the damage is limited.']},
+{id:'fin3',sev:'high',text:'Minimize KYC exposure; understand crypto privacy trade-offs',profiles:['anonymity'],
+details:'Every KYC procedure (passport, selfie, address confirmation) creates a permanent archive of your identity at that company. Major exchange databases breach regularly: Ledger (2020), Celsius, FTX. After a breach, your passport data plus transaction patterns become publicly correlatable. Minimizing KYC means using no-KYC services where possible and separating the fiat-to-crypto conversion layer from holding and spending.',
+howto:['Do not use a single KYC exchange for everything: separate the fiat ↔ crypto conversion layer from non-custodial storage and spending.','For private on-chain payments: Monero (XMR) — the standard anonymous transaction layer.','DEX (Uniswap, dYdX): no KYC, but requires understanding web3 wallets and contract approvals. Use a fresh wallet with no history traceable to KYC exchanges — blockchain analytics firms (Chainalysis, Elliptic) flag wallets linked to known entities.','Cash purchases at Bitcoin ATMs or peer-to-peer via Bisq minimize the digital trail at the cost of higher fees and some physical risk.']},
+]},
+{id:'travel',num:'11',title:'Travel Security & Border Crossing',items:[
+{id:'trv1',sev:'critical',text:'Travel device (burner laptop) for border crossings',profiles:['anonymity'],
+details:'At borders in many countries — including the US, UK, and Canada — border agents can demand access to your devices without a warrant. Refusing may result in denial of entry, detention, or device confiscation. CBP (US Customs and Border Protection) conducts tens of thousands of device searches per year. Traveling with your primary laptop containing work data and communications history is a significant risk. Solution: a travel device with minimal data, configured specifically for the trip. Full wipe on return.',
+howto:['Travel laptop: inexpensive, clean OS, only data needed for the trip — access everything else via encrypted cloud storage after arrival.','Signal and messaging apps: log out of primary accounts before the border; use a temporary account or secondary device during travel.','Before the border: log out of all accounts, clear browser history, dismount encrypted volumes, power off devices completely (not sleep — power off ensures disk encryption is re-engaged).','After returning through a high-risk border crossing: reinstall the OS from scratch if there is any concern about compromise.']},
+{id:'trv2',sev:'high',text:'Access data after arrival via encrypted cloud storage',profiles:['anonymity'],
+details:'If work data is needed during travel, it does not have to be physically transported. Encrypted cloud storage with end-to-end encryption provides access after arrival at a safe location. The access credentials are known only to you and are not on the travel device crossing the border.',
+howto:['Cryptomator vault on Mega, pCloud, or ProtonDrive: decrypts only with your passphrase, inaccessible to the provider.','ProtonDrive and Tresorit: end-to-end encryption built-in, access with your credentials only after arrival.','Access cloud data only from a trusted network after arrival — not from the airport or public Wi-Fi.']},
+{id:'trv3',sev:'critical',text:'Face ID and fingerprint disabled before border crossings',profiles:['privacy','anonymity'],
+details:'Biometrics are convenience, not security. Compelling someone to use their face or fingerprint is legally and physically easier than compelling them to reveal a password. In the US, the Fifth Amendment may protect against compelled password disclosure, but courts have been inconsistent on whether biometrics receive the same protection. At border crossings, in law enforcement stops, and in physical threat scenarios, biometrics become a vulnerability. Disable before any border interaction and re-enable afterward if desired.',
+howto:['iOS: Settings → Face ID & Passcode → disable all Face ID toggles; Change Passcode → Custom Alphanumeric Code — set an 8+ character passphrase.','Android: Settings → Security → remove registered faces and fingerprints; set a long alphanumeric passcode.','Emergency lockdown before a border stop: iOS — 5 rapid side button presses (SOS mode) forces passcode entry on next unlock. Use proactively.','If your device is taken and returned: treat it as potentially compromised — wipe and reinstall.']},
+{id:'trv4',sev:'medium',text:'VPN active on all travel networks, no hotel Wi-Fi without tunnel',profiles:['privacy','anonymity'],
+details:'Hotel and airport Wi-Fi are classic MITM and captive portal injection environments. In some jurisdictions, hotel networks are monitored automatically for compliance purposes. A travel VPN on your own VPS (in a neutral jurisdiction) is mandatory for secure communication on the road.',
+howto:['Before departure: verify VPN client works and kill-switch is active; configure auto-connect on unrecognized networks.','Cellular data from a local SIM is preferable to hotel Wi-Fi for everyday tasks.','Mullvad VPN accepts cash and Monero, no account email required — one of the highest-anonymity options for travel use.']},
+]},
+{id:'incident',num:'12',title:'Incident Response & Canary Tokens',items:[
+{id:'inc1',sev:'critical',text:'Incident response plan prepared in advance',profiles:['privacy','anonymity'],
+details:'When an incident occurs, it is not the time to design a plan. Response must be rehearsed: what to do first, what never to do, what order to change passwords in, who to notify. Critical rule: DO NOT immediately power off a compromised device — this destroys RAM data needed to understand what happened. Network isolation (airplane mode, unplug Ethernet) preserves the state for analysis while stopping ongoing damage.',
+howto:['Signs of compromise: unexplained network activity, new processes, registry changes, unknown account sessions, unfamiliar inbox logins.','First actions: 1) isolate from network (airplane mode, unplug Ethernet); 2) do NOT power off or reboot; 3) from a clean separate device, change passwords in order: primary email → password manager → bank → everything else.','Check active sessions on all critical accounts: Google Account, Apple ID, Microsoft, banking — "Sign out of all devices" everywhere.','Serious incident: capture RAM with Belkasoft Live RAM Capturer or WinPmem before power off; analyze with Volatility Framework.','Document the timeline: when you noticed, what you observed, actions taken — this is essential for root cause analysis and prevention.']},
+{id:'inc2',sev:'high',text:'Canary tokens deployed in sensitive locations',profiles:['anonymity'],
+details:'Canary tokens are trip-wire traps that fire only upon compromise. A file with an attractive name ("passwords.docx", "private_keys.txt") contains a hidden webhook: when the file is opened, a notification fires with the opener\'s IP and metadata. This gives early detection of compromise that otherwise averages 200+ days to discover. Zero cost, critical signal.',
+howto:['canarytokens.org (Thinkst, free): generate a Word document, PDF, AWS key, or URL token — on trigger you receive an email or webhook with attacker metadata.','Deploy canary files: on the Desktop ("bank_accounts.docx"), in Documents ("passwords.txt"), in email ("login_credentials.pdf").','AWS canary: fake AWS credentials in .aws/credentials — any attempt to use them triggers an alert with the attacker\'s IP.','Document where your canary files are (in an encrypted note) — so you do not accidentally open them yourself.']},
+{id:'inc3',sev:'medium',text:'Active monitoring of login activity on critical accounts',profiles:['privacy','anonymity'],
+details:'Most incidents go undetected for weeks precisely because nobody checks the login logs. Regular review of active sessions, login history, and authorized devices is a simple practice that enables detecting compromise within hours.',
+howto:['Google Account: myaccount.google.com/security → "Recent security activity"; enable notifications for new sign-ins.','Apple ID: appleid.apple.com → Devices — remove any unfamiliar devices.','Banking: enable SMS or push notification for every login and every transaction.','Monthly: review sessions across all critical accounts; anything unrecognized — sign out and change password.']},
+{id:'inc4',sev:'high',text:'Emergency exit procedure: "burn and rebuild" protocol',profiles:['anonymity'],
+details:'For serious incidents — compromised work device, identity leak, physical seizure of equipment — a pre-prepared full rebuild procedure is essential. This is not "restore from backup" but "assume everything is compromised, start fresh": new keys, new passwords, new sessions, new device if necessary. Without a prepared procedure this takes days of panic; with a prepared checklist it takes hours.',
+howto:['Write out the list: which accounts to update and in what order (primary email → password manager → 2FA → financial → social → everything else).','Backup copies of encryption keys and passkeys must be in offline storage (bank safety deposit box), not in the potentially compromised environment.','Email address rotation procedure: new address → migrate critical services → old address becomes a decoy.','If a device was physically taken and returned: treat everything on it as compromised — new device, full reinstall, new keys, assume firmware may be tampered.']},
+]},
+];
+let state={},currentFilter='all',currentThreatModel='privacy',currentSearch='',expandedItems=new Set();
+function loadState(){try{const s=localStorage.getItem('zavetsec-opsec-v2');if(s)state=JSON.parse(s);const tm=localStorage.getItem('zavetsec-opsec-threat');if(tm)currentThreatModel=tm;}catch(e){}}
+function saveState(){try{localStorage.setItem('zavetsec-opsec-v2',JSON.stringify(state));localStorage.setItem('zavetsec-opsec-threat',currentThreatModel);}catch(e){}}
+function toggleCheck(e,id){
+  e.stopPropagation();
+  state[id]=!state[id];saveState();
+  const el=document.getElementById('item-'+id);
+  if(state[id])el.classList.add('checked');else el.classList.remove('checked');
+  updateStats();applyFilter(currentFilter);
+}
+function toggleExpand(id){
+  const el=document.getElementById('item-'+id);
+  if(expandedItems.has(id)){expandedItems.delete(id);el.classList.remove('expanded');}
+  else{expandedItems.add(id);el.classList.add('expanded');}
+}
+function updateStats(){
+  let total=0,done=0,critLeft=0;
+  DATA.forEach(sec=>sec.items.forEach(it=>{total++;if(state[it.id])done++;else if(it.sev==='critical')critLeft++;}));
+  const pct=total?Math.round(done/total*100):0;
+  document.getElementById('stat-done').textContent=done;
+  document.getElementById('stat-total').textContent=total;
+  document.getElementById('stat-critical').textContent=critLeft;
+  document.getElementById('stat-pct').textContent=pct+'%';
+  document.getElementById('progress-fill').style.width=pct+'%';
+  document.getElementById('export-summary').textContent=done+' / '+total+' items completed';
+  const pctEl=document.getElementById('stat-pct');
+  pctEl.style.color=pct>=80?'var(--green)':pct>=50?'var(--amber)':'var(--red)';
+  DATA.forEach(sec=>{
+    let sdone=0;sec.items.forEach(it=>{if(state[it.id])sdone++;});
+    const el=document.getElementById('sec-prog-'+sec.id);
+    if(el)el.textContent=sdone+'/'+sec.items.length;
+  });
+}
+function applyFilter(f){
+  if(f!==undefined)currentFilter=f;
+  let visibleCount=0;
+  DATA.forEach(sec=>sec.items.forEach(it=>{
+    const el=document.getElementById('item-'+it.id);
+    if(!el)return;
+    let show=true;
+    // filter by status/severity
+    if(currentFilter==='todo')show=!state[it.id];
+    else if(currentFilter==='done')show=!!state[it.id];
+    else if(currentFilter==='critical')show=it.sev==='critical';
+    else if(currentFilter==='high')show=it.sev==='high';
+    else if(currentFilter==='medium')show=it.sev==='medium';
+    // filter by search query
+    if(show&&currentSearch){
+      const q=currentSearch.toLowerCase();
+      const hay=(it.text+' '+it.details+' '+it.howto.join(' ')).toLowerCase();
+      show=hay.includes(q);
+    }
+    if(show)el.classList.remove('hidden-item');else el.classList.add('hidden-item');
+    if(show)visibleCount++;
+  }));
+  // show no-results message
+  const nr=document.getElementById('no-results');
+  if(nr)nr.classList.toggle('show',visibleCount===0&&currentSearch.length>0);
+  // hide sections with no visible items
+  DATA.forEach(sec=>{
+    const secEl=document.querySelector(`[data-section-id="${sec.id}"]`);
+    if(!secEl)return;
+    const visible=sec.items.some(it=>{
+      const el=document.getElementById('item-'+it.id);
+      return el&&!el.classList.contains('hidden-item');
+    });
+    secEl.style.display=visible?'':'none';
+  });
+}
+function applySearch(q){
+  currentSearch=q.trim();
+  applyFilter();
+}
+function setThreatModel(tm,btn){
+  currentThreatModel=tm;saveState();
+  document.querySelectorAll('.threat-opt').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  // highlight priority items for selected profile
+  DATA.forEach(sec=>sec.items.forEach(it=>{
+    const el=document.getElementById('item-'+it.id);
+    if(!el)return;
+    const isPriority=it.profiles&&it.profiles.includes(tm);
+    el.classList.toggle('non-priority',!isPriority);
+  }));
+  showToast('Profile: '+(tm==='privacy'?'Privacy':'Full Anonymity'));
+}
+function setFilter(f,btn){
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');applyFilter(f);
+}
+function toggleSection(id){
+  const body=document.getElementById('sec-body-'+id);
+  const tog=document.getElementById('sec-tog-'+id);
+  body.classList.toggle('hidden');tog.classList.toggle('collapsed');
+}
+function resetAll(){
+  state={};saveState();
+  document.querySelectorAll('.item').forEach(el=>el.classList.remove('checked'));
+  updateStats();showToast('Reset');
+}
+function checkAll(){
+  DATA.forEach(sec=>sec.items.forEach(it=>{state[it.id]=true;}));
+  saveState();
+  document.querySelectorAll('.item').forEach(el=>el.classList.add('checked'));
+  updateStats();showToast('All checked');
+}
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2000);
+}
+function exportReport(){
+  let total=0,done=0;
+  DATA.forEach(sec=>sec.items.forEach(it=>{total++;if(state[it.id])done++;}));
+  let html=`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>ZavetSec OPSEC Report</title>
+<style>body{background:#0a0d10;color:#c9d1d9;font-family:monospace;padding:40px;font-size:13px;}
+h1{color:#00ff88;font-size:22px;border-bottom:1px solid #1a2530;padding-bottom:12px;margin-bottom:24px;}
+h2{color:#e6edf3;font-size:14px;text-transform:uppercase;letter-spacing:0.1em;margin:24px 0 10px;}
+.item{padding:6px 10px;margin:3px 0;border-radius:3px;display:flex;gap:12px;align-items:center;}
+.done{background:rgba(0,255,136,0.05);border-left:2px solid #00ff88;}
+.todo{background:rgba(255,255,255,0.03);border-left:2px solid #333;}
+.mark{color:#00ff88;min-width:14px;}.miss{color:#333;min-width:14px;}
+.sev{font-size:10px;padding:1px 6px;border-radius:2px;margin-left:auto;}
+.sc{background:rgba(255,68,85,0.15);color:#ff4455;}.sh{background:rgba(255,170,0,0.15);color:#ffaa00;}.sm{background:rgba(0,255,136,0.1);color:#00ff88;}
+.summary{background:#0d1117;border:1px solid #1a2530;padding:16px;margin-bottom:24px;border-radius:4px;}
+.summary strong{color:#00ff88;}</style></head><body>
+<h1>ZavetSec // OPSEC Checklist Report v2.0</h1>
+<div class="summary">Date: <strong>${new Date().toLocaleString('en-US')}</strong> &nbsp;·&nbsp; Completed: <strong>${done} / ${total}</strong> &nbsp;·&nbsp; <strong>${Math.round(done/total*100)}%</strong></div>`;
+  DATA.forEach(sec=>{
+    html+=`<h2>${sec.num}. ${sec.title}</h2>`;
+    sec.items.forEach(it=>{
+      const isDone=state[it.id];
+      const sc=it.sev==='critical'?'sc':it.sev==='high'?'sh':'sm';
+      html+=`<div class="item ${isDone?'done':'todo'}"><span class="${isDone?'mark':'miss'}">${isDone?'✓':'○'}</span><span>${it.text}</span><span class="sev ${sc}">${it.sev}</span></div>`;
+    });
+  });
+  html+=`</body></html>`;
+  const blob=new Blob([html],{type:'text/html'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download='ZavetSec-OPSEC-Report-'+new Date().toISOString().slice(0,10)+'.html';
+  a.click();URL.revokeObjectURL(url);showToast('Report saved');
+}
+function render(){
+  const container=document.getElementById('checklist');
+  container.innerHTML='';
+  DATA.forEach(sec=>{
+    const secEl=document.createElement('div');
+    secEl.className='section';
+    secEl.setAttribute('data-section-id',sec.id);
+    // count severity per section
+    let sc=0,sh=0,sm=0;
+    sec.items.forEach(it=>{
+      if(it.sev==='critical')sc++;else if(it.sev==='high')sh++;else sm++;
+    });
+    const sevSummary=`<div class="section-sev-summary">${sc?`<span class="sev-badge-c">${sc}C</span>`:''}${sh?`<span class="sev-badge-h">${sh}H</span>`:''}${sm?`<span class="sev-badge-m">${sm}M</span>`:''}</div>`;
+    const itemsHtml=sec.items.map(it=>{
+      const howtoHtml=it.howto.map(h=>`<li>${h}</li>`).join('');
+      return `<div class="item ${state[it.id]?'checked':''}" id="item-${it.id}">
+  <div class="item-header" onclick="toggleExpand('${it.id}')">
+    <div class="checkbox" onclick="toggleCheck(event,'${it.id}')"><div class="checkbox-mark"></div></div>
+    <div class="item-content">
+      <div class="item-main">
+        <span class="item-text">${it.text}</span>
+        <span class="sev sev-${it.sev}">${it.sev}</span>
+        <a class="item-anchor" href="#${it.id}" onclick="event.stopPropagation();copyAnchor('${it.id}')" title="Copy link">#</a>
+      </div>
+    </div>
+    <span class="expand-hint">▾ details</span>
+  </div>
+  <div class="item-detail">
+    <div class="detail-section">
+      <div class="detail-label">Description</div>
+      <div class="detail-text">${it.details}</div>
+    </div>
+    <div class="detail-section">
+      <div class="detail-label">How to implement</div>
+      <ul class="howto-list">${howtoHtml}</ul>
+    </div>
+  </div>
+</div>`;
+    }).join('');
+    secEl.innerHTML=`
+<div class="section-header" onclick="toggleSection('${sec.id}')">
+  <span class="section-num">${sec.num}</span>
+  <span class="section-title">${sec.title}</span>
+  ${sevSummary}
+  <span class="section-progress" id="sec-prog-${sec.id}">0/${sec.items.length}</span>
+  <span class="section-toggle" id="sec-tog-${sec.id}">▼</span>
+</div>
+<div class="section-body" id="sec-body-${sec.id}">${itemsHtml}</div>`;
+    container.appendChild(secEl);
+  });
+}
+function copyAnchor(id){
+  const url=window.location.origin+window.location.pathname+'#'+id;
+  if(navigator.clipboard)navigator.clipboard.writeText(url).then(()=>showToast('Link copied'));
+  else showToast('#'+id);
+}
+function handleDeepLink(){
+  const hash=window.location.hash.replace('#','');
+  if(!hash)return;
+  const el=document.getElementById('item-'+hash);
+  if(!el)return;
+  // expand section if needed
+  DATA.forEach(sec=>{
+    if(sec.items.find(it=>it.id===hash)){
+      const body=document.getElementById('sec-body-'+sec.id);
+      if(body&&body.classList.contains('hidden')){
+        toggleSection(sec.id);
+      }
+    }
+  });
+  // expand and highlight item
+  expandedItems.add(hash);el.classList.add('expanded','highlighted');
+  setTimeout(()=>{el.scrollIntoView({behavior:'smooth',block:'center'});},100);
+  setTimeout(()=>{el.classList.remove('highlighted');},2500);
+}
+function init(){
+  loadState();render();updateStats();
+  // migrate: if old profile stored, reset to privacy
+  if(currentThreatModel==='all')currentThreatModel='privacy';
+  // apply threat model (default: privacy)
+  const btn=document.querySelector(`.threat-opt[onclick*="'${currentThreatModel}'"]`);
+  if(btn)setThreatModel(currentThreatModel,btn);
+  document.getElementById('footer-ts').textContent='// Generated: '+new Date().toLocaleString('en-US');
+  // handle hash for deep links
+  handleDeepLink();
+  window.addEventListener('hashchange',handleDeepLink);
+  // Ctrl+F / Cmd+F → focus search input
+  document.addEventListener('keydown',e=>{
+    if((e.ctrlKey||e.metaKey)&&e.key==='f'){
+      e.preventDefault();
+      const inp=document.getElementById('search-input');
+      if(inp){inp.focus();inp.select();}
+    }
+    if(e.key==='Escape'){
+      const inp=document.getElementById('search-input');
+      if(inp&&document.activeElement===inp){inp.value='';applySearch('');}
+    }
+  });
+}
+init();
+</script>
+</body>
+</html>
