@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZavetSec OPSEC Checklist v2.0</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Rajdhani:wght@300;400;500;600;700&display=swap');
+:root {
+  --bg:#0a0d10;--bg2:#0d1117;--bg3:#111820;
+  --green:#00ff88;--green-dim:#00cc6a;--green-dark:#003322;
+  --cyan:#00d4ff;--amber:#ffaa00;--red:#ff4455;
+  --red-dim:rgba(255,68,85,0.15);--amber-dim:rgba(255,170,0,0.15);
+  --green-dim2:rgba(0,255,136,0.12);
+  --text:#c9d1d9;--text-dim:#6e7681;--text-bright:#e6edf3;
+  --border:rgba(0,255,136,0.12);--border-dim:rgba(255,255,255,0.06);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;font-size:15px;line-height:1.6;min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.03) 2px,rgba(0,0,0,0.03) 4px);pointer-events:none;z-index:9999;}
+body::after{content:'';position:fixed;top:-20%;left:50%;transform:translateX(-50%);width:900px;height:600px;background:radial-gradient(ellipse,rgba(0,255,136,0.04) 0%,transparent 70%);pointer-events:none;z-index:0;}
+.container{max-width:980px;margin:0 auto;padding:40px 24px 80px;position:relative;z-index:1;}
+.header{border-bottom:1px solid var(--border);padding-bottom:32px;margin-bottom:40px;}
+.header-top{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:16px;}
+.brand{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--green);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px;}
+.brand::before{content:'';display:inline-block;width:8px;height:8px;background:var(--green);border-radius:50%;animation:pulse 2s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(0,255,136,0.4);}50%{opacity:0.7;box-shadow:0 0 0 6px rgba(0,255,136,0);}}
+.title{font-family:'Rajdhani',sans-serif;font-size:36px;font-weight:700;color:var(--text-bright);letter-spacing:0.05em;text-transform:uppercase;line-height:1.1;}
+.title span{color:var(--green);}
+.subtitle{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text-dim);margin-top:4px;letter-spacing:0.05em;}
+.meta-badges{display:flex;flex-wrap:wrap;gap:8px;align-items:center;}
+.badge{font-family:'JetBrains Mono',monospace;font-size:10px;padding:4px 10px;border-radius:3px;letter-spacing:0.08em;text-transform:uppercase;font-weight:500;border:1px solid;}
+.badge-green{background:var(--green-dim2);color:var(--green);border-color:rgba(0,255,136,0.25);}
+.badge-amber{background:var(--amber-dim);color:var(--amber);border-color:rgba(255,170,0,0.25);}
+.badge-red{background:var(--red-dim);color:var(--red);border-color:rgba(255,68,85,0.25);}
+.badge-cyan{background:rgba(0,212,255,0.1);color:var(--cyan);border-color:rgba(0,212,255,0.25);}
+.progress-panel{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:20px 24px;margin-bottom:36px;display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:20px;align-items:center;}
+.progress-stat{text-align:center;}
+.progress-stat .num{font-family:'JetBrains Mono',monospace;font-size:28px;font-weight:700;color:var(--green);line-height:1;display:block;transition:all 0.3s;}
+.progress-stat .lbl{font-size:11px;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.1em;font-family:'JetBrains Mono',monospace;margin-top:4px;display:block;}
+.progress-bar-wrap{grid-column:1/-1;margin-top:4px;}
+.progress-bar-track{height:4px;background:rgba(255,255,255,0.06);border-radius:2px;overflow:hidden;}
+.progress-bar-fill{height:100%;background:linear-gradient(90deg,var(--green-dim),var(--green));border-radius:2px;transition:width 0.5s cubic-bezier(0.4,0,0.2,1);width:0%;}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px;align-items:center;}
+.filter-label{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-dim);margin-right:4px;}
+.filter-btn{font-family:'JetBrains Mono',monospace;font-size:11px;padding:5px 12px;background:transparent;border:1px solid var(--border-dim);color:var(--text-dim);border-radius:3px;cursor:pointer;transition:all 0.15s;text-transform:uppercase;letter-spacing:0.08em;}
+.filter-btn:hover{border-color:var(--green);color:var(--green);}
+.filter-btn.active{background:var(--green-dim2);border-color:var(--green);color:var(--green);}
+.filter-sep{width:1px;height:20px;background:var(--border-dim);margin:0 4px;}
+.actions-right{margin-left:auto;display:flex;gap:8px;}
+.btn-action{font-family:'JetBrains Mono',monospace;font-size:11px;padding:5px 14px;background:var(--green-dim2);border:1px solid rgba(0,255,136,0.3);color:var(--green);border-radius:3px;cursor:pointer;transition:all 0.15s;text-transform:uppercase;letter-spacing:0.08em;}
+.btn-action:hover{background:rgba(0,255,136,0.2);}
+.btn-reset{background:transparent;border-color:var(--border-dim);color:var(--text-dim);}
+.btn-reset:hover{border-color:var(--red);color:var(--red);background:var(--red-dim);}
+.section{margin-bottom:36px;}
+.section-header{display:flex;align-items:center;gap:12px;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border-dim);cursor:pointer;user-select:none;}
+.section-num{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--green);background:var(--green-dim2);border:1px solid rgba(0,255,136,0.2);padding:2px 7px;border-radius:2px;min-width:36px;text-align:center;}
+.section-title{font-size:16px;font-weight:600;color:var(--text-bright);text-transform:uppercase;letter-spacing:0.12em;flex:1;}
+.section-progress{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-dim);}
+.section-toggle{font-size:11px;color:var(--text-dim);transition:transform 0.2s;}
+.section-toggle.collapsed{transform:rotate(-90deg);}
+.section-body.hidden{display:none;}
+.item{border:1px solid var(--border-dim);border-radius:5px;margin-bottom:6px;background:var(--bg2);position:relative;overflow:hidden;transition:border-color 0.15s,background 0.15s;}
+.item::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:transparent;transition:background 0.2s;}
+.item:hover{border-color:rgba(0,255,136,0.2);background:#0f1520;}
+.item:hover::before{background:rgba(0,255,136,0.3);}
+.item.checked{background:rgba(0,255,136,0.04);border-color:rgba(0,255,136,0.15);}
+.item.checked::before{background:var(--green);}
+.item.hidden-item{display:none;}
+.item-header{display:flex;align-items:flex-start;gap:14px;padding:12px 14px;cursor:pointer;}
+.checkbox{width:18px;height:18px;min-width:18px;border:1px solid rgba(255,255,255,0.15);border-radius:3px;display:flex;align-items:center;justify-content:center;margin-top:1px;transition:all 0.15s;background:transparent;flex-shrink:0;}
+.item.checked .checkbox{background:var(--green);border-color:var(--green);}
+.checkbox-mark{width:10px;height:7px;border-left:2px solid var(--bg);border-bottom:2px solid var(--bg);transform:rotate(-45deg) translateY(-1px);display:none;}
+.item.checked .checkbox-mark{display:block;}
+.item-content{flex:1;min-width:0;}
+.item-main{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.item-text{font-size:14px;font-weight:500;color:var(--text-bright);transition:color 0.15s;}
+.item.checked .item-text{color:var(--text-dim);text-decoration:line-through;text-decoration-color:rgba(0,255,136,0.3);}
+.sev{font-family:'JetBrains Mono',monospace;font-size:9px;padding:2px 7px;border-radius:2px;text-transform:uppercase;letter-spacing:0.1em;font-weight:700;white-space:nowrap;border:1px solid;}
+.sev-critical{background:var(--red-dim);color:var(--red);border-color:rgba(255,68,85,0.3);}
+.sev-high{background:var(--amber-dim);color:var(--amber);border-color:rgba(255,170,0,0.3);}
+.sev-medium{background:var(--green-dim2);color:var(--green);border-color:rgba(0,255,136,0.3);}
+.expand-hint{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-dim);margin-left:auto;opacity:0.4;transition:opacity 0.15s,color 0.15s;white-space:nowrap;user-select:none;padding-top:1px;}
+.item:hover .expand-hint{opacity:0.8;}
+.item.expanded .expand-hint{color:var(--green);opacity:0.8;}
+.item-detail{display:none;padding:0 14px 14px 46px;border-top:1px solid var(--border-dim);}
+.item.expanded .item-detail{display:block;}
+.detail-section{margin-top:12px;}
+.detail-label{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--green);text-transform:uppercase;letter-spacing:0.12em;margin-bottom:6px;display:flex;align-items:center;gap:6px;opacity:0.8;}
+.detail-label::before{content:'';display:inline-block;width:12px;height:1px;background:var(--green);opacity:0.5;}
+.detail-text{font-size:13px;color:var(--text);line-height:1.7;}
+.howto-list{list-style:none;margin:0;padding:0;}
+.howto-list li{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-dim);padding:4px 0 4px 18px;position:relative;line-height:1.6;border-bottom:1px solid var(--border-dim);}
+.howto-list li:last-child{border-bottom:none;}
+.howto-list li::before{content:'›';position:absolute;left:0;color:var(--green);font-size:15px;line-height:1.35;}
+.export-panel{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:20px 24px;margin-top:40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;}
+.export-info{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text-dim);}
+.export-info strong{color:var(--green);font-weight:500;}
+.btn-export{font-family:'JetBrains Mono',monospace;font-size:12px;padding:8px 20px;background:var(--green-dark);border:1px solid var(--green);color:var(--green);border-radius:4px;cursor:pointer;transition:all 0.15s;text-transform:uppercase;letter-spacing:0.1em;}
+.btn-export:hover{background:rgba(0,255,136,0.15);}
+.footer{margin-top:48px;padding-top:20px;border-top:1px solid var(--border-dim);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
+.footer-brand{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-dim);}
+.footer-brand span{color:var(--green);}
+.footer-ts{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-dim);}
+.toast{position:fixed;bottom:24px;right:24px;background:var(--bg3);border:1px solid var(--green);color:var(--green);font-family:'JetBrains Mono',monospace;font-size:12px;padding:10px 18px;border-radius:4px;z-index:10000;opacity:0;transform:translateY(10px);transition:all 0.2s;pointer-events:none;}
+.toast.show{opacity:1;transform:translateY(0);}
+.search-wrap{position:relative;flex:1;min-width:180px;max-width:260px;}
+.search-input{width:100%;font-family:'JetBrains Mono',monospace;font-size:11px;padding:5px 10px 5px 26px;background:var(--bg2);border:1px solid var(--border-dim);color:var(--text);border-radius:3px;letter-spacing:0.05em;outline:none;transition:border-color 0.15s;}
+.search-input:focus{border-color:var(--green);}
+.search-input::placeholder{color:var(--text-dim);text-transform:uppercase;letter-spacing:0.08em;font-size:10px;}
+.search-icon{position:absolute;left:8px;top:50%;transform:translateY(-50%);color:var(--text-dim);font-size:11px;pointer-events:none;}
+.threat-panel{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:18px 22px;margin-bottom:28px;}
+.intro-panel{border:1px solid var(--border-dim);border-left:3px solid var(--green);border-radius:4px;padding:18px 22px;margin-bottom:28px;background:rgba(0,255,136,0.02);}
+.intro-label{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--green);text-transform:uppercase;letter-spacing:0.15em;margin-bottom:10px;display:flex;align-items:center;gap:8px;opacity:0.8;}
+.intro-label::before{content:'';display:inline-block;width:14px;height:1px;background:var(--green);}
+.intro-text{font-size:14px;color:var(--text);line-height:1.7;}
+.intro-text strong{color:var(--text-bright);font-weight:600;}
+.intro-text + .intro-text{margin-top:10px;}
+.intro-features{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;}
+.intro-feat{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-dim);padding:4px 10px;background:var(--bg2);border:1px solid var(--border-dim);border-radius:3px;}
+.intro-feat span{color:var(--green);}
+.threat-title{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--green);text-transform:uppercase;letter-spacing:0.12em;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.threat-title::before{content:'▸';color:var(--green);}
+.threat-desc{font-size:13px;color:var(--text-dim);margin-bottom:14px;line-height:1.6;}
+.threat-options{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px;}
+.threat-opt{background:var(--bg2);border:1px solid var(--border-dim);border-radius:4px;padding:10px 12px;cursor:pointer;transition:all 0.15s;text-align:left;font-family:inherit;color:var(--text);}
+.threat-opt:hover{border-color:rgba(0,255,136,0.3);background:#0f1520;}
+.threat-opt.active{border-color:var(--green);background:var(--green-dim2);}
+.threat-opt-title{font-size:13px;font-weight:600;color:var(--text-bright);margin-bottom:3px;display:flex;align-items:center;gap:6px;}
+.threat-opt.active .threat-opt-title{color:var(--green);}
+.threat-opt-desc{font-size:11px;color:var(--text-dim);font-family:'JetBrains Mono',monospace;line-height:1.5;}
+.section-sev-summary{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-dim);display:flex;gap:6px;}
+.section-sev-summary span{padding:1px 6px;border-radius:2px;}
+.sev-badge-c{background:var(--red-dim);color:var(--red);}
+.sev-badge-h{background:var(--amber-dim);color:var(--amber);}
+.sev-badge-m{background:var(--green-dim2);color:var(--green);}
+.item-anchor{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-dim);opacity:0;transition:opacity 0.15s;text-decoration:none;margin-left:6px;cursor:pointer;}
+.item:hover .item-anchor{opacity:0.5;}
+.item-anchor:hover{opacity:1!important;color:var(--green);}
+.item.highlighted{animation:hl 2s ease-out;}
+@keyframes hl{0%{box-shadow:0 0 0 2px var(--green);}100%{box-shadow:0 0 0 0 transparent;}}
+.no-results{text-align:center;padding:40px;color:var(--text-dim);font-family:'JetBrains Mono',monospace;font-size:13px;display:none;}
+.no-results.show{display:block;}
+.item.non-priority{opacity:0.45;}
+.item.non-priority:hover{opacity:1;}
+@media(max-width:600px){.progress-panel{grid-template-columns:1fr 1fr;}.title{font-size:26px;}.filters{gap:6px;}.actions-right{margin-left:0;}.search-wrap{max-width:100%;}}
+@media print{
+  body{background:#fff;color:#000;font-size:11pt;}
+  body::before,body::after{display:none;}
+  .filters,.actions-right,.btn-export,.expand-hint,.toast,.threat-panel,.intro-panel,.search-wrap,.section-toggle,.item-anchor{display:none!important;}
+  .container{max-width:100%;padding:0;}
+  .header{border-color:#000;}
+  .title{color:#000;font-size:22pt;}
+  .title span{color:#000;}
+  .progress-panel,.export-panel{background:#f5f5f5;border:1px solid #ccc;color:#000;}
+  .progress-stat .num{color:#000;}
+  .section{page-break-inside:avoid;}
+  .section-title{color:#000;}
+  .item{break-inside:avoid;border:1px solid #ccc;background:#fff!important;}
+  .item-text{color:#000;}
+  .item.checked{background:#f0f9f0!important;}
+  .item.checked .item-text{color:#666;}
+  .item-detail{display:block!important;padding:8px 14px 12px 46px;}
+  .detail-text{color:#222;}
+  .howto-list li{color:#444;}
+  .checkbox{border-color:#666;}
+  .item.checked .checkbox{background:#000;border-color:#000;}
+  .checkbox-mark{border-color:#fff;}
+  .sev{border:1px solid #999;background:#fff!important;color:#000!important;}
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="header-top">
+      <div>
+        <div class="brand">ZavetSec // OPSEC</div>
+        <div class="title">OPSEC <span>Checklist</span></div>
+        <div class="subtitle">// Operational Security Assessment v2.0</div>
+      </div>
+      <div class="meta-badges">
+        <span class="badge badge-green">v2.0</span>
+        <span class="badge badge-cyan">12 категорий</span>
+        <span class="badge badge-amber">Interactive</span>
+        <span class="badge badge-red">Confidential</span>
+      </div>
+    </div>
+  </div>
+  <div class="intro-panel">
+    <div class="intro-label">О чек-листе</div>
+    <div class="intro-text">Это <strong>интерактивный чек-лист по операционной безопасности</strong> — практическое руководство по защите твоей цифровой жизни от утечек данных, слежки, целевых атак и социальной инженерии. <strong>68 пунктов в 12 разделах</strong>: от базовой гигиены паролей до продвинутых техник анонимности и реагирования на инциденты.</div>
+    <div class="intro-text">Каждый пункт содержит описание угрозы и конкретные шаги по её закрытию. Отметь то, что уже сделано — прогресс сохраняется в браузере. Выбери профиль ниже, чтобы увидеть приоритетные именно для твоего случая пункты. Используй экспорт отчёта для печати или передачи команде.</div>
+    <div class="intro-features">
+      <span class="intro-feat"><span>›</span> прогресс сохраняется локально</span>
+      <span class="intro-feat"><span>›</span> поиск по тексту (Ctrl+F)</span>
+      <span class="intro-feat"><span>›</span> приоритизация по профилю</span>
+      <span class="intro-feat"><span>›</span> экспорт отчёта</span>
+      <span class="intro-feat"><span>›</span> ссылки на отдельные пункты</span>
+    </div>
+  </div>
+  <div class="threat-panel">
+    <div class="threat-title">Модель угроз — выбери свой профиль</div>
+    <div class="threat-desc">Чек-лист универсален, но приоритеты зависят от того, от кого ты защищаешься. Выбор профиля автоматически отметит ключевые пункты как наиболее важные для твоего контекста.</div>
+    <div class="threat-options">
+      <button class="threat-opt active" onclick="setThreatModel('privacy',this)">
+        <div class="threat-opt-title">◐ Приватность</div>
+        <div class="threat-opt-desc">обычный пользователь, защита от трекинга и утечек</div>
+      </button>
+      <button class="threat-opt" onclick="setThreatModel('anonymity',this)">
+        <div class="threat-opt-title">◉ Полная анонимность</div>
+        <div class="threat-opt-desc">ИБ-специалист, журналист, общественный деятель</div>
+      </button>
+    </div>
+  </div>
+  <div class="progress-panel">
+    <div class="progress-stat"><span class="num" id="stat-done">0</span><span class="lbl">Выполнено</span></div>
+    <div class="progress-stat"><span class="num" id="stat-total">0</span><span class="lbl">Всего пунктов</span></div>
+    <div class="progress-stat"><span class="num" id="stat-critical">0</span><span class="lbl">Critical осталось</span></div>
+    <div class="progress-stat"><span class="num" id="stat-pct">0%</span><span class="lbl">Прогресс</span></div>
+    <div class="progress-bar-wrap"><div class="progress-bar-track"><div class="progress-bar-fill" id="progress-fill"></div></div></div>
+  </div>
+  <div class="filters">
+    <span class="filter-label">Фильтр:</span>
+    <button class="filter-btn active" onclick="setFilter('all',this)">Все</button>
+    <button class="filter-btn" onclick="setFilter('todo',this)">Не выполнено</button>
+    <button class="filter-btn" onclick="setFilter('done',this)">Выполнено</button>
+    <div class="filter-sep"></div>
+    <button class="filter-btn" onclick="setFilter('critical',this)">🔴 Critical</button>
+    <button class="filter-btn" onclick="setFilter('high',this)">🟡 High</button>
+    <button class="filter-btn" onclick="setFilter('medium',this)">🟢 Medium</button>
+    <div class="filter-sep"></div>
+    <div class="search-wrap">
+      <span class="search-icon">⌕</span>
+      <input type="text" class="search-input" id="search-input" placeholder="Поиск..." oninput="applySearch(this.value)">
+    </div>
+    <div class="actions-right">
+      <button class="btn-action btn-reset" onclick="resetAll()">Сбросить</button>
+      <button class="btn-action" onclick="checkAll()">Отметить все</button>
+    </div>
+  </div>
+  <div id="checklist"></div>
+  <div class="no-results" id="no-results">// Ничего не найдено по запросу</div>
+  <div class="export-panel">
+    <div class="export-info">Результат: <strong id="export-summary">0 / 0 пунктов выполнено</strong></div>
+    <button class="btn-export" onclick="exportReport()">↓ Экспорт отчёта</button>
+  </div>
+  <div class="footer">
+    <div class="footer-brand"><span>ZavetSec</span> // Operational Security Toolkit</div>
+    <div class="footer-ts" id="footer-ts"></div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+const DATA=[
+{id:'identity',num:'01',title:'Цифровая идентичность и анонимность',items:[
+{id:'id1',sev:'critical',text:'Разделение рабочей и личной цифровой идентичности',profiles:['privacy','anonymity'],
+details:'Смешивание рабочей и личной активности в одном профиле — одна из главных причин деанонимизации и утечек контекста. Если рабочий аккаунт скомпрометирован, атакующий получает и личные данные, и наоборот. Браузерный профиль, почта, мессенджер, облако — всё должно быть физически раздельным. Идеально — раздельные устройства для каждого контекста.',
+howto:['Создай отдельные браузерные профили (Firefox Multi-Account Containers) для работы, личного и публичного использования.','Используй раздельные адреса почты: рабочий корпоративный, личный приватный, публичный для регистраций.','Никогда не авторизуйся в личных сервисах с рабочего устройства и наоборот.']},
+{id:'id2',sev:'critical',text:'Использование псевдонимов для публичной активности',profiles:['anonymity'],
+details:'Публичная активность под реальным именем создаёт постоянное OSINT-досье, которое агрегируется автоматически. Поисковики, Telegram-боты, базы утечек — всё это связывается в единое досье. Псевдоним должен быть полностью изолирован: не использоваться в личных контекстах, не содержать намёков на геолокацию, работодателя или хобби. Регулярно проверяй, не связывается ли псевдоним с реальной личностью.',
+howto:['Генерируй псевдонимы без смысловой связи с реальным именем — случайные слова или комбинации.','Не используй один и тот же ник на разных платформах; каждая платформа — уникальный идентификатор.','Зарегистрируй псевдоним на отдельный адрес почты и номер телефона, не связанный с реальными.']},
+{id:'id3',sev:'high',text:'Регулярная ротация почтовых адресов для регистраций',profiles:['privacy','anonymity'],
+details:'Адрес почты — основной идентификатор в большинстве сервисов. При утечке базы сервиса твой адрес попадает в списки спамеров, брутфорсеров и OSINT-агрегаторов. Использование одного адреса для всего создаёт граф связей между всеми твоими аккаунтами. Сервисы алиасов позволяют иметь сотни уникальных адресов, все перенаправляющих в один приватный ящик.',
+howto:['Используй SimpleLogin или AnonAddy: генерируй уникальный алиас на каждый сервис при регистрации.','При утечке — деактивируй конкретный алиас, не меняя основной ящик.','Основной приватный адрес используй только для критичных доверенных сервисов (банк, госуслуги).']},
+{id:'id4',sev:'high',text:'Отключена синхронизация аккаунтов Google и Microsoft',profiles:['privacy','anonymity'],
+details:'Облачная синхронизация браузера передаёт историю, закладки, пароли, расширения и открытые вкладки на серверы Google или Microsoft. Это создаёт полный профиль активности, доступный по юридическому запросу или при взломе аккаунта. Синхронизация контактов и фото — отдельный канал утечки личных данных.',
+howto:['Chrome или Edge: «Настройки» → «Синхронизация» → отключить, либо использовать локальный профиль без входа в аккаунт.','Контакты, Drive, фото — отключить синхронизацию в настройках мобильного устройства.','Для хранения паролей использовать KeePassXC (локально) вместо встроенного менеджера браузера.']},
+{id:'id5',sev:'critical',text:'Уникальные пароли на каждый сервис (менеджер паролей)',profiles:['privacy','anonymity'],
+details:'Повторное использование паролей — причина большинства взломов аккаунтов через credential stuffing. Атакующий берёт базу утечки одного сервиса и автоматически проверяет те же пары на тысячах других. Уникальный случайный пароль для каждого сервиса делает credential stuffing бессмысленным. Пароль из 20 и более символов практически не поддаётся брутфорсу.',
+howto:['Установи KeePassXC (офлайн) или Bitwarden на собственном сервере — храни базу только локально или на своём сервере.','Используй генератор паролей: минимум 20 символов, все классы символов, без словарных слов.','Мастер-пароль — единственный, который нужно помнить; сделай его длинной парольной фразой из 5–6 слов.','Уровень повышенной защиты: храни базу KeePass на отдельном съёмном SSD или флешке с аппаратным или программным шифрованием (контейнер VeraCrypt поверх накопителя). База никогда не копируется на основной диск — это исключает кражу файла вредоносным ПО или при компрометации системы, а также делает офлайн-брутфорс невозможным без физического доступа к носителю. Носитель подключается только на время работы с паролями.']},
+{id:'id6',sev:'critical',text:'Аппаратный второй фактор или passkey вместо SMS',profiles:['privacy','anonymity'],
+details:'Двухфакторка через SMS уязвима к атакам SIM-swap и SS7 (перехват SMS через уязвимости протокола). В России SIM-swap возможен через социальную инженерию в салонах связи. TOTP генерирует коды локально на устройстве без передачи через сеть. YubiKey — аппаратный ключ, который невозможно клонировать удалённо. Passkey (FIDO2/WebAuthn) — следующее поколение: они привязаны к домену и фундаментально устойчивы к фишингу, в отличие от TOTP, который пользователь может ввести на поддельном сайте. Где сервис поддерживает passkey — выбирай его первым, TOTP — вторым, SMS — никогда.',
+howto:['Passkey: где поддерживается (Google, GitHub, Microsoft, Apple, многие банки) — настрой в параметрах безопасности; храни в YubiKey 5 и выше или в менеджере паролей.','TOTP: установи Aegis Authenticator (Android, открытый код), Raivo или 2FAS Auth (iOS, открытый код) вместо Google Authenticator.','Переведи на TOTP или passkey все критичные сервисы: почта, облако, GitHub, финансы — в первую очередь.','Сохрани резервные коды восстановления в зашифрованной базе KeePass, не в облаке.']},
+{id:'id6b',sev:'critical',text:'Резервный YubiKey: правило двух ключей',profiles:['anonymity'],
+details:'Единственный аппаратный ключ — это единая точка отказа. Потеря, поломка или кража YubiKey без резервного — потеря доступа ко всем критичным аккаунтам, особенно если passkey или FIDO привязаны только к нему, а резервные коды TOTP утрачены. Лучшая практика — иметь минимум два ключа: основной (с собой) и резервный (в безопасном месте: домашний сейф, банковская ячейка, у доверенного лица). Оба регистрируются в каждом сервисе одновременно.',
+howto:['Купи минимум два YubiKey (модели 5 или 5C NFC); один основной, второй — резервный.','При настройке второго фактора в каждом сервисе регистрируй оба ключа сразу — не откладывай это на потом.','Резервный ключ храни вне основного жилья: банковская ячейка, у доверенного человека, в офисном сейфе.','Раз в полгода — проверка: используй резервный для входа, чтобы убедиться, что он работает и не «забыт» сервисами.']},
+{id:'id7',sev:'medium',text:'Проверены утечки твоего адреса почты на haveibeenpwned.com',profiles:['privacy','anonymity'],
+details:'Базы утечек накапливаются годами: адрес, которому 5 лет, мог засветиться в десятках взломанных баз. Даже если пароль сменён, сам факт присутствия в базе означает, что адрес активен и используется для спама, фишинга и социальной инженерии. Регулярный мониторинг позволяет своевременно реагировать.',
+howto:['Зайди на haveibeenpwned.com, введи каждый свой адрес и проверь результаты.','При обнаружении утечки — сменить пароль на этом сервисе, проверить активные сессии, включить второй фактор.','Настрой бесплатный мониторинг на HIBP — уведомления о новых утечках по твоему адресу.']},
+]},
+{id:'threat',num:'02',title:'Модель угроз и оценка рисков',items:[
+{id:'th1',sev:'critical',text:'Сформулирована собственная модель угроз',profiles:['privacy','anonymity'],
+details:'Безопасность без модели угроз — это коллекция случайных мер. Прежде чем тратить ресурсы на защиту, нужно ответить на четыре вопроса: что я защищаю (активы), от кого (противники), какие у них возможности и какие последствия я могу пережить. Защита от соседа со сниффером и защита от противника государственного уровня требуют принципиально разных мер — и попытка защититься от всего сразу приведёт к параличу. Модель угроз должна быть письменной, конкретной и периодически пересматриваться.',
+howto:['Запиши: 1) активы (что защищаешь — данные, идентичность, переписку, доступ); 2) противников (кто потенциально хочет компрометации); 3) их возможности (бюджет, технические возможности); 4) последствия (что произойдёт при компрометации каждого актива).','Используй методичку EFF Surveillance Self-Defense (ssd.eff.org) или книгу Adam Shostack «Threat Modeling: Designing for Security» как стартовую точку.','Пересматривай модель раз в полгода или при смене работы, переезде, смене профессионального профиля.']},
+{id:'th2',sev:'high',text:'Определены приоритетные активы и допустимый уровень риска',profiles:['privacy','anonymity'],
+details:'Не все активы равноценны: переписка с врачом и репост мема имеют разный вес. Распределение активов по уровням важности (уровень 1 — критичные и невосполнимые, уровень 3 — малозначимые) определяет, на какие меры стоит тратить ресурсы. Пытаться обеспечить максимальную защиту для всего одинаково — путь к выгоранию и игнорированию реальных рисков. Принцип: защита должна быть пропорциональна потенциальному ущербу.',
+howto:['Уровень 1 (критично, невосполнимо): идентификационные документы, мастер-пароли, ключи шифрования, приватные ключи, медицинские данные.','Уровень 2 (важно): рабочая переписка, банковские данные, контакты, бизнес-документы — высокая защита, но восстановимо.','Уровень 3 (желательно): публичные профили, регистрации на форумах, потребительские сервисы — базовая защита.','Для каждого уровня пропиши: где хранится, как защищено, как делается резервная копия, кто имеет доступ.']},
+]},
+{id:'devices',num:'03',title:'Устройства и физическая безопасность',items:[
+{id:'dev1',sev:'critical',text:'Шифрование диска включено (BitLocker с PIN, VeraCrypt или LUKS)',profiles:['privacy','anonymity'],
+details:'Без шифрования диска любой, получивший физический доступ к устройству, получает полный доступ ко всем данным — достаточно загрузиться с Live USB. Шифрование диска защищает данные в состоянии покоя. ВАЖНО: BitLocker в режиме «только TPM» (без PIN) уязвим к атаке TPM sniffing — атакующий с физическим доступом подключается к LPC-шине и перехватывает ключ шифрования при загрузке. Это публично продемонстрированная атака, выполняемая за минуты. PIN до загрузки или парольная фраза обязательны для серьёзной защиты.',
+howto:['Windows: «Панель управления» → BitLocker → «Включить BitLocker»; ОБЯЗАТЕЛЬНО выбери режим с PIN при загрузке (требует gpedit для активации опции PIN); только TPM — небезопасно.','Linux: при установке включи шифрование LUKS с надёжной парольной фразой; для готовой системы — cryptsetup-reencrypt.','macOS: FileVault включается в «Системные настройки» → «Конфиденциальность и безопасность»; используй пароль аккаунта высокой энтропии.','VeraCrypt — для создания зашифрованных контейнеров под конкретные категории файлов поверх основного шифрования.']},
+{id:'dev2',sev:'critical',text:'BIOS/UEFI защищён паролем, Secure Boot настроен',profiles:['privacy','anonymity'],
+details:'Без пароля BIOS атакующий с физическим доступом меняет порядок загрузки и загружается с USB, обходя шифрование диска. Secure Boot верифицирует цифровую подпись загрузчика и предотвращает запуск неподписанного кода до старта операционной системы. Это защита от буткитов и атак типа Evil Maid. Нюанс для пользователей Linux: Secure Boot с собственным ядром требует подписи собственным ключом (sbctl, mokutil) или подписанного Microsoft слоя shim — это компромисс между безопасностью и гибкостью, который надо осознанно сделать.',
+howto:['Войди в BIOS/UEFI (Del/F2/F12 при старте), установи пароль администратора и пользовательский пароль.','Включи Secure Boot в разделе «Безопасность» или «Загрузка».','Linux: для собственного ядра — используй sbctl (Arch, Fedora) для управления подписями или MOK через mokutil (Ubuntu, Debian); либо отключи Secure Boot осознанно, если модель угроз позволяет.','Проверь порядок загрузки: USB и внешние устройства должны быть ниже основного диска или отключены.']},
+{id:'dev3',sev:'high',text:'Автоблокировка экрана не более чем через 3 минуты',profiles:['privacy','anonymity'],
+details:'Разблокированное устройство без присмотра — открытый канал физического доступа. Даже 10 минут достаточно для копирования данных, установки импланта или кражи сессии. Три минуты — разумный баланс между удобством и безопасностью. Динамическая блокировка через Bluetooth даёт автоматическое запирание при отходе.',
+howto:['Windows: «Параметры» → «Персонализация» → «Экран блокировки» → таймаут экрана — 3 минуты.','gpedit.msc: «Конфигурация компьютера» → «Параметры Windows» → «Параметры безопасности» → блокировка хранителя экрана.','Настрой динамическую блокировку: «Параметры» → «Учётные записи» → «Варианты входа» → привяжи телефон по Bluetooth.']},
+{id:'dev4',sev:'high',text:'Отключены неиспользуемые порты (USB, Bluetooth, ИК)',profiles:['anonymity'],
+details:'Порты USB — канал атак BadUSB (вредоносные устройства, эмулирующие клавиатуру или сетевой адаптер) и утечки данных через неавторизованные накопители. Современные кабели O.MG Cable — внешне обычный кабель Lightning или USB-C со встроенным имплантом, активируемым по Wi-Fi. Bluetooth — канал атак BlueSnarfing и BlueJacking при включённом режиме обнаружения. На корпоративных устройствах неконтролируемые USB — нарушение политики ИБ и канал для обхода DLP.',
+howto:['Групповая политика: «Конфигурация компьютера» → «Административные шаблоны» → «Система» → «Доступ к съёмным запоминающим устройствам» → запрет на все сменные носители.','«Диспетчер устройств» → «Контроллеры USB» → отключить; или реестр HKLM\\\\SYSTEM\\\\CurrentControlSet\\\\Services\\\\USBSTOR → Start = 4.','Bluetooth: отключить в «Диспетчере устройств», если не используется; физическая заглушка на незадействованные порты USB.','Кабели и зарядки — только свои; не подключай чужие «одолженные» кабели и не пользуйся публичными зарядными станциями (атака juice jacking).']},
+{id:'dev5',sev:'medium',text:'Камера и микрофон физически отключены, когда не используются',profiles:['privacy','anonymity'],
+details:'Программный контроль доступа к камере можно обойти через уязвимости операционной системы или вредоносное ПО — это известный вектор атак уровня APT. Физическое закрытие камеры не может быть обойдено программно. Индикатор включения камеры на большинстве ноутбуков управляется программно и может быть отключён вредоносным драйвером без твоего ведома. Максимальный уровень — отключение устройств через BIOS, после чего они становятся полностью недоступны для операционной системы и любого ПО.',
+howto:['Физически: наклей шторку на веб-камеру; «Параметры» → «Конфиденциальность» → «Камера» и «Микрофон» — запрети доступ всем приложениям.','Через BIOS/UEFI: в разделе Advanced или «Встроенные устройства» найди встроенную камеру (Integrated Camera или Webcam) и микрофон — выставь Disabled. Устройства исчезнут из системы полностью.','При необходимости использования: включить обратно в BIOS и после сессии — снова отключить.']},
+{id:'dev6',sev:'critical',text:'Обновления операционной системы и ПО устанавливаются своевременно',profiles:['privacy','anonymity'],
+details:'Большинство успешных атак эксплуатируют уязвимости, для которых патч уже существует, но не установлен. Интервал между публикацией CVE и началом массовой эксплуатации сократился до 48–72 часов. Критические патчи RCE и Privilege Escalation требуют приоритетной установки. Браузер — наиболее атакуемый компонент.',
+howto:['Windows: «Параметры» → «Центр обновления Windows» → включи автообновления; критические патчи устанавливай немедленно.','Браузер: обновляй вручную сразу после выхода новой версии; расширения — автообновление включено.','Сторонний софт: Patch My PC или Chocolatey для автоматизации обновлений Adobe, Java, архиваторов.']},
+{id:'dev6b',sev:'high',text:'Антивирус и локальный файрвол с осознанным выбором',profiles:['privacy','anonymity'],
+details:'Здесь есть нюанс модели угроз. Для большинства пользователей: антивирус с актуальными базами — последний рубеж перед исполнением вредоносного кода. Автообновление баз критично — новые семейства вредоносного ПО появляются ежедневно. ОДНАКО: продвинутые специалисты по информационной безопасности часто отказываются от сторонних антивирусов, потому что эти продукты сами имеют огромную поверхность атаки, требуют доступ уровня ядра и регулярно становились вектором (исторически — уязвимости в продуктах Symantec, Avast, Касперского). Для технически грамотного пользователя Windows Defender и хорошая дисциплина часто безопаснее сторонних решений. Локальный файрвол с контролем приложений (например, SimpleWall) ценен независимо от выбора антивируса.',
+howto:['Минимум: убедись, что Windows Defender включён и базы обновляются автоматически («Безопасность Windows» → «Защита от вирусов и угроз» → «Обновления защиты»).','Для типового пользователя: Kaspersky, Bitdefender или ESET — встроенный файрвол с контролем приложений ограничивает, что и куда может подключаться.','SimpleWall (github.com/henrypp/simplewall): установи, включи режим блокировки по умолчанию — разрешай сеть только тем приложениям, которым это действительно нужно; ведёт лог всех заблокированных попыток.','macOS: Little Snitch (платный) или LuLu (бесплатный, открытый код) для контроля сетевой активности приложений.']},
+{id:'dev7',sev:'high',text:'Рабочий ноутбук не используется для личных задач',profiles:['privacy','anonymity'],
+details:'Корпоративный ноутбук мониторится работодателем: агент DLP, прокси с инспекцией SSL, EDR с логированием процессов и сети. Личная активность через корпоративное устройство — раскрытие личных данных работодателю и сопряжённым системам. Одновременно личный контент на рабочем устройстве создаёт риск утечки рабочих данных через личные каналы.',
+howto:['Правило без исключений: рабочий ноутбук — только для рабочих задач, никаких личных адресов почты и соцсетей.','Личный браузинг — только на личном устройстве, физически отдельном от рабочего.','Если необходим доступ к личным ресурсам на работе — используй личный телефон через мобильный интернет.']},
+{id:'dev8',sev:'medium',text:'Привычка блокировать экран при отходе от устройства (Win+L)',profiles:['privacy','anonymity'],
+details:'Привычка блокировать экран при любом отходе — базовый навык физической безопасности. В офисном окружении достаточно нескольких секунд, чтобы скопировать файл, вставить флешку или прочитать открытый документ. Вырабатывается как рефлекс за 2–3 недели сознательной практики.',
+howto:['Win+L (Windows) или Ctrl+Cmd+Q (macOS) — отрабатывай сознательно первые 2 недели при каждом отходе.','Настрой динамическую блокировку: «Параметры» → «Учётные записи» → «Варианты входа» → привяжи телефон по Bluetooth.','Размести напоминание на видном месте рабочего места на период выработки привычки.']},
+{id:'dev9',sev:'high',text:'Безопасность смартфона: разрешения приложений и аппаратная изоляция',profiles:['privacy','anonymity'],
+details:'Смартфон — наиболее агрессивно следящее за тобой устройство: каждое приложение по умолчанию тянется к камере, микрофону, контактам, геолокации и истории звонков. Большинство пользователей никогда не проверяли эти разрешения. Для конфиденциального разговора в комнате смартфон в кармане — это риск компрометации через эксплойты операционной системы или вредоносные приложения. Клетка Фарадея (экранирующий чехол) блокирует все радиосигналы (GSM, LTE, Wi-Fi, Bluetooth, GPS) и гарантированно изолирует устройство. Альтернатива — оставить смартфоны в другом помещении или использовать кнопочный телефон без интернета для базовой связи.',
+howto:['Android: «Настройки» → «Приложения» → выбери каждое приложение → «Разрешения» — отключи камеру, микрофон, контакты, геолокацию всем приложениям, которым это не нужно для работы.','iOS: «Настройки» → «Конфиденциальность и безопасность» — пройди по каждому разделу («Камера», «Микрофон», «Геолокация») и отзови лишние разрешения; используй «При использовании» вместо «Всегда» для геолокации.','Для критически чувствительных переговоров: смартфоны в клетку Фарадея (экранирующий чехол) или оставить в другом помещении.','Для серьёзной модели угроз — рассмотри GrapheneOS на Pixel: фактически единственная мобильная операционная система с реальным усилением защиты (изолированные сервисы Google, контроль сенсоров на уровне системы).']},
+{id:'dev10',sev:'high',text:'Биометрия (Face ID, отпечаток) отключена. Только код-пароль',profiles:['privacy','anonymity'],
+details:'Биометрия — это удобство, продаваемое как безопасность. На самом деле это ослабление защиты. Лицо и отпечатки пальцев — публичная информация: лицо снимают камеры на улицах, отпечатки остаются на любой поверхности. Биометрия не является «секретом» в криптографическом смысле. Главное: в большинстве юрисдикций принудить человека приложить палец или показать лицо проще, чем заставить раскрыть пароль — пароль защищён презумпцией против самообвинения, биометрия — нет. Это касается и таможни, и потенциальных физических угроз, и бытовых ситуаций. Длинный код-пароль или парольная фраза — единственная разумная защита разблокировки устройства.',
+howto:['iOS: «Настройки» → «Face ID и код-пароль» → выключить все переключатели в разделе «Использовать Face ID для»; «Сменить код-пароль» → «Параметры» → «Произвольный код» — задай парольную фразу из 8 и более символов.','Android: «Настройки» → «Безопасность» → удали зарегистрированные лица и отпечатки; в качестве блокировки — длинный код-пароль или парольная фраза.','Ноутбук: отключи Windows Hello (распознавание лица и отпечаток) — «Параметры» → «Учётные записи» → «Варианты входа» → удали биометрические методы; macOS — «Настройки» → Touch ID → удали все отпечатки.','Если уже привык к удобству биометрии — переходный период 1–2 недели, и привычка вырабатывается. Безопасность стоит этого дискомфорта.']},
+]},
+{id:'network',num:'04',title:'Сеть и трафик',items:[
+{id:'net1',sev:'critical',text:'VPN с kill-switch для работы вне офиса',profiles:['privacy','anonymity'],
+details:'В публичных и недоверенных сетях трафик может перехватываться на уровне точки доступа Wi-Fi или провайдера. VPN шифрует трафик от устройства до точки выхода. Kill-switch критичен: при обрыве соединения VPN без него устройство автоматически переходит на открытый интернет, создавая окно утечки трафика. Важно понимать: коммерческий провайдер VPN (Mullvad, ProtonVPN и т. п.) технически может логировать твой трафик — ты просто перемещаешь доверие от своего провайдера к компании VPN. Настоящая приватность — только собственный сервер VPN на собственном VPS.',
+howto:['Настрой WireGuard или VLESS+Reality на собственном VPS: ты единственный, кто знает о своём трафике.','Если используешь коммерческий VPN — выбирай с политикой no-logs и юрисдикцией вне стран с обязательным хранением данных; проверяй независимые аудиты (Mullvad, IVPN, ProtonVPN).','Kill-switch в WireGuard: добавь правила iptables в PostUp/PreDown, блокирующие весь трафик кроме туннеля; проверь, отключив VPN вручную.']},
+{id:'net1b',sev:'high',text:'Протоколы обхода DPI для соответствующих сред',profiles:['anonymity'],
+details:'WireGuard и OpenVPN детектируются современным DPI (глубокая инспекция пакетов) — это особенно актуально в России, Иране, Китае. Если модель угроз включает обход блокировок и сокрытие самого факта использования VPN — нужны протоколы обхода DPI. VLESS+Reality маскирует трафик под TLS-рукопожатие к легитимному сайту (например, microsoft.com). Shadowsocks-2022 и Outline (от Jigsaw, дочерней структуры Google) — другие практичные варианты. Tor Browser остаётся актуальным для сценариев максимальной анонимности (с pluggable transports — meek, snowflake, obfs4 — против блокировки самого Tor).',
+howto:['VLESS+Reality: настрой через Xray-core на собственном VPS; конфигурация генерируется в один клик через панель 3x-ui.','Shadowsocks-2022: на VPS поставь sing-box или shadowsocks-rust; клиенты — Shadowrocket (iOS), v2rayNG (Android), Outline (везде).','Tor Browser: для максимальной анонимности; в странах с блокировкой Tor — настрой мосты («Настройки» → «Соединение» → «Мосты» → Snowflake или obfs4).','НИКОГДА не комбинируй Tor over VPN или VPN over Tor без понимания последствий — это может ухудшить анонимность.']},
+{id:'net2',sev:'high',text:'DNS-запросы шифруются и проверены на утечку (DoH/DoT)',profiles:['privacy','anonymity'],
+details:'Запросы DNS по умолчанию передаются в открытом виде — провайдер видит все запрашиваемые домены даже при HTTPS. DoH и DoT шифруют трафик DNS. Но одного включения DoH недостаточно: утечка DNS происходит, когда запросы идут мимо туннеля VPN к провайдерскому DNS даже при активном VPN. Утечка через WebRTC — отдельная браузерная уязвимость, раскрывающая реальный IP через JavaScript в обход VPN. Оба канала нужно проверять вместе.',
+howto:['Включи DoH: Windows 11 → «Сеть» → DNS → «Вручную» → DNS over HTTPS → 9.9.9.9 (Quad9); Firefox → «Настройки» → «Приватность» → DNS over HTTPS.','Проверь утечку DNS: dnsleaktest.com, расширенный тест — все ответы должны быть от сервера VPN, не провайдера.','Проверь утечку WebRTC: browserleaks.com/webrtc — публичный IP должен совпадать с IP VPN; если нет — Firefox: about:config → media.peerconnection.enabled = false.']},
+{id:'net3',sev:'critical',text:'Отказ от публичных Wi-Fi или использование только через VPN',profiles:['privacy','anonymity'],
+details:'Публичные сети Wi-Fi не шифруют трафик между устройством и точкой доступа либо используют общий ключ. Любой в сети может перехватить трафик. Атаки типа Evil Twin тривиальны и неотличимы пользователем визуально. MITM на уровне публичной Wi-Fi — стандартная техника.',
+howto:['Правило: любое подключение к публичной Wi-Fi — только после установления туннеля VPN.','Настрой VPN на автоподключение при обнаружении незнакомой сети.','Предпочти мобильный интернет (4G/5G) публичному Wi-Fi — провайдер видит трафик, но нет MITM в локальной сети.']},
+{id:'net4',sev:'medium',text:'MAC-адрес рандомизируется в публичных сетях',profiles:['privacy','anonymity'],
+details:'MAC-адрес — уникальный идентификатор сетевого интерфейса, передающийся в открытом виде в локальной сети. Точки доступа и системы аналитики используют MAC для отслеживания перемещений устройства между визитами. Рандомизация MAC генерирует случайный адрес для каждой новой сети.',
+howto:['Windows 11: «Параметры» → «Сеть» → Wi-Fi → нажми на сеть → «Случайные аппаратные адреса» → Вкл.','Android 10 и выше: настройки сети Wi-Fi → «Приватность» → «Использовать случайный MAC».','Linux: NetworkManager → /etc/NetworkManager/conf.d/ → mac-randomize=always.']},
+{id:'net5',sev:'high',text:'Домашний роутер: сменён заводской пароль, прошивка обновлена',profiles:['privacy','anonymity'],
+details:'Заводские пароли роутеров публично известны и включены в базы брутфорсеров. Прошивки роутеров содержат уязвимости, активно эксплуатируемые ботнетами (Mirai и производные). Скомпрометированный роутер — это MITM для всего домашнего трафика.',
+howto:['Войди в веб-интерфейс роутера (192.168.1.1 или 192.168.0.1), смени пароль на длинный случайный.','Проверь наличие обновлений прошивки в разделе «Администрирование» или «Система»; установи последнюю версию.','Отключи удалённое управление из интернета — оставь доступ только из локальной сети.','Для серьёзного домашнего OPSEC — прошивка OpenWrt на совместимом роутере: даёт контроль уровня enterprise, регулярные обновления безопасности, отсутствие закладок производителя.']},
+{id:'net6',sev:'medium',text:'Проверен список устройств в домашней сети',profiles:['privacy','anonymity'],
+details:'Неизвестные устройства в домашней сети — потенциально скомпрометированные узлы или несанкционированные подключения. Устройства IoT (умные лампочки, камеры, телевизоры) часто имеют слабую безопасность и служат точкой опоры для атаки на другие устройства сети.',
+howto:['nmap -sn 192.168.1.0/24 — сканирование всех хостов в сети; сопоставь с известными устройствами.','В веб-интерфейсе роутера проверь список подключённых клиентов (DHCP-клиенты или «Подключённые устройства»).','Устройства IoT изолируй в отдельный VLAN или гостевую сеть без доступа к основному сегменту.']},
+{id:'net7',sev:'high',text:'Браузер: uBlock Origin и защита от трекинга',profiles:['privacy','anonymity'],
+details:'Трекинговые скрипты, пиксели слежки и рекламные сети собирают данные о поведении на десятках тысяч сайтов. Межсайтовое отслеживание работает через общие ресурсы: шрифты Google, виджеты Facebook, jQuery CDN. uBlock Origin в продвинутом режиме блокирует выполнение JavaScript от третьих сторон, снижая поверхность атаки через вредоносную рекламу. NoScript остаётся актуальным для максимальной паранойи, но требует постоянной работы с разрешениями.',
+howto:['Установи uBlock Origin; в продвинутом режиме (Medium или Hard) — блокирует сторонние скрипты по умолчанию.','Privacy Badger (EFF) — поведенческая блокировка трекеров.','NoScript — для режима максимальной паранойи: блокирует JavaScript целиком, разрешения по доменам.','Для Manifest V3 (Chrome): uBlock Origin Lite — урезанная версия, для полной функциональности используй Firefox.']},
+]},
+{id:'comms',num:'05',title:'Коммуникации и мессенджеры',items:[
+{id:'com1',sev:'critical',text:'Чувствительные переговоры — Signal, SimpleX или Session',profiles:['privacy','anonymity'],
+details:'Signal обеспечивает сквозное шифрование (E2EE) с верифицированным открытым кодом; исчезающие сообщения исключают хранение истории. SimpleX не требует номера телефона или идентификатора пользователя и использует попарные ключи для каждого контакта — корреляция переписки невозможна даже при компрометации сервера. Session — децентрализованный мессенджер без центральных серверов: сообщения маршрутизируются через сеть onion-узлов, не требует номера телефона и почты, регистрация анонимна по умолчанию. Каждый из трёх закрывает разные модели угроз.',
+howto:['Signal: включи исчезающие сообщения («Настройки» → «Приватность» → «Таймер по умолчанию»); сверь отпечатки безопасности с собеседником лично.','SimpleX: скачай с simplex.chat, создай профиль без номера телефона; идеален, когда важна отвязка от любых идентификаторов.','Session (getsession.org): анонимная регистрация по Session ID без телефона и почты; децентрализованная сеть — нет единого сервера, который можно запросить.']},
+{id:'com2',sev:'critical',text:'Telegram: секретные чаты только на мобильном',profiles:['privacy','anonymity'],
+details:'Обычные чаты, группы и каналы Telegram НЕ имеют сквозного шифрования — они хранятся на серверах Telegram и доступны компании, а по юридическому запросу — властям. E2EE в Telegram реализовано только в секретных чатах, только для личной переписки и ТОЛЬКО на мобильных клиентах (iOS, Android) — секретные чаты нельзя открыть с десктопного клиента, потому что они привязаны к конкретному устройству. Это типичная путаница: люди думают, что используют шифрование, но фактически переписываются через серверы Telegram. Для серьёзных переговоров — Signal или SimpleX, не Telegram.',
+howto:['Открой чат с контактом на мобильном устройстве → нажми имя → «Начать секретный чат».','В секретном чате включи таймер самоуничтожения сообщений (1–7 дней).','Помни: секретный чат привязан к одному устройству и не синхронизируется — это так задумано, не баг.','Для критичных переговоров — переходи на Signal или SimpleX полностью; Telegram оставь для нечувствительной переписки.']},
+{id:'com3',sev:'high',text:'Почта для конфиденциальных писем шифруется (PGP/GPG)',profiles:['privacy','anonymity'],
+details:'Почта по умолчанию — открытая открытка: провайдер, промежуточные серверы и сервер получателя имеют доступ к содержимому. TLS шифрует только транспортировку между серверами, но не содержимое на серверах. PGP и GPG шифруют само тело письма публичным ключом получателя — прочитать может только владелец приватного ключа.',
+howto:['Установи Thunderbird — встроенная поддержка OpenPGP с версии 78 и выше; создай ключевую пару через «Управление ключами».','Опубликуй свой публичный ключ на keys.openpgp.org; добавь отпечаток ключа в подпись письма.','Попроси собеседника прислать свой публичный ключ; импортируй его в Thunderbird для шифрования писем.','Альтернатива почты с PGP: ProtonMail (E2EE между пользователями) или Tutanota — встроенное шифрование без настройки.']},
+{id:'com4',sev:'high',text:'Отключены уведомления с предпросмотром на экране блокировки',profiles:['privacy','anonymity'],
+details:'Уведомления с предпросмотром текста отображаются на экране блокировки без ввода кода. Это включает SMS-коды второго фактора, фрагменты конфиденциальных переписок, уведомления о банковских операциях. Простейшее исправление с высоким защитным эффектом.',
+howto:['Android: «Настройки» → «Уведомления» → «На экране блокировки» → «Скрывать конфиденциальный контент» или «Не показывать».','iOS: «Настройки» → «Face ID и код-пароль» → «Доступ при блокировке» → отключить «Центр уведомлений».','Для каждого приложения индивидуально: Signal, Telegram — показывать только имя без текста сообщения.']},
+{id:'com5',sev:'medium',text:'Рабочая и личная переписка разделены',profiles:['privacy','anonymity'],
+details:'Корпоративные системы коммуникаций мониторятся ИТ-отделом и системами DLP. Личная переписка через корпоративные каналы — раскрытие личной жизни работодателю. Одновременно рабочее обсуждение в личных каналах — потенциальная утечка конфиденциальной информации компании.',
+howto:['Жёсткое правило: корпоративный мессенджер — только рабочие вопросы, никакого личного контента.','Личная переписка — только с личного устройства через личные аккаунты.','Для коллег с личным общением: отдельные личные аккаунты Signal или Telegram, не корпоративные учётные записи.']},
+{id:'com6',sev:'high',text:'Голосовые и видеозвонки через зашифрованные каналы',profiles:['privacy','anonymity'],
+details:'Обычные телефонные звонки передаются через инфраструктуру оператора (в России — система СОРМ) и могут прослушиваться по запросу. VoIP-звонки через незашифрованные приложения аналогично перехватываются на уровне провайдера. Signal Calls и Jitsi Meet обеспечивают сквозное шифрование для голоса и видео с верифицированным исходным кодом.',
+howto:['Signal Calls: используй вместо обычных звонков для чувствительных разговоров.','Jitsi Meet (на собственном сервере): разверни на своём сервере для командных конференций без зависимости от третьих лиц.','Включи «Always Relay Calls» в Signal — скрывает IP-адрес от собеседника.']},
+]},
+{id:'data',num:'06',title:'Данные и хранение',items:[
+{id:'dat1',sev:'critical',text:'Резервные копии зашифрованы (AES-256)',profiles:['privacy','anonymity'],
+details:'Незашифрованная резервная копия эквивалентна незашифрованным данным: кража или утечка носителя с резервной копией раскрывает всё содержимое. Многие инциденты утечек происходят именно через резервные копии — они хранятся с меньшим вниманием к безопасности, чем рабочие данные.',
+howto:['Restic: open-source инструмент резервного копирования со встроенным шифрованием AES-256; копия на локальный диск, NAS или хранилище S3.','Контейнер VeraCrypt: создай зашифрованный контейнер, помести туда данные, копируй контейнер целиком.','Borg (BorgBackup): дедупликация и шифрование, отлично для больших объёмов.','Пароль от резервной копии храни отдельно от самой копии (KeePass), иначе при потере пароля данные недоступны.']},
+{id:'dat2',sev:'high',text:'Правило 3-2-1: 3 копии, 2 носителя, 1 за пределами основного места',profiles:['privacy','anonymity'],
+details:'Единственная резервная копия — это отсутствие копии: HDD умирает, флешки теряются, облачные сервисы блокируют аккаунты. Правило 3-2-1 защищает от любого единичного отказа. Удалённая копия (за пределами основного места) защищает от физических катастроф — пожар, затопление, кража всего оборудования.',
+howto:['3 копии: рабочая версия + локальная копия (внешний HDD) + удалённая (зашифрованное облако или VPS).','2 носителя: разные физические устройства, не два раздела одного диска.','1 копия за пределами основного места: зашифрованная копия на Backblaze B2, Hetzner Storage Box или собственном VPS в другом городе.']},
+{id:'dat2b',sev:'critical',text:'Регулярное тестирование процедуры восстановления',profiles:['anonymity'],
+details:'Резервная копия, которая никогда не тестировалась, — это не копия, а надежда. Кот Шрёдингера от мира резервных копий: пока ты не восстановил их, они одновременно работают и не работают. Реальные сценарии: повреждённый файл архива, забытый пароль, несовместимая версия софта, отсутствие места для развёртывания, недоступная зависимость. Восстановление надо проверять регулярно — иначе в момент, когда оно действительно понадобится, ты обнаружишь, что копии битые, нечитаемые или неполные.',
+howto:['Раз в квартал: восстанови случайный файл из копии на тестовое окружение — убедись, что процедура работает.','Раз в полгода: полное восстановление в виртуальной машине — проверь, что система загружается и работает.','Документируй процедуру: какой софт нужен, какие пароли, какой порядок шагов — это спасёт в стрессовой ситуации.','Тестируй не только сами файлы, но и доступ к ключам шифрования и менеджерам паролей.']},
+{id:'dat3',sev:'high',text:'Удаление файлов — безопасное (shred, Eraser, не корзина)',profiles:['privacy','anonymity'],
+details:'Удаление файла в корзину и даже Shift+Delete не стирает данные с диска — только помечает место как свободное. Данные восстанавливаются инструментами вроде Recuva за несколько минут. На SSD механизм выравнивания износа усложняет гарантированное удаление — ATA Secure Erase является надёжным методом.',
+howto:['Windows: Eraser (открытый код) — правой кнопкой → «Стереть»; настрой алгоритм Gutmann или DoD 7-pass.','Linux: shred -vuz filename; для папки: find . -type f -exec shred -u {} \\\\;','SSD или NVMe перед продажей: Samsung Magician или hdparm ATA Secure Erase — полная перезапись на уровне контроллера.']},
+{id:'dat4',sev:'critical',text:'Конфиденциальные документы не хранятся в облаке без шифрования',profiles:['privacy','anonymity'],
+details:'Google Drive, OneDrive, Dropbox хранят файлы в зашифрованном виде, но ключи шифрования принадлежат провайдеру — он имеет полный доступ и предоставляет его по юридическому запросу. Шифрование на стороне клиента — то есть шифрование на твоём устройстве до загрузки — единственный способ использовать облако без доверия провайдеру.',
+howto:['Установи Cryptomator (открытый код, бесплатный): создаёт зашифрованное хранилище поверх любого облачного диска.','Альтернатива: контейнер VeraCrypt в облаке (работает, но неудобен при доступе с нескольких устройств).','Облака с приоритетом приватности (E2EE из коробки): Proton Drive, Tresorit, Sync.com.','Конфиденциальные документы — только локально или в зашифрованном облаке через Cryptomator.']},
+{id:'dat5',sev:'medium',text:'Скрытый том VeraCrypt для правдоподобного отрицания',profiles:['anonymity'],
+details:'VeraCrypt поддерживает концепцию правдоподобного отрицания (Plausible Deniability). Внутри одного зашифрованного контейнера существуют два независимых раздела: внешний (открывается одним паролем, содержит правдоподобные «нечувствительные» данные) и скрытый (открывается другим паролем, содержит реально важные данные). При принуждении к раскрытию пароля ты показываешь внешний пароль — криптографически невозможно доказать, что скрытый раздел вообще существует.',
+howto:['VeraCrypt → Create Volume → Create an encrypted file container → Hidden VeraCrypt volume: сначала создаётся внешний том, затем внутри него — скрытый.','Внешний том: помести туда правдоподобные данные (документы, фото) — это то, что покажешь под давлением.','Скрытый том: всегда монтируй через основной пароль тихо; при заполнении скрытого тома VeraCrypt предупредит о перезаписи — следи за свободным местом внешнего.']},
+{id:'dat6',sev:'high',text:'Метаданные файлов очищаются перед публикацией',profiles:['privacy','anonymity'],
+details:'Данные EXIF в фотографиях содержат GPS-координаты, дату и время, модель телефона, серийный номер устройства. Документы Word и PDF хранят имя автора, организацию, историю правок. Публикация файла с метаданными — непреднамеренное раскрытие этой информации.',
+howto:['ExifTool: exiftool -all= filename.jpg — удаляет все теги EXIF; exiftool -r -all= ./folder/ для папки.','Word и PDF: «Файл» → «Сведения» → «Поиск проблем» → «Инспектор документов» → удалить личную информацию.','Перед публикацией любого файла: exiftool filename — проверь, что осталось.']},
+{id:'dat7',sev:'high',text:'Резервирование критичных секретов: Shamir Secret Sharing',profiles:['anonymity'],
+details:'Что если ты потеряешь мастер-пароль от KeePass или ключ от bitcoin-кошелька? Что произойдёт с твоими данными после твоей смерти, если близкие должны получить к ним доступ? Простая копия в одном месте небезопасна (компрометация — потеря всего), а в нескольких — увеличивает поверхность атаки. Shamir Secret Sharing решает это: секрет делится на N частей, восстановление возможно при наличии любых M из них (например, 3 из 5). Никакая отдельная часть не раскрывает секрет, но при правильной комбинации он восстанавливается.',
+howto:['ssss-split и ssss-combine (Linux): командная строка для разделения секретов; формат «k из n», например 3 из 5.','Распредели части: одна — у тебя, одна — у супруга или доверенного, одна — в банковской ячейке, одна — у юриста, одна — в зашифрованном облаке.','Документируй процедуру восстановления и условия её активации (например, для наследования — официальное подтверждение смерти).','Тестируй процесс восстановления раз в год: собери M из N частей и убедись, что секрет реконструируется.']},
+]},
+{id:'social',num:'07',title:'Социальная инженерия и фишинг',items:[
+{id:'soc1',sev:'critical',text:'Не открывать вложения от неизвестных отправителей',profiles:['privacy','anonymity'],
+details:'Вложения в письмах — наиболее распространённый канал доставки вредоносного ПО. Файлы PDF эксплуатируют уязвимости в Adobe Reader, DOCX запускают макросы или используют уязвимости Word, XLS — через макросы Excel. Письмо может выглядеть как пришедшее от известного контакта при подделке адреса.',
+howto:['Никогда не открывай вложения без верификации отправителя — позвони по известному номеру и уточни.','Подозрительные файлы открывай в изолированной среде: sandbox.any.run или виртуальная машина без сети.','В Microsoft Office отключи макросы: «Файл» → «Параметры» → «Центр управления безопасностью» → «Параметры макросов» → «Отключить все макросы».']},
+{id:'soc2',sev:'critical',text:'Проверять URL перед переходом (наведение, не клик сразу)',profiles:['privacy','anonymity'],
+details:'Фишинговые URL используют визуальное сходство с легитимными: замена букв (rn вместо m, 0 вместо o), поддельный поддомен (paypal.evil.com), IDN-гомографы. Текст гиперссылки может содержать любой URL — отображаемый и реальный адреса не связаны.',
+howto:['Наведи курсор на ссылку перед кликом — в нижней строке браузера отобразится реальный URL.','Проверяй домен второго уровня: в «accounts.google.com.phish.ru» настоящий домен — phish.ru.','Для подозрительных ссылок используй urlscan.io или virustotal.com — проверь перед открытием.']},
+{id:'soc3',sev:'high',text:'Звонки с незнакомых номеров: верификация через официальный канал',profiles:['privacy','anonymity'],
+details:'Вишинг — звонки от «ИТ-поддержки», «службы безопасности», «банка» с запросом учётных данных или удалённого доступа. Номер звонящего легко подделывается через сервисы VoIP (подмена caller ID). Социальная инженерия по телефону создаёт искусственное давление срочности.',
+howto:['Правило: никогда не предоставлять пароли, коды второго фактора или удалённый доступ по входящему звонку.','При подозрении — завершить звонок и перезвонить по официальному номеру с официального сайта.','ИТ-поддержка никогда не запрашивает пароли — это 100% социальная инженерия или нарушение регламента.']},
+{id:'soc4',sev:'high',text:'Минимизация присутствия в социальных сетях',profiles:['anonymity'],
+details:'Соцсети — основной источник OSINT для целевых атак. Должность, место работы, телефон, геолокация, круг общения, рабочий распорядок — всё формирует детальный профиль для целевого фишинга (spear phishing). Реалистичный оптимум — минимизация: то, что не нужно функционально, но публикуется по привычке, удалить. Полное отсутствие в соцсетях — идеал для специфических моделей угроз (журналистика, военное или разведовательное сообщество), но для большинства — нереалистично из-за рабочих и социальных требований. Если присутствуешь — разделяй: публичный профессиональный профиль и личный обезличенный для общения с близкими.',
+howto:['Аудит: пройди по каждому своему аккаунту — что там реально нужно? Контакты с одногруппниками 10-летней давности? Удали.','Геолокация, чекины, рабочее расписание, фото с видами из дома — никогда не публикуй.','Для ролей повышенного риска (журналист, активист): отдельный обезличенный профиль на отдельный номер и адрес почты; реальное имя — только в профессиональном контексте.','Аудит раз в квартал: погугли своё имя и оцени, что находит атакующий — это твоя реальная поверхность атаки.']},
+{id:'soc5',sev:'critical',text:'Рабочие учётные данные не вводятся на сторонних сайтах',profiles:['privacy','anonymity'],
+details:'Корпоративный адрес почты и пароль используются только на корпоративных ресурсах. Фишинговые страницы копируют дизайн корпоративного портала с точностью до пикселя. OAuth («войти через Google») также может быть фишинговым — аутентификация может происходить на вредоносном домене.',
+howto:['Перед вводом корпоративных учётных данных: убедись, что URL в адресной строке — официальный домен компании.','Не используй корпоративный адрес почты для регистрации на сторонних сервисах без согласования с ИТ.','Закладки корпоративных порталов: заходи только через них, никогда по ссылкам из писем.']},
+{id:'soc6',sev:'medium',text:'Повышение осведомлённости членов семьи и близких',profiles:['privacy','anonymity'],
+details:'Атакующие, нацеленные на конкретного человека, часто используют его близких как канал проникновения: звонок супруге от «коллеги мужа», письмо родителям от «банка сына», фишинг через детей. Члены семьи, незнакомые с базовой цифровой гигиеной, становятся непреднамеренными инструментами атаки. Регулярный простой разговор о правилах безопасности — без технических деталей — существенно снижает этот риск.',
+howto:['Объясни близким простые правила: не переходить по ссылкам из незнакомых SMS и писем, не сообщать коды из SMS никому по телефону.','Настрой базовую защиту на устройствах близких: обновления, антивирус, уникальные пароли для почты и банка, второй фактор на почте.','Проведи учебную тревогу: перешли фишинговое письмо из учебных материалов и разбери вместе — какие признаки должны были насторожить.']},
+]},
+{id:'data2',num:'08',title:'Браузер и веб-приватность',items:[
+{id:'br1',sev:'high',text:'Браузер с усиленной защитой: Brave, Mullvad Browser, LibreWolf или Tor',profiles:['privacy','anonymity'],
+details:'Стандартный Chrome отправляет данные о посещённых страницах, запросы DNS и поведенческую аналитику в Google. Современный выбор браузеров с усиленной защитой: Brave — приватность по умолчанию, встроенная защита от трекинга и fingerprinting, поддержка окон Tor. Mullvad Browser — форк Tor Browser без сети Tor, идеален для использования с VPN. LibreWolf — преднастроенный Firefox с усиленной защитой из коробки. Ungoogled Chromium — для тех, кому нужен Chromium без Google. Firefox с arkenfox — гибкое решение для тех, кто готов настраивать. Разные браузеры для разных контекстов — дополнительный слой изоляции.',
+howto:['Brave (brave.com): приватные настройки по умолчанию из коробки, ничего настраивать не надо; для повседневного использования.','Mullvad Browser (mullvad.net/browser): устойчивый к fingerprinting, как Tor Browser, но без Tor — используй с VPN; для чувствительных задач.','LibreWolf (librewolf.net): Firefox с применённым arkenfox по умолчанию.','Tor Browser: для анонимных задач; в странах с блокировкой Tor — настрой мосты.','Схема изоляции: разные браузеры для разных контекстов — обычный браузинг, чувствительные задачи, анонимные.']},
+{id:'br2',sev:'medium',text:'Цифровой отпечаток браузера (fingerprint) проверен и минимизирован',profiles:['privacy','anonymity'],
+details:'Цифровой отпечаток браузера (fingerprint) — уникальная комбинация характеристик: User-Agent, установленные шрифты, разрешение экрана, рендеринг Canvas и WebGL, временная зона. Эта комбинация идентифицирует устройство без cookies и не удаляется при их очистке. Fingerprint эффективнее cookies для долгосрочного отслеживания.',
+howto:['Зайди на coveryourtracks.eff.org → Test Your Browser — оцени уникальность своего fingerprint.','Brave и Mullvad Browser — рандомизация fingerprint из коробки.','arkenfox user.js в Firefox автоматически закрывает большинство векторов fingerprinting.']},
+{id:'br3',sev:'medium',text:'Cookies и история очищаются при закрытии браузера',profiles:['privacy','anonymity'],
+details:'История и cookies накапливают полный граф онлайн-активности. При компрометации устройства это даёт полную картину посещённых ресурсов. Cookies аутентификации позволяют захватить сессию без знания пароля.',
+howto:['Firefox: «Настройки» → «Приватность» → «Удалять cookies и данные сайтов при закрытии Firefox» → включить.','Добавь в исключения сайты, где нужно сохранять сессию (банк, рабочий портал) — через «Управление исключениями».','Firefox Multi-Account Containers: разные контейнеры полностью изолированы — cookies одного не видны другому.']},
+]},
+{id:'traces',num:'09',title:'Цифровые следы и деанонимизация',items:[
+{id:'tr1',sev:'high',text:'Регулярный OSINT-аудит своего имени и псевдонима',profiles:['anonymity'],
+details:'То, что находит атакующий о тебе, — это твоя реальная поверхность атаки. Регулярный самоаудит через OSINT-инструменты показывает, какие данные утекли в публичный доступ за последний период. Для человека, занимающегося информационной безопасностью: связь реального имени с профессиональными активностями облегчает целевые атаки.',
+howto:['Google и Yandex: ищи своё реальное имя, ники, адрес почты в кавычках; проверяй через Google Images.','Sherlock (GitHub): python sherlock ник — проверяет присутствие ника на 300 и более платформах автоматически.','WhatsMyName (whatsmyname.app) — веб-альтернатива Sherlock без установки.','Telegram: боты для проверки утечек по номеру телефона — оцени, что находится публично.']},
+{id:'tr4',sev:'high',text:'Рабочий и личный телефоны разделены',profiles:['privacy','anonymity'],
+details:'Смартфон — наиболее информативное устройство слежки: GPS-треки, история звонков, контакты, паттерны поведения. Один телефон для работы и личного использования означает, что любая компрометация раскрывает оба контекста. Рабочий телефон может мониториться системой управления мобильными устройствами (MDM) работодателя.',
+howto:['Два физических устройства: рабочий (с корпоративным MDM, если требуется) и личный (только под твоим контролем).','На рабочем телефоне не устанавливай личные мессенджеры, не входи в личные аккаунты.','Если два телефона невозможны: профиль Work на Android изолирует рабочие приложения от личных на уровне операционной системы.']},
+{id:'tr5',sev:'critical',text:'Не используется один ник или пароль на разных платформах',profiles:['anonymity'],
+details:'Единый ник на разных платформах позволяет тривиально скоррелировать все аккаунты через поиск. Это классическая техника OSINT: находим ник на GitHub → проверяем тот же ник на Reddit, Twitter, LinkedIn → получаем полный профиль. Даже если каждый аккаунт по отдельности анонимен, корреляция раскрывает личность через накопленный контекст.',
+howto:['Каждая платформа — уникальный ник без смысловой связи с другими аккаунтами.','Sherlock или WhatsMyName — проверяй, не засветился ли ник где-то ещё до его использования.','KeePass: веди таблицу соответствий аккаунт ↔ ник ↔ адрес почты ↔ пароль для управления множеством идентичностей.']},
+{id:'tr7',sev:'high',text:'Геотеги отключены на фото с рабочих и личных устройств',profiles:['privacy','anonymity'],
+details:'GPS-координаты в EXIF фотографий точнее 10 метров раскрывают точное местонахождение в момент съёмки. Фото домашнего рабочего места, опубликованное в соцсетях, раскрывает домашний адрес. Фото с рабочего места — планировку офиса.',
+howto:['Android: приложение камеры → «Настройки» → «Геолокация» → «Откл.»; или «Настройки» → «Приложения» → «Камера» → «Разрешения» → «Геопозиция» → «Запретить».','iOS: «Настройки» → «Конфиденциальность» → «Службы геолокации» → «Камера» → «Никогда».','Для уже сделанных фото перед публикацией: ExifTool -gps:all= filename.jpg — удаляет все GPS-теги.']},
+{id:'tr8',sev:'medium',text:'Стирание личной истории: удаление следов из интернета',profiles:['anonymity'],
+details:'Карлос Кастанеда описывает практику стирания личной истории как путь к свободе: когда никто не знает твоей истории — никто не может тебя предсказать, манипулировать тобой или использовать прошлое против тебя. В цифровом мире этот принцип прямо применим: минимизация исторических следов снижает поверхность атаки для социальной инженерии и OSINT. Удалиться из интернета полностью невозможно, но существенно сократить след — реально.',
+howto:['Google: myaccount.google.com/delete-services — удали историю поиска, YouTube, Maps; функция «Results about you» — запроси удаление личных данных из поиска.','Брокеры данных (запад): JustDeleteMe.xyz и Incogni (платный) для Pipl, Spokeo, WhitePages и аналогов.','Для России: 152-ФЗ статья 14 даёт право требовать удаления своих персональных данных — направляй запросы оператору; через Yandex — feedback.yandex.ru/?form=33701 (запрос на удаление).','Аккаунты на забытых сервисах: проверь через HaveIBeenPwned, на каких сервисах вообще есть аккаунты; удали те, что не используются.']},
+]},
+{id:'finance',num:'10',title:'Финансовый OPSEC',items:[
+{id:'fin1',sev:'high',text:'Платёжные алиасы и виртуальные карты для онлайн-покупок',profiles:['privacy','anonymity'],
+details:'Реальная банковская карта, использованная для VPN, домена, форума или любой подписки, — это связь между твоей финансовой идентичностью и онлайн-активностью. Важно разделять два разных уровня защиты. Первый — защита от мошенничества (скам, утечки у продавцов): виртуальная карта банка скрывает основной номер карты, но не твою личность — банк по-прежнему знает всё, и информация раскрывается по запросу. Это НЕ OPSEC, это защита от скамеров. Второй уровень — реальная анонимность платежа: продавец и любой наблюдатель не может связать транзакцию с твоей личностью. Это достигается только через криптовалюту с приватностью by design (Monero) или наличные. Privacy.com — известный западный сервис одноразовых карт с настоящей развязкой идентичности, но он работает исключительно в США.',
+howto:['Защита от мошенничества (не OPSEC): Тинькофф или Альфа-Банк → виртуальная карта с лимитом → использовать для онлайн-покупок у ненадёжных продавцов. При утечке базы продавца утечёт виртуальный номер, а не основная карта. Но банк всё равно знает о транзакции — анонимности нет.','Реальный финансовый OPSEC: Monero (XMR) — единственная массовая криптовалюта с анонимностью по умолчанию (скрытые адреса, RingCT). Принимается большинством серьёзных privacy-сервисов: Mullvad VPN, IVPN, Njalla (домены), ProtonMail.','Маршрут покупки XMR без KYC-следа: наличные → LocalMonero (P2P-обменник без верификации) → XMR-кошелёк (Feather Wallet на десктопе, Cake Wallet на мобильном) → оплата сервиса. Цепочка разорвана полностью.','Bitcoin через CoinJoin (Wasabi Wallet) — значительно затрудняет трассировку, но не даёт абсолютной анонимности в отличие от Monero.']},
+{id:'fin2',sev:'medium',text:'Раздельные банковские счета для разных целей',profiles:['privacy','anonymity'],
+details:'Один банковский счёт для зарплаты, аренды, личных расходов, бизнеса и онлайн-сервисов — это полный финансовый профиль в одной точке отказа. Компрометация — потеря всего, утечка выписки — весь профиль расходов. Разделение по целям ограничивает радиус поражения и улучшает приватность.',
+howto:['Минимум 3 счёта: основной (зарплата, фиксированные расходы), повседневный (с ограниченным балансом для трат), накопительный (изолирован от повседневного использования).','Для бизнеса или фриланса — отдельная карта или счёт, не смешивать с личными.','Для онлайн-подписок — отдельная виртуальная карта с минимальным балансом.']},
+{id:'fin3',sev:'high',text:'Минимизация KYC и осторожность с криптообменниками',profiles:['anonymity'],
+details:'Каждая процедура KYC (паспорт, селфи, подтверждение адреса) создаёт цифровой архив твоей личности у компании. Базы крупных бирж регулярно утекают: примеры — Ledger (2020), Celsius, FTX. После утечки твои паспортные данные плюс паттерны транзакций становятся публично коррелируемыми. Минимизация KYC — использование сервисов без KYC, где возможно, и обмен наличных на криптовалюту или децентрализованные биржи (DEX) для приватности on-chain. Monero (XMR) — единственная массовая криптовалюта с приватностью by design (а не опциональной).',
+howto:['Не используй одну KYC-биржу для всего; разделяй: KYC-биржа для конвертации фиат ↔ крипто, кошелёк non-custodial для хранения.','Для приватных платежей on-chain: Monero (XMR) — стандартный анонимный транзакционный слой.','DEX (Uniswap, dYdX) — без KYC, но требуют осознанности с web3-кошельками и approvals. ВАЖНО для пользователей из России и СНГ: ряд DEX-протоколов (в т.ч. Uniswap Labs, dYdX) заблокировали фронтенд-доступ для российских IP в рамках санкционного комплаенса — используй через VPN с нероссийским exit-node. Сам смарт-контракт on-chain заблокировать невозможно, но взаимодействие через официальный UI ограничено. Дополнительный риск: транзакции с кошельков, связанных с российскими KYC-биржами, могут автоматически флагироваться аналитическими сервисами (Chainalysis, Elliptic) — используй свежий кошелёк без истории.','Локальные обменники с наличными (LocalMonero, встречи через доверенных посредников) для покупки крипты — минимизация цифрового следа за счёт повышенного риска физических мошенничеств; только с проверенными контрагентами.']},
+]},
+{id:'travel',num:'11',title:'Безопасность в поездках и пересечение границ',items:[
+{id:'trv1',sev:'critical',text:'Одноразовое (burner) устройство для пересечения границ',profiles:['anonymity'],
+details:'На границе многих стран (включая США, Великобританию, Россию, Китай) пограничник имеет право требовать доступ к твоим устройствам без судебного ордера. Отказ может привести к отказу во въезде, задержанию, конфискации устройств. Возить через границу основной ноутбук с рабочими данными и историей — большой риск. Решение: дорожное устройство с минимумом данных, настроенное специально для поездки. После возвращения — полная переустановка.',
+howto:['Дорожный ноутбук: дешёвый, чистая операционная система, только нужные для поездки данные; всё остальное — в облачном хранилище, к которому ты подключаешься после прибытия.','Telegram и Signal: используй временный аккаунт для поездки или выйди из основного перед границей.','Перед границей: выйди из всех аккаунтов, удали браузерную историю, размонтируй зашифрованные тома, переключи устройства в полностью выключенное состояние (не sleep).','После пересечения границы: переустанови операционную систему с нуля, если есть подозрения на компрометацию (включая прошивку при высоком уровне угрозы).']},
+{id:'trv2',sev:'high',text:'Доступ к данным после прибытия — через зашифрованное облако',profiles:['anonymity'],
+details:'Если рабочие данные нужны в поездке, их не нужно физически провозить. Зашифрованное облачное хранилище со сквозным шифрованием даёт доступ после прибытия в безопасное место. Ключ доступа (парольная фраза и второй фактор) известен только тебе и не возится на устройстве через границу. После окончания поездки — выход из всех сессий и удаление с дорожного устройства.',
+howto:['Хранилище Cryptomator на Mega, pCloud или Proton Drive: расшифровывается только с твоей парольной фразой.','Tresorit и Proton Drive — сквозное шифрование из коробки, доступ только с твоими учётными данными.','Доступ к данным — только из доверенной сети после прибытия (не из аэропорта или публичной Wi-Fi).']},
+{id:'trv3',sev:'critical',text:'Перед поездкой Face ID и отпечаток отключены полностью',profiles:['privacy','anonymity'],
+details:'Биометрия — это удобство, а не безопасность. Разблокировка по лицу или отпечатку происходит за секунды и в большинстве юрисдикций не считается «свидетельством против себя» в том же смысле, что и пароль — то есть принудить к разблокировке биометрией формально проще, чем к раскрытию пароля. На границе, при таможенном досмотре, при любой ситуации физического принуждения биометрия становится уязвимостью. Перед поездкой биометрия должна быть отключена полностью, на всех устройствах. Только цифровой код или парольная фраза. После возвращения в безопасную среду можно включить обратно, если хочется удобства; в поездке — никогда.',
+howto:['iOS: «Настройки» → «Face ID и код-пароль» → отключи все переключатели в разделе «Использовать Face ID для» (разблокировка iPhone, iTunes, оплата и т. д.).','Android: «Настройки» → «Безопасность» → «Распознавание лица» или «Отпечаток пальца» → удали зарегистрированные данные.','Установи длинный код-пароль (не 4–6 цифр, а буквенно-цифровую парольную фразу): iOS — «Сменить код-пароль» → «Параметры» → «Произвольный код».','Жест экстренного отключения как страховка: на iOS — 5 быстрых нажатий боковой кнопки (режим SOS) переводит устройство в режим «только код-пароль» до следующего ввода. На Android — долгое нажатие питания → «Блокировка» (Lockdown).']},
+{id:'trv4',sev:'medium',text:'Связь только через зашифрованные каналы, никаких отельных Wi-Fi без VPN',profiles:['privacy','anonymity'],
+details:'Wi-Fi отелей и аэропортов — классическая среда для атак MITM и captive portal-страниц с инъекцией. В некоторых юрисдикциях гостиничный Wi-Fi мониторится автоматически. Дорожный VPN на собственном VPS (предпочтительно в нейтральной юрисдикции) — обязательное условие для безопасной коммуникации в поездке.',
+howto:['Перед поездкой: проверь, что клиент VPN работает и kill-switch активен; настрой автоподключение к VPN при подключении к Wi-Fi.','Если провайдер VPN блокируется в стране назначения — заранее настрой протокол обхода DPI (VLESS+Reality, Shadowsocks).','Мобильный интернет с местной SIM — лучше отельного Wi-Fi для повседневных задач (в стране назначения).']},
+]},
+{id:'incident',num:'12',title:'Реакция на инцидент и канареечные токены',items:[
+{id:'inc1',sev:'critical',text:'Подготовлен план реагирования на инцидент',profiles:['privacy','anonymity'],
+details:'Когда инцидент уже происходит — не время разрабатывать план. Реакция должна быть отрепетирована заранее: что делать первым, что не делать ни в коем случае, в каком порядке менять пароли, кому сообщать. Особенно важно: НЕ ВЫКЛЮЧАТЬ скомпрометированное устройство сразу — это уничтожает данные оперативной памяти, по которым можно понять, что произошло. Изоляция от сети (отключить Wi-Fi и Ethernet) сохраняет состояние для анализа, останавливая дальнейший ущерб.',
+howto:['Признаки компрометации: необъяснимая сетевая активность, новые процессы, изменения в реестре, неизвестные сессии в аккаунтах, незнакомые входы в почтовый ящик.','Первые действия: 1) изолируй устройство от сети (режим «В самолёте», отключи Ethernet); 2) НЕ выключай и не перезагружай; 3) с другого чистого устройства смени пароли в порядке: основной адрес почты → менеджер паролей → банк → остальное.','Проверь активные сессии во всех критичных аккаунтах: Google Account, Apple ID, Microsoft, банк — везде «Выйти со всех устройств».','При серьёзном инциденте — снимок памяти через Belkasoft Live RAM Capturer или WinPmem перед выключением; анализ через Volatility Framework.','Документируй хронологию: когда заметил, что видел, какие действия предпринял — это понадобится для расследования и предотвращения повторения.']},
+{id:'inc2',sev:'high',text:'Канареечные токены установлены в чувствительные места',profiles:['anonymity'],
+details:'Канареечные токены (canary tokens) — это ловушки, которые срабатывают только при компрометации. Файл с привлекательным именем («passwords.docx», «private_keys.txt») содержит скрытый webhook: при открытии файла отправляется уведомление с IP-адресом и метаданными. Это даёт раннее обнаружение компрометации, которое иначе занимает в среднем 200 и более дней. Стоимость нулевая, эффект — критичный сигнал о вторжении.',
+howto:['canarytokens.org (Thinkst, бесплатно): создай документ Word, PDF, ключ AWS или URL — при срабатывании получишь письмо или вызов webhook.','Размести канареечные файлы: на рабочем столе («банк.docx»), в «Документах» («passwords.txt»), в почте («учётные данные.pdf»).','Канарейка AWS: фейковые учётные данные AWS в .aws/credentials — если кто-то попробует их использовать, ты получишь уведомление с IP.','Документируй: где именно лежат твои канареечные файлы (в зашифрованной заметке) — чтобы случайно не открыть их самому.']},
+{id:'inc3',sev:'medium',text:'Активный мониторинг входов в критичные аккаунты',profiles:['privacy','anonymity'],
+details:'Большинство инцидентов остаются незамеченными неделями именно потому, что никто не смотрит логи входов. Регулярная проверка списка активных сессий, истории входов и устройств с доступом — простая практика, которая позволяет обнаружить компрометацию в первые часы.',
+howto:['Google Account: myaccount.google.com/security → «Последние события безопасности»; настрой уведомления о новых входах.','Apple ID: appleid.apple.com → «Устройства»; убери незнакомые устройства.','Банк: настрой SMS или push на каждый вход и каждую транзакцию.','Раз в месяц: пробегись по сессиям всех критичных аккаунтов; всё неизвестное — выйти и сменить пароль.']},
+{id:'inc4',sev:'high',text:'Кнопка экстренного выхода: процедура «сжечь и восстановить»',profiles:['anonymity'],
+details:'В сценариях, когда инцидент серьёзный (компрометация рабочего устройства, утечка идентичности, физическое изъятие техники), нужна заранее подготовленная процедура полного восстановления с нуля. Это не «восстановить из резервной копии», а «считать всё скомпрометированным, начать заново»: новые ключи, новые пароли, новые сессии, новые устройства, если нужно. Без заранее подготовленной процедуры это занимает дни паники; с подготовленной — несколько часов работы по чек-листу.',
+howto:['Запиши список: какие аккаунты надо обновить (порядок: адрес почты → менеджер паролей → второй фактор → финансы → соцсети → остальное).','Резервная копия ключей шифрования и passkey должна быть в офлайн-хранилище (банковская ячейка), не в скомпрометированном окружении.','Процедура смены адреса почты: новый адрес → перевод критичных сервисов на него → старый адрес остаётся как «дымовая завеса».','Если устройство физически скомпрометировано (изъято и возвращено) — считай всё на нём скомпрометированным; новое устройство, переустановка, новые ключи.']},
+]},
+];
+let state={},currentFilter='all',currentThreatModel='privacy',currentSearch='',expandedItems=new Set();
+function loadState(){try{const s=localStorage.getItem('zavetsec-opsec-v2');if(s)state=JSON.parse(s);const tm=localStorage.getItem('zavetsec-opsec-threat');if(tm)currentThreatModel=tm;}catch(e){}}
+function saveState(){try{localStorage.setItem('zavetsec-opsec-v2',JSON.stringify(state));localStorage.setItem('zavetsec-opsec-threat',currentThreatModel);}catch(e){}}
+function toggleCheck(e,id){
+  e.stopPropagation();
+  state[id]=!state[id];saveState();
+  const el=document.getElementById('item-'+id);
+  if(state[id])el.classList.add('checked');else el.classList.remove('checked');
+  updateStats();applyFilter(currentFilter);
+}
+function toggleExpand(id){
+  const el=document.getElementById('item-'+id);
+  if(expandedItems.has(id)){expandedItems.delete(id);el.classList.remove('expanded');}
+  else{expandedItems.add(id);el.classList.add('expanded');}
+}
+function updateStats(){
+  let total=0,done=0,critLeft=0;
+  DATA.forEach(sec=>sec.items.forEach(it=>{total++;if(state[it.id])done++;else if(it.sev==='critical')critLeft++;}));
+  const pct=total?Math.round(done/total*100):0;
+  document.getElementById('stat-done').textContent=done;
+  document.getElementById('stat-total').textContent=total;
+  document.getElementById('stat-critical').textContent=critLeft;
+  document.getElementById('stat-pct').textContent=pct+'%';
+  document.getElementById('progress-fill').style.width=pct+'%';
+  document.getElementById('export-summary').textContent=done+' / '+total+' пунктов выполнено';
+  const pctEl=document.getElementById('stat-pct');
+  pctEl.style.color=pct>=80?'var(--green)':pct>=50?'var(--amber)':'var(--red)';
+  DATA.forEach(sec=>{
+    let sdone=0;sec.items.forEach(it=>{if(state[it.id])sdone++;});
+    const el=document.getElementById('sec-prog-'+sec.id);
+    if(el)el.textContent=sdone+'/'+sec.items.length;
+  });
+}
+function applyFilter(f){
+  if(f!==undefined)currentFilter=f;
+  let visibleCount=0;
+  DATA.forEach(sec=>sec.items.forEach(it=>{
+    const el=document.getElementById('item-'+it.id);
+    if(!el)return;
+    let show=true;
+    // фильтр по статусу/severity
+    if(currentFilter==='todo')show=!state[it.id];
+    else if(currentFilter==='done')show=!!state[it.id];
+    else if(currentFilter==='critical')show=it.sev==='critical';
+    else if(currentFilter==='high')show=it.sev==='high';
+    else if(currentFilter==='medium')show=it.sev==='medium';
+    // фильтр по поиску
+    if(show&&currentSearch){
+      const q=currentSearch.toLowerCase();
+      const hay=(it.text+' '+it.details+' '+it.howto.join(' ')).toLowerCase();
+      show=hay.includes(q);
+    }
+    if(show)el.classList.remove('hidden-item');else el.classList.add('hidden-item');
+    if(show)visibleCount++;
+  }));
+  // показ "ничего не найдено"
+  const nr=document.getElementById('no-results');
+  if(nr)nr.classList.toggle('show',visibleCount===0&&currentSearch.length>0);
+  // скрываем секции без видимых пунктов
+  DATA.forEach(sec=>{
+    const secEl=document.querySelector(`[data-section-id="${sec.id}"]`);
+    if(!secEl)return;
+    const visible=sec.items.some(it=>{
+      const el=document.getElementById('item-'+it.id);
+      return el&&!el.classList.contains('hidden-item');
+    });
+    secEl.style.display=visible?'':'none';
+  });
+}
+function applySearch(q){
+  currentSearch=q.trim();
+  applyFilter();
+}
+function setThreatModel(tm,btn){
+  currentThreatModel=tm;saveState();
+  document.querySelectorAll('.threat-opt').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  // подсветка приоритетных пунктов согласно профилю
+  DATA.forEach(sec=>sec.items.forEach(it=>{
+    const el=document.getElementById('item-'+it.id);
+    if(!el)return;
+    const isPriority=it.profiles&&it.profiles.includes(tm);
+    el.classList.toggle('non-priority',!isPriority);
+  }));
+  showToast('Профиль: '+(tm==='privacy'?'Приватность':'Полная анонимность'));
+}
+function setFilter(f,btn){
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');applyFilter(f);
+}
+function toggleSection(id){
+  const body=document.getElementById('sec-body-'+id);
+  const tog=document.getElementById('sec-tog-'+id);
+  body.classList.toggle('hidden');tog.classList.toggle('collapsed');
+}
+function resetAll(){
+  state={};saveState();
+  document.querySelectorAll('.item').forEach(el=>el.classList.remove('checked'));
+  updateStats();showToast('Сброшено');
+}
+function checkAll(){
+  DATA.forEach(sec=>sec.items.forEach(it=>{state[it.id]=true;}));
+  saveState();
+  document.querySelectorAll('.item').forEach(el=>el.classList.add('checked'));
+  updateStats();showToast('Все отмечены');
+}
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2000);
+}
+function exportReport(){
+  let total=0,done=0;
+  DATA.forEach(sec=>sec.items.forEach(it=>{total++;if(state[it.id])done++;}));
+  let html=`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>ZavetSec OPSEC Report</title>
+<style>body{background:#0a0d10;color:#c9d1d9;font-family:monospace;padding:40px;font-size:13px;}
+h1{color:#00ff88;font-size:22px;border-bottom:1px solid #1a2530;padding-bottom:12px;margin-bottom:24px;}
+h2{color:#e6edf3;font-size:14px;text-transform:uppercase;letter-spacing:0.1em;margin:24px 0 10px;}
+.item{padding:6px 10px;margin:3px 0;border-radius:3px;display:flex;gap:12px;align-items:center;}
+.done{background:rgba(0,255,136,0.05);border-left:2px solid #00ff88;}
+.todo{background:rgba(255,255,255,0.03);border-left:2px solid #333;}
+.mark{color:#00ff88;min-width:14px;}.miss{color:#333;min-width:14px;}
+.sev{font-size:10px;padding:1px 6px;border-radius:2px;margin-left:auto;}
+.sc{background:rgba(255,68,85,0.15);color:#ff4455;}.sh{background:rgba(255,170,0,0.15);color:#ffaa00;}.sm{background:rgba(0,255,136,0.1);color:#00ff88;}
+.summary{background:#0d1117;border:1px solid #1a2530;padding:16px;margin-bottom:24px;border-radius:4px;}
+.summary strong{color:#00ff88;}</style></head><body>
+<h1>ZavetSec // OPSEC Checklist Report v2.0</h1>
+<div class="summary">Дата: <strong>${new Date().toLocaleString('ru')}</strong> &nbsp;·&nbsp; Выполнено: <strong>${done} / ${total}</strong> &nbsp;·&nbsp; <strong>${Math.round(done/total*100)}%</strong></div>`;
+  DATA.forEach(sec=>{
+    html+=`<h2>${sec.num}. ${sec.title}</h2>`;
+    sec.items.forEach(it=>{
+      const isDone=state[it.id];
+      const sc=it.sev==='critical'?'sc':it.sev==='high'?'sh':'sm';
+      html+=`<div class="item ${isDone?'done':'todo'}"><span class="${isDone?'mark':'miss'}">${isDone?'✓':'○'}</span><span>${it.text}</span><span class="sev ${sc}">${it.sev}</span></div>`;
+    });
+  });
+  html+=`</body></html>`;
+  const blob=new Blob([html],{type:'text/html'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download='ZavetSec-OPSEC-Report-'+new Date().toISOString().slice(0,10)+'.html';
+  a.click();URL.revokeObjectURL(url);showToast('Отчёт сохранён');
+}
+function render(){
+  const container=document.getElementById('checklist');
+  container.innerHTML='';
+  DATA.forEach(sec=>{
+    const secEl=document.createElement('div');
+    secEl.className='section';
+    secEl.setAttribute('data-section-id',sec.id);
+    // подсчёт severity по секции
+    let sc=0,sh=0,sm=0;
+    sec.items.forEach(it=>{
+      if(it.sev==='critical')sc++;else if(it.sev==='high')sh++;else sm++;
+    });
+    const sevSummary=`<div class="section-sev-summary">${sc?`<span class="sev-badge-c">${sc}C</span>`:''}${sh?`<span class="sev-badge-h">${sh}H</span>`:''}${sm?`<span class="sev-badge-m">${sm}M</span>`:''}</div>`;
+    const itemsHtml=sec.items.map(it=>{
+      const howtoHtml=it.howto.map(h=>`<li>${h}</li>`).join('');
+      return `<div class="item ${state[it.id]?'checked':''}" id="item-${it.id}">
+  <div class="item-header" onclick="toggleExpand('${it.id}')">
+    <div class="checkbox" onclick="toggleCheck(event,'${it.id}')"><div class="checkbox-mark"></div></div>
+    <div class="item-content">
+      <div class="item-main">
+        <span class="item-text">${it.text}</span>
+        <span class="sev sev-${it.sev}">${it.sev}</span>
+        <a class="item-anchor" href="#${it.id}" onclick="event.stopPropagation();copyAnchor('${it.id}')" title="Скопировать ссылку">#</a>
+      </div>
+    </div>
+    <span class="expand-hint">▾ подробнее</span>
+  </div>
+  <div class="item-detail">
+    <div class="detail-section">
+      <div class="detail-label">Описание</div>
+      <div class="detail-text">${it.details}</div>
+    </div>
+    <div class="detail-section">
+      <div class="detail-label">Как реализовать</div>
+      <ul class="howto-list">${howtoHtml}</ul>
+    </div>
+  </div>
+</div>`;
+    }).join('');
+    secEl.innerHTML=`
+<div class="section-header" onclick="toggleSection('${sec.id}')">
+  <span class="section-num">${sec.num}</span>
+  <span class="section-title">${sec.title}</span>
+  ${sevSummary}
+  <span class="section-progress" id="sec-prog-${sec.id}">0/${sec.items.length}</span>
+  <span class="section-toggle" id="sec-tog-${sec.id}">▼</span>
+</div>
+<div class="section-body" id="sec-body-${sec.id}">${itemsHtml}</div>`;
+    container.appendChild(secEl);
+  });
+}
+function copyAnchor(id){
+  const url=window.location.origin+window.location.pathname+'#'+id;
+  if(navigator.clipboard)navigator.clipboard.writeText(url).then(()=>showToast('Ссылка скопирована'));
+  else showToast('#'+id);
+}
+function handleDeepLink(){
+  const hash=window.location.hash.replace('#','');
+  if(!hash)return;
+  const el=document.getElementById('item-'+hash);
+  if(!el)return;
+  // раскрываем секцию если нужно
+  DATA.forEach(sec=>{
+    if(sec.items.find(it=>it.id===hash)){
+      const body=document.getElementById('sec-body-'+sec.id);
+      if(body&&body.classList.contains('hidden')){
+        toggleSection(sec.id);
+      }
+    }
+  });
+  // раскрываем пункт и подсвечиваем
+  expandedItems.add(hash);el.classList.add('expanded','highlighted');
+  setTimeout(()=>{el.scrollIntoView({behavior:'smooth',block:'center'});},100);
+  setTimeout(()=>{el.classList.remove('highlighted');},2500);
+}
+function init(){
+  loadState();render();updateStats();
+  // миграция: если в localStorage сохранён старый профиль 'all' - переключаем на privacy
+  if(currentThreatModel==='all')currentThreatModel='privacy';
+  // применяем threat model (всегда — по умолчанию privacy)
+  const btn=document.querySelector(`.threat-opt[onclick*="'${currentThreatModel}'"]`);
+  if(btn)setThreatModel(currentThreatModel,btn);
+  document.getElementById('footer-ts').textContent='// Сгенерировано: '+new Date().toLocaleString('ru');
+  // обработка hash для deep links
+  handleDeepLink();
+  window.addEventListener('hashchange',handleDeepLink);
+  // Ctrl+F / Cmd+F → фокус на наш поиск
+  document.addEventListener('keydown',e=>{
+    if((e.ctrlKey||e.metaKey)&&e.key==='f'){
+      e.preventDefault();
+      const inp=document.getElementById('search-input');
+      if(inp){inp.focus();inp.select();}
+    }
+    if(e.key==='Escape'){
+      const inp=document.getElementById('search-input');
+      if(inp&&document.activeElement===inp){inp.value='';applySearch('');}
+    }
+  });
+}
+init();
+</script>
+</body>
+</html>
