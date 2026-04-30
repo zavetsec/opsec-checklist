@@ -102,6 +102,13 @@ body::after{content:'';position:fixed;top:-20%;left:50%;transform:translateX(-50
 .footer-brand{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-dim);}
 .footer-brand span{color:var(--green);}
 .footer-ts{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-dim);}
+.disclaimer{border:1px solid rgba(255,170,0,0.2);border-left:3px solid var(--amber);border-radius:4px;padding:20px 24px;margin-top:40px;background:rgba(255,170,0,0.03);}
+.disclaimer-label{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--amber);text-transform:uppercase;letter-spacing:0.15em;margin-bottom:12px;display:flex;align-items:center;gap:8px;opacity:0.9;}
+.disclaimer-label::before{content:'⚠';font-size:12px;}
+.disclaimer-text{font-size:13px;color:var(--text-dim);line-height:1.75;}
+.disclaimer-text p{margin-bottom:10px;}
+.disclaimer-text p:last-child{margin-bottom:0;}
+.disclaimer-text strong{color:var(--text);font-weight:500;}
 .toast{position:fixed;bottom:24px;right:24px;background:var(--bg3);border:1px solid var(--green);color:var(--green);font-family:'JetBrains Mono',monospace;font-size:12px;padding:10px 18px;border-radius:4px;z-index:10000;opacity:0;transform:translateY(10px);transition:all 0.2s;pointer-events:none;}
 .toast.show{opacity:1;transform:translateY(0);}
 .search-wrap{position:relative;flex:1;min-width:180px;max-width:260px;}
@@ -244,6 +251,16 @@ body::after{content:'';position:fixed;top:-20%;left:50%;transform:translateX(-50
   <div class="export-panel">
     <div class="export-info">Результат: <strong id="export-summary">0 / 0 пунктов выполнено</strong></div>
     <button class="btn-export" onclick="exportReport()">↓ Экспорт отчёта</button>
+  </div>
+  <div class="disclaimer">
+    <div class="disclaimer-label">Отказ от ответственности // Disclaimer</div>
+    <div class="disclaimer-text">
+      <p><strong>Этот материал создан исключительно в образовательных целях</strong> и отражает личную позицию автора в поддержку права каждого человека на приватность, цифровую безопасность и свободу личной жизни.</p>
+      <p>Мы верим, что <strong>приватность — это фундаментальное право</strong>, а не привилегия. Все рекомендации направлены на защиту легитимных интересов: личных данных, переписки, финансовой информации и цифровой идентичности от несанкционированного доступа, слежки и утечек.</p>
+      <p><strong>Автор не несёт ответственности</strong> за любое использование представленной информации, которое нарушает законодательство страны пребывания пользователя. Пользователь самостоятельно несёт ответственность за соответствие своих действий применимым законам и нормативным актам.</p>
+      <p>Упомянутые инструменты, сервисы и технологии являются <strong>общедоступными</strong> и используются миллионами людей по всему миру в законных целях. Их упоминание не является призывом к каким-либо противоправным действиям.</p>
+      <p style="color:var(--text-dim);font-family:'JetBrains Mono',monospace;font-size:11px;border-top:1px solid var(--border-dim);padding-top:10px;margin-top:4px;">// This material is provided for educational purposes only. Use it responsibly and in accordance with the laws of your jurisdiction. The author assumes no liability for misuse.</p>
+    </div>
   </div>
   <div class="footer">
     <div class="footer-brand"><span>ZavetSec</span> // Operational Security Toolkit</div>
