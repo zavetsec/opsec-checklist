@@ -6,8 +6,8 @@
 ![Language](https://img.shields.io/badge/language-RU%20%2F%20EN-00ff88?style=flat-square&labelColor=0a0d10)
 ![License](https://img.shields.io/badge/license-MIT-00ff88?style=flat-square&labelColor=0a0d10)
 ![Categories](https://img.shields.io/badge/categories-12-00ff88?style=flat-square&labelColor=0a0d10)
-![Items RU](https://img.shields.io/badge/items%20RU-70-00ff88?style=flat-square&labelColor=0a0d10)
-![Items EN](https://img.shields.io/badge/items%20EN-71-00ff88?style=flat-square&labelColor=0a0d10)
+![Items RU](https://img.shields.io/badge/items%20RU-69-00ff88?style=flat-square&labelColor=0a0d10)
+![Items EN](https://img.shields.io/badge/items%20EN-70-00ff88?style=flat-square&labelColor=0a0d10)
 ![Offline Ready](https://img.shields.io/badge/offline-ready-00ff88?style=flat-square&labelColor=0a0d10)
 ![No Tracking](https://img.shields.io/badge/tracking-none-00ff88?style=flat-square&labelColor=0a0d10)
 
@@ -27,8 +27,8 @@
 
 |Edition                      |File           |Items|Best for                                                       |
 |-----------------------------|---------------|-----|---------------------------------------------------------------|
-|🇷🇺 **Russian / CIS**          |`index.html`   |70   |Russia, Belarus, Kazakhstan — SORM, ТСПУ/DPI, regional services|
-|🇬🇧 **US / EU / International**|`index_en.html`|71   |USA, EU, UK, Canada, Five Eyes — GDPR, CCPA, Western platforms |
+|🇷🇺 **Russian / CIS**          |`index.html`   |69   |Russia, Belarus, Kazakhstan — SORM, ТСПУ/DPI, regional services|
+|🇬🇧 **US / EU / International**|`index_en.html`|70   |USA, EU, UK, Canada, Five Eyes — GDPR, CCPA, Western platforms |
 
 ## Why this exists
 
@@ -79,7 +79,7 @@ Both editions share the same 12-category structure. The EN edition has one addit
 
 |# |Category                            |RU    |EN    |
 |--|------------------------------------|------|------|
-|01|Digital Identity & Anonymity        |7     |7     |
+|01|Digital Identity & Anonymity        |6     |6     |
 |02|Threat Modeling                     |2     |2     |
 |03|Devices & Physical Security         |11    |11    |
 |04|Network & Traffic                   |7     |7     |
@@ -91,7 +91,7 @@ Both editions share the same 12-category structure. The EN edition has one addit
 |10|Financial OPSEC                     |3     |4     |
 |11|Travel Security & Border Crossing   |4     |4     |
 |12|Incident Response & Canary Tokens   |4     |4     |
-|  |**Total**                           |**70**|**71**|
+|  |**Total**                           |**69**|**70**|
 
 ## Features
 
