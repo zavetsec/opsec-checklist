@@ -23,11 +23,19 @@
 
 ---
 
+## What is OPSEC?
+
+**Operational Security** is the discipline of protecting information that, taken individually, looks harmless — but becomes dangerous when correlated. The term comes from a 1966 US military study codenamed *Purple Dragon*, when analysts in Vietnam realized adversaries were piecing together classified operations from scattered, innocent-looking fragments: radio traffic patterns, supply orders, letters home. Today the exact same principle applies to anyone with a digital footprint. Your name, your phone number, your IP, your face, the times you go online — each one is trivial alone. Joined together, they identify, locate, and expose you.
+
+OPSEC is not a single tool or a one-time setup. It is the continuous practice of asking yourself one question: *what am I revealing, to whom, and why?* This checklist turns that question into concrete actions — sorted, prioritized, and ready to verify against your own threat model.
+
+---
+
 ## Which edition is right for you?
 
 | Edition | File | Items | Best for |
 |---------|------|-------|----------|
-| 🇷🇺 **Russian / CIS** | `index.html` | 69 | Russia, Belarus, Kazakhstan — SORM, ТСПУ/DPI, regional services |
+| 🇷🇺 **Russian / CIS** | `index.html` | 69 | Russia, Belarus, Kazakhstan — deep packet inspection, ISP-level surveillance, regional services |
 | 🇬🇧 **US / EU / International** | `index_en.html` | 70 | USA, EU, UK, Canada, Five Eyes — GDPR, CCPA, Western platforms |
 
 ## Why this exists
@@ -44,8 +52,8 @@ Built around the operational realities of Russia and CIS:
 
 | Area | Coverage |
 |------|----------|
-| **Censorship & DPI** | VLESS+Reality, Shadowsocks-2022, Tor bridges (Snowflake, obfs4) for ТСПУ/Roskomnadzor blocking; VPN→Tor chain for ISP-level Tor detection |
-| **Wiretapping** | SORM-aware recommendations for voice calls and messengers; counter-surveillance for hidden microphones and cameras |
+| **Censorship & DPI** | VLESS+Reality, Shadowsocks-2022, Tor bridges (Snowflake, obfs4) for environments with deep packet inspection and active filtering; VPN→Tor chain for ISP-level Tor detection |
+| **Wiretapping** | Recommendations for voice calls and messengers in environments with lawful interception infrastructure; counter-surveillance for hidden microphones and cameras |
 | **SIM-swap** | Carrier store social engineering — practical threat vector in Russia |
 | **Hardware tokens** | YubiKey and locally available FIDO2/U2F alternatives; TOTP apps (Яндекс Ключ, Aegis, 2FAS) as software 2FA |
 | **Financial OPSEC** | Cash first; virtual cards (Tinkoff/Alfa) = fraud protection only, NOT anonymity; for real anonymity — Monero only (Cake Wallet, Feather Wallet, in-wallet swaps); RetoSwap and Bisq for no-KYC purchases |
@@ -161,4 +169,4 @@ MIT — free to use, modify, and distribute. Attribution appreciated but not req
 <sub>Built by <a href="https://github.com/zavetsec">ZavetSec</a> · Open source security toolkit</sub>
 </div>
 
-<!-- keywords: OPSEC, privacy, anonymity, Russia, CIS, USA, EU, threat modeling, digital security, DPI bypass, SORM, ТСПУ, operational security, infosec, surveillance, censorship, VPN, Tor, Signal, VeraCrypt, KeePass, GDPR, CCPA, data brokers, Privacy.com, Monero, Five Eyes, IoT, smart home, Amazon Echo, Ring, voice assistant, AI features, Apple Intelligence, Samsung Galaxy AI -->
+<!-- keywords: OPSEC, privacy, anonymity, Russia, CIS, USA, EU, threat modeling, digital security, DPI bypass, operational security, infosec, surveillance, censorship, VPN, Tor, Signal, VeraCrypt, KeePass, GDPR, CCPA, data brokers, Privacy.com, Monero, Five Eyes, IoT, smart home, Amazon Echo, Ring, voice assistant, AI features, Apple Intelligence, Samsung Galaxy AI -->
