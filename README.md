@@ -17,18 +17,18 @@
 
 </div>
 
------
+---
 
 ![ZavetSec OPSEC Checklist Preview](docs/preview.png)
 
------
+---
 
 ## Which edition is right for you?
 
-|Edition                      |File           |Items|Best for                                                       |
-|-----------------------------|---------------|-----|---------------------------------------------------------------|
-|🇷🇺 **Russian / CIS**          |`index.html`   |69   |Russia, Belarus, Kazakhstan — SORM, ТСПУ/DPI, regional services|
-|🇬🇧 **US / EU / International**|`index_en.html`|70   |USA, EU, UK, Canada, Five Eyes — GDPR, CCPA, Western platforms |
+| Edition | File | Items | Best for |
+|---------|------|-------|----------|
+| 🇷🇺 **Russian / CIS** | `index.html` | 69 | Russia, Belarus, Kazakhstan — SORM, ТСПУ/DPI, regional services |
+| 🇬🇧 **US / EU / International** | `index_en.html` | 70 | USA, EU, UK, Canada, Five Eyes — GDPR, CCPA, Western platforms |
 
 ## Why this exists
 
@@ -42,56 +42,56 @@ This is not a translation. Each edition is independently adapted to its target e
 
 Built around the operational realities of Russia and CIS:
 
-|Area                     |Coverage                                                                                                                                                                                                |
-|-------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-|**Censorship & DPI**     |VLESS+Reality, Shadowsocks-2022, Tor bridges (Snowflake, obfs4) for ТСПУ/Roskomnadzor blocking; VPN→Tor chain for ISP-level Tor detection                                                               |
-|**Wiretapping**          |SORM-aware recommendations for voice calls and messengers; counter-surveillance for hidden microphones and cameras                                                                                      |
-|**SIM-swap**             |Carrier store social engineering — practical threat vector in Russia                                                                                                                                    |
-|**Hardware tokens**      |YubiKey and locally available FIDO2/U2F alternatives; TOTP apps (Яндекс Ключ, Aegis, 2FAS) as software 2FA                                                                                              |
-|**Financial OPSEC**      |Cash first; virtual cards (Tinkoff/Alfa) = fraud protection only, NOT anonymity; for real anonymity — Monero only (Cake Wallet, Feather Wallet, in-wallet swaps); RetoSwap and Bisq for no-KYC purchases|
-|**Voice assistants & AI**|Алиса (Яндекс) always-on mic; disable Яндекс Browser sync; system-level AI features disable paths for Android manufacturers                                                                             |
-|**IoT / Smart home**     |Full rejection of smart speakers, Яндекс Станция, Сбер Салют, robot vacuums with LiDAR, smart locks — replace with dumb alternatives                                                                    |
-|**Legal**                |152-FZ right to data deletion, Yandex search removal requests                                                                                                                                           |
-|**Local tools**          |Kaspersky, 3x-ui — common in Russian security stacks                                                                                                                                                    |
+| Area | Coverage |
+|------|----------|
+| **Censorship & DPI** | VLESS+Reality, Shadowsocks-2022, Tor bridges (Snowflake, obfs4) for ТСПУ/Roskomnadzor blocking; VPN→Tor chain for ISP-level Tor detection |
+| **Wiretapping** | SORM-aware recommendations for voice calls and messengers; counter-surveillance for hidden microphones and cameras |
+| **SIM-swap** | Carrier store social engineering — practical threat vector in Russia |
+| **Hardware tokens** | YubiKey and locally available FIDO2/U2F alternatives; TOTP apps (Яндекс Ключ, Aegis, 2FAS) as software 2FA |
+| **Financial OPSEC** | Cash first; virtual cards (Tinkoff/Alfa) = fraud protection only, NOT anonymity; for real anonymity — Monero only (Cake Wallet, Feather Wallet, in-wallet swaps); RetoSwap and Bisq for no-KYC purchases |
+| **Voice assistants & AI** | Алиса (Яндекс) always-on mic; disable Яндекс Browser sync; system-level AI features disable paths for Android manufacturers |
+| **IoT / Smart home** | Full rejection of smart speakers, Яндекс Станция, Сбер Салют, robot vacuums with LiDAR, smart locks — replace with dumb alternatives |
+| **Legal** | 152-FZ right to data deletion, Yandex search removal requests |
+| **Local tools** | Kaspersky, 3x-ui — common in Russian security stacks |
 
 ### 🇬🇧 US / EU / International Edition (`index_en.html`)
 
 Built around the operational realities of US, EU, and international environments:
 
-|Area                     |Coverage                                                                                                                                                                                                 |
-|-------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-|**Surveillance**         |NSA/GCHQ mass surveillance, Five Eyes context, FISA and NSL (National Security Letters), Investigatory Powers Act (UK)                                                                                   |
-|**SIM-swap**             |Call center impersonation — dominant vector in US/UK                                                                                                                                                     |
-|**Hardware tokens**      |YubiKey 5 and 5C NFC; passkeys on Google, GitHub, Apple, Microsoft                                                                                                                                       |
-|**Financial OPSEC**      |Cash as the primary anonymous payment method; Privacy.com (US) for merchant-separated virtual cards; Revolut/Wise (EU); for true anonymity — Monero only (Cake Wallet or Feather Wallet, in-wallet swaps)|
-|**Voice assistants & AI**|Siri, Google Assistant, Bixby always-on mic; Apple Intelligence (iOS 18+), Samsung Galaxy AI, Google Gemini integration — specific disable paths per manufacturer                                        |
-|**IoT / Smart home**     |Full rejection: Amazon Echo, Google Nest, Apple HomePod, Ring, iRobot Roomba, Philips Hue — replace with dumb alternatives; Ring/Law Enforcement cooperation documented                                  |
-|**Loyalty programs**     |Do not give personal data to rewards programs; CCPA (California) and GDPR Article 17 deletion rights                                                                                                     |
-|**Counter-surveillance** |RF detectors for hidden mics/cameras; IR camera detection in darkness; white noise generators; Faraday pouches                                                                                           |
-|**Legal**                |GDPR right to erasure (EU), CCPA data deletion (California), Fifth Amendment vs biometrics at US borders (CBP device searches under border search exception)                                             |
-|**Data brokers**         |DeleteMe, Incogni — automated removal from Spokeo, Whitepages, BeenVerified, Radaris, 100+ US brokers                                                                                                    |
-|**Tools**                |Bitdefender, ESET, Malwarebytes, LuLu / Little Snitch (macOS) — no Kaspersky                                                                                                                             |
-|**Platform**             |Apple Privacy (Advanced Data Protection, Hide My Email), iCloud E2EE, FaceTime                                                                                                                           |
+| Area | Coverage |
+|------|----------|
+| **Surveillance** | NSA/GCHQ mass surveillance, Five Eyes context, FISA and NSL (National Security Letters), Investigatory Powers Act (UK) |
+| **SIM-swap** | Call center impersonation — dominant vector in US/UK |
+| **Hardware tokens** | YubiKey 5 and 5C NFC; passkeys on Google, GitHub, Apple, Microsoft |
+| **Financial OPSEC** | Cash as the primary anonymous payment method; Privacy.com (US) for merchant-separated virtual cards; Revolut/Wise (EU); for true anonymity — Monero only (Cake Wallet or Feather Wallet, in-wallet swaps) |
+| **Voice assistants & AI** | Siri, Google Assistant, Bixby always-on mic; Apple Intelligence (iOS 18+), Samsung Galaxy AI, Google Gemini integration — specific disable paths per manufacturer |
+| **IoT / Smart home** | Full rejection: Amazon Echo, Google Nest, Apple HomePod, Ring, iRobot Roomba, Philips Hue — replace with dumb alternatives; Ring/Law Enforcement cooperation documented |
+| **Loyalty programs** | Do not give personal data to rewards programs; CCPA (California) and GDPR Article 17 deletion rights |
+| **Counter-surveillance** | RF detectors for hidden mics/cameras; IR camera detection in darkness; white noise generators; Faraday pouches |
+| **Legal** | GDPR right to erasure (EU), CCPA data deletion (California), Fifth Amendment vs biometrics at US borders (CBP device searches under border search exception) |
+| **Data brokers** | DeleteMe, Incogni — automated removal from Spokeo, Whitepages, BeenVerified, Radaris, 100+ US brokers |
+| **Tools** | Bitdefender, ESET, Malwarebytes, LuLu / Little Snitch (macOS) — no Kaspersky |
+| **Platform** | Apple Privacy (Advanced Data Protection, Hide My Email), iCloud E2EE, FaceTime |
 
 ## Categories
 
 Both editions share the same 12-category structure. The EN edition has one additional item in Financial OPSEC (loyalty program data minimization).
 
-|# |Category                            |RU    |EN    |
-|--|------------------------------------|------|------|
-|01|Digital Identity & Anonymity        |6     |6     |
-|02|Threat Modeling                     |2     |2     |
-|03|Devices & Physical Security         |11    |11    |
-|04|Network & Traffic                   |7     |7     |
-|05|Communications & Messengers         |6     |6     |
-|06|Data & Storage                      |7     |7     |
-|07|Social Engineering & Phishing       |7     |7     |
-|08|Browser & Web Privacy               |3     |3     |
-|09|Digital Footprint & De-anonymization|5     |5     |
-|10|Financial OPSEC                     |3     |4     |
-|11|Travel Security & Border Crossing   |4     |4     |
-|12|Incident Response & Canary Tokens   |4     |4     |
-|  |**Total**                           |**69**|**70**|
+| # | Category | RU | EN |
+|---|----------|----|----|
+| 01 | Digital Identity & Anonymity | 6 | 6 |
+| 02 | Threat Modeling | 2 | 2 |
+| 03 | Devices & Physical Security | 11 | 11 |
+| 04 | Network & Traffic | 7 | 7 |
+| 05 | Communications & Messengers | 6 | 6 |
+| 06 | Data & Storage | 7 | 7 |
+| 07 | Social Engineering & Phishing | 7 | 7 |
+| 08 | Browser & Web Privacy | 3 | 3 |
+| 09 | Digital Footprint & De-anonymization | 5 | 5 |
+| 10 | Financial OPSEC | 3 | 4 |
+| 11 | Travel Security & Border Crossing | 4 | 4 |
+| 12 | Incident Response & Canary Tokens | 4 | 4 |
+| | **Total** | **69** | **70** |
 
 ## Features
 
@@ -103,9 +103,9 @@ Both editions share the same interactive feature set:
 - **Export** — generate a standalone HTML report of your current completion state
 - **Deep links** — direct URL to any individual item via anchor hash
 - **Print-friendly** — clean print stylesheet included
-- **Zero dependencies** — single self-contained HTML file, no external requests*
+- **Zero dependencies** — single self-contained HTML file, no external requests\*
 
-> * Except Google Fonts loaded at render time. For fully offline use, the font import can be removed — system fonts are used as fallback.
+> \* Except Google Fonts loaded at render time. For fully offline use, the font import can be removed — system fonts are used as fallback.
 
 ## Usage
 
@@ -142,7 +142,7 @@ It is a practical framework for materially reducing your attack surface and impr
 
 ## Philosophy
 
-> *“Erase your personal history.”*
+> *"Erase your personal history."*
 > — Carlos Castaneda, Journey to Ixtlan
 
 Security is not a product, it is a practice. This checklist is a starting point — not a guarantee. Your threat model is unique. Read every item, understand the *why*, and implement what applies to your actual situation.
@@ -155,7 +155,7 @@ Issues and PRs welcome. If you find outdated information — deprecated services
 
 MIT — free to use, modify, and distribute. Attribution appreciated but not required.
 
------
+---
 
 <div align="center">
 <sub>Built by <a href="https://github.com/zavetsec">ZavetSec</a> · Open source security toolkit</sub>
